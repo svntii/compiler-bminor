@@ -1,0 +1,25 @@
+COMMENT		text: // strings
+IDENTIFIER		text: str
+COLON		text: :
+KEYWORD		text: string
+ASSIGNMENT		text: =
+STRING_LITERAL		text: ""
+SEMICOLON		text: ;
+IDENTIFIER		text: str
+COLON		text: :
+KEYWORD		text: string
+ASSIGNMENT		text: =
+STRING_LITERAL		text: "hello this is a string!"
+SEMICOLON		text: ;
+IDENTIFIER		text: str
+COLON		text: :
+KEYWORD		text: string
+ASSIGNMENT		text: =
+STRING_LITERAL		text: "hello this is \1 a string!"
+SEMICOLON		text: ;
+IDENTIFIER		text: str
+COLON		text: :
+KEYWORD		text: string
+ASSIGNMENT		text: =
+STRING_LITERAL		text: "11234567891123456789112345678911234567891123456789112345678911234567891123456789112345678911234567891123456789112345678911234567891123456789112345678911234567"
+COMMENT		text: // less then 160 characters 

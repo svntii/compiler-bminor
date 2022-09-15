@@ -1,0 +1,29 @@
+COMMENT		text: // strings
+IDENTIFIER		text: str
+COLON		text: :
+KEYWORD		text: string
+ASSIGNMENT		text: =
+STRING_LITERAL		text: ""
+SEMICOLON		text: ;
+IDENTIFIER		text: str
+COLON		text: :
+KEYWORD		text: string
+ASSIGNMENT		text: =
+STRING_LITERAL		text: "we can write an escaped backslash \\"
+SEMICOLON		text: ;
+STRING_LITERAL		text: " \"this is a unique test case \" "
+SEMICOLON		text: ;
+STRING_LITERAL		text: " \n \t \0"
+STRING_LITERAL		text: "\e \r \y"
+IDENTIFIER		text: str
+COLON		text: :
+KEYWORD		text: string
+ASSIGNMENT		text: =
+STRING_LITERAL		text: "single qoute ' or \' "
+SEMICOLON		text: ;
+IDENTIFIER		text: str
+COLON		text: :
+KEYWORD		text: string
+ASSIGNMENT		text: =
+STRING_LITERAL		text: " double qoute \" "
+SEMICOLON		text: ;

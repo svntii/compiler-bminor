@@ -1,0 +1,19 @@
+COMMENT		text: //test some boolean types
+IDENTIFIER		text: bool
+COLON		text: :
+KEYWORD		text: boolean
+ASSIGNMENT		text: =
+KEYWORD		text: true
+SEMICOLON		text: ;
+IDENTIFIER		text: bool
+COLON		text: :
+KEYWORD		text: boolean
+ASSIGNMENT		text: =
+KEYWORD		text: false
+SEMICOLON		text: ;
+IDENTIFIER		text: bool
+ASSIGNMENT		text: =
+KEYWORD		text: 5
+GREATER_THAN		text: >
+KEYWORD		text: 4
+SEMICOLON		text: ;

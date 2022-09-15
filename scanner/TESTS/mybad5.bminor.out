@@ -1,0 +1,20 @@
+COMMENT		text: // A for loop statement.
+KEYWORD		text: for
+PARL		text: (
+IDENTIFIER		text: i
+ASSIGNMENT		text: =
+KEYWORD		text: 0
+SEMICOLON		text: ;
+IDENTIFIER		text: i
+LESS_THAN		text: <
+KEYWORD		text: 100
+SEMICOLON		text: ;
+IDENTIFIER		text: i
+POS_INCREMENT		text: ++
+PARR		text: )
+CRLL		text: {
+KEYWORD		text: print
+IDENTIFIER		text: i
+SEMICOLON		text: ;
+KEYWORD		text: 0
+IDENTIFIER		text: echo

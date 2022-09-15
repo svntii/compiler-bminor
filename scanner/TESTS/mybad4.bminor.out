@@ -1,0 +1,6 @@
+IDENTIFIER		text: WHILE
+IDENTIFIER		text: TRUE
+SEMICOLON		text: ;
+IDENTIFIER		text: no
+CRLR		text: }
+CRLL		text: {

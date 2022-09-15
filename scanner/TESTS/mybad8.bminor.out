@@ -1,0 +1,12 @@
+IDENTIFIER		text: square
+COLON		text: :
+KEYWORD		text: function
+KEYWORD		text: integer
+PARL		text: (
+IDENTIFIER		text: x
+COLON		text: :
+KEYWORD		text: integer
+PARR		text: )
+ASSIGNMENT		text: =
+CRLL		text: {
+KEYWORD		text: return

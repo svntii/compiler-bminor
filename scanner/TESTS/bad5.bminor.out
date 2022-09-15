@@ -1,0 +1,4 @@
+COMMENT		text: // test comparotors and boolean logic
+KEYWORD		text: if
+PARL		text: (
+IDENTIFIER		text: a

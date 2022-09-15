@@ -1,0 +1,7 @@
+COMMENT		text: // unmatched comment throws error 
+DIVIDE		text: /
+MULTIPLY		text: *
+IDENTIFIER		text: This
+IDENTIFIER		text: is
+IDENTIFIER		text: a
+IDENTIFIER		text: comment

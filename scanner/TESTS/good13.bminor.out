@@ -1,0 +1,11 @@
+COMMENT		text: //test some odd identifier names
+IDENTIFIER		text: ident55
+IDENTIFIER		text: ident55_
+IDENTIFIER		text: ident__55__
+IDENTIFIER		text: thisIsAReallyReallyLongIdentifierNameThatHasTonsOfLettersInIt
+ASSIGNMENT		text: =
+KEYWORD		text: 7
+IDENTIFIER		text: variable_names_may_contain_underscores_
+IDENTIFIER		text: _variables_can_start_with_an_underscore_67
+KEYWORD		text: 7
+IDENTIFIER		text: minus5

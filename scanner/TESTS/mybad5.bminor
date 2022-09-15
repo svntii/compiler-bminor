@@ -1,0 +1,6 @@
+// A for loop statement.
+for( i=0; i<100; i++ ) {
+    print i;0
+    echo "ERROR'
+    }
+

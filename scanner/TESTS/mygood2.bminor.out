@@ -1,0 +1,4 @@
+KEYWORD		text: 3
+TERNARY		text: :?
+KEYWORD		text: 2
+SEMICOLON		text: ;

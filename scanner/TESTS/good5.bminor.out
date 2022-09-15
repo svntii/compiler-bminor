@@ -1,0 +1,6 @@
+STRING_LITERAL		text: "This is a string"
+STRING_LITERAL		text: "Notre \n Dame"
+STRING_LITERAL		text: " "
+STRING_LITERAL		text: " string with numbers 3213"
+STRING_LITERAL		text: "String with @@ works in the program"
+STRING_LITERAL		text: ""

@@ -1,0 +1,5 @@
+COMMENT		text: // unmatched comment throws error 
+IDENTIFIER		text: This
+IDENTIFIER		text: is
+IDENTIFIER		text: a
+IDENTIFIER		text: comment

@@ -1,0 +1,10 @@
+IDENTIFIER		text: main
+COLON		text: :
+KEYWORD		text: function
+KEYWORD		text: integer
+PARL		text: (
+PARR		text: )
+ASSIGNMENT		text: =
+CRLL		text: {
+IDENTIFIER		text: puts
+PARL		text: (

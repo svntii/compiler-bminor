@@ -1,0 +1,95 @@
+COMMENT		text: // test comparotors and boolean logic
+KEYWORD		text: if
+PARL		text: (
+IDENTIFIER		text: a
+GREATER_THAN		text: >
+ASSIGNMENT		text: =
+KEYWORD		text: 5
+PARR		text: )
+CRLL		text: {
+KEYWORD		text: print
+STRING_LITERAL		text: "a >= 5"
+SEMICOLON		text: ;
+CRLR		text: }
+KEYWORD		text: if
+PARL		text: (
+IDENTIFIER		text: a
+GREATER_THAN		text: >
+KEYWORD		text: 5
+PARR		text: )
+CRLL		text: {
+KEYWORD		text: print
+STRING_LITERAL		text: "a > 5"
+SEMICOLON		text: ;
+CRLR		text: }
+KEYWORD		text: if
+PARL		text: (
+IDENTIFIER		text: a
+COMPARISON		text: <=
+KEYWORD		text: 5
+PARR		text: )
+CRLL		text: {
+KEYWORD		text: print
+STRING_LITERAL		text: "a <= 5"
+SEMICOLON		text: ;
+CRLR		text: }
+KEYWORD		text: if
+PARL		text: (
+IDENTIFIER		text: a
+LESS_THAN		text: <
+KEYWORD		text: 5
+PARR		text: )
+CRLL		text: {
+KEYWORD		text: print
+STRING_LITERAL		text: "a < 5"
+SEMICOLON		text: ;
+CRLR		text: }
+KEYWORD		text: if
+PARL		text: (
+IDENTIFIER		text: a
+COMPARISON		text: ==
+KEYWORD		text: 5
+PARR		text: )
+CRLL		text: {
+KEYWORD		text: print
+STRING_LITERAL		text: "a == 5"
+SEMICOLON		text: ;
+CRLR		text: }
+KEYWORD		text: if
+PARL		text: (
+IDENTIFIER		text: a
+COMPARISON		text: !=
+KEYWORD		text: 5
+PARR		text: )
+CRLL		text: {
+KEYWORD		text: print
+STRING_LITERAL		text: "a != 5"
+SEMICOLON		text: ;
+CRLR		text: }
+IDENTIFIER		text: a
+ASSIGNMENT		text: =
+KEYWORD		text: 5
+SEMICOLON		text: ;
+COMMENT		text: // test assigment
+KEYWORD		text: if
+PARL		text: (
+IDENTIFIER		text: a
+LOGICAL_OR		text: ||
+IDENTIFIER		text: b
+PARR		text: )
+CRLL		text: {
+KEYWORD		text: print
+STRING_LITERAL		text: " a || b is true"
+SEMICOLON		text: ;
+CRLR		text: }
+KEYWORD		text: if
+PARL		text: (
+IDENTIFIER		text: a
+LOGICAL_AND		text: &&
+IDENTIFIER		text: b
+PARR		text: )
+CRLL		text: {
+KEYWORD		text: print
+STRING_LITERAL		text: " a && b is true"
+SEMICOLON		text: ;
+CRLR		text: }
