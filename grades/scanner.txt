@@ -1,0 +1,3243 @@
+=====STUDENT TESTS=====
+====Good Tests====
+===[good10.bminor Input]===
+/* tests some more constructs in bminor */
+z = -x; // unary negation
+x^2; //exponantiotion
+//simple test cases
+x ^ 2
+z != x % 2
+z = 5 + 6;
+z = 5 * 6;
+z = 5 - 6;
+z = 5 / 6;
+q++;
+z--;
+z = 7 + 7 - z;
+
+
+===[good10.bminor Output]===
+COMMENT		text: /* tests some more constructs in bminor */
+IDENTIFIER		text: z
+ASSIGNMENT		text: =
+SUB		text: -
+IDENTIFIER		text: x
+SEMICOLON		text: ;
+COMMENT		text: // unary negation
+IDENTIFIER		text: x
+POS_INCREMENT		text: ^
+KEYWORD		text: 2
+SEMICOLON		text: ;
+COMMENT		text: //exponantiotion
+COMMENT		text: //simple test cases
+IDENTIFIER		text: x
+POS_INCREMENT		text: ^
+KEYWORD		text: 2
+IDENTIFIER		text: z
+COMPARISON		text: !=
+IDENTIFIER		text: x
+MODULO		text: %
+KEYWORD		text: 2
+IDENTIFIER		text: z
+ASSIGNMENT		text: =
+KEYWORD		text: 5
+ADD		text: +
+KEYWORD		text: 6
+SEMICOLON		text: ;
+IDENTIFIER		text: z
+ASSIGNMENT		text: =
+KEYWORD		text: 5
+MULTIPLY		text: *
+KEYWORD		text: 6
+SEMICOLON		text: ;
+IDENTIFIER		text: z
+ASSIGNMENT		text: =
+KEYWORD		text: 5
+SUB		text: -
+KEYWORD		text: 6
+SEMICOLON		text: ;
+IDENTIFIER		text: z
+ASSIGNMENT		text: =
+KEYWORD		text: 5
+DIVIDE		text: /
+KEYWORD		text: 6
+SEMICOLON		text: ;
+IDENTIFIER		text: q
+POS_INCREMENT		text: ++
+SEMICOLON		text: ;
+IDENTIFIER		text: z
+POS_DECREMENT		text: --
+SEMICOLON		text: ;
+IDENTIFIER		text: z
+ASSIGNMENT		text: =
+KEYWORD		text: 7
+ADD		text: +
+KEYWORD		text: 7
+SUB		text: -
+IDENTIFIER		text: z
+SEMICOLON		text: ;
+
+
+
+
+===[good11.bminor Input]===
+// some more complicated corner cases
+z = -(5 * 4);
+z = 15 + 5 - 4*3/7;
+z = x + (y * 5 - (4 + 20/v) - 15) % 6 + z; //long integer expr
+z+++; // these will cause parsing errors
+w---;
+
+
+===[good11.bminor Output]===
+COMMENT		text: // some more complicated corner cases
+IDENTIFIER		text: z
+ASSIGNMENT		text: =
+SUB		text: -
+PARL		text: (
+KEYWORD		text: 5
+MULTIPLY		text: *
+KEYWORD		text: 4
+PARR		text: )
+SEMICOLON		text: ;
+IDENTIFIER		text: z
+ASSIGNMENT		text: =
+KEYWORD		text: 15
+ADD		text: +
+KEYWORD		text: 5
+SUB		text: -
+KEYWORD		text: 4
+MULTIPLY		text: *
+KEYWORD		text: 3
+DIVIDE		text: /
+KEYWORD		text: 7
+SEMICOLON		text: ;
+IDENTIFIER		text: z
+ASSIGNMENT		text: =
+IDENTIFIER		text: x
+ADD		text: +
+PARL		text: (
+IDENTIFIER		text: y
+MULTIPLY		text: *
+KEYWORD		text: 5
+SUB		text: -
+PARL		text: (
+KEYWORD		text: 4
+ADD		text: +
+KEYWORD		text: 20
+DIVIDE		text: /
+IDENTIFIER		text: v
+PARR		text: )
+SUB		text: -
+KEYWORD		text: 15
+PARR		text: )
+MODULO		text: %
+KEYWORD		text: 6
+ADD		text: +
+IDENTIFIER		text: z
+SEMICOLON		text: ;
+COMMENT		text: //long integer expr
+IDENTIFIER		text: z
+POS_INCREMENT		text: ++
+ADD		text: +
+SEMICOLON		text: ;
+COMMENT		text: // these will cause parsing errors
+IDENTIFIER		text: w
+POS_DECREMENT		text: --
+SUB		text: -
+SEMICOLON		text: ;
+
+
+
+
+===[good12.bminor Input]===
+//tests the for/print keyword and while keyword
+x:integer;
+for(x = 0; x < 5; x++)
+{
+	print "counting: ", x;
+}
+a:integer = 0;
+while(a > 0)
+{
+	a--;
+}
+
+
+
+===[good12.bminor Output]===
+COMMENT		text: //tests the for/print keyword and while keyword
+IDENTIFIER		text: x
+COLON		text: :
+KEYWORD		text: integer
+SEMICOLON		text: ;
+KEYWORD		text: for
+PARL		text: (
+IDENTIFIER		text: x
+ASSIGNMENT		text: =
+KEYWORD		text: 0
+SEMICOLON		text: ;
+IDENTIFIER		text: x
+LESS_THAN		text: <
+KEYWORD		text: 5
+SEMICOLON		text: ;
+IDENTIFIER		text: x
+POS_INCREMENT		text: ++
+PARR		text: )
+CRLL		text: {
+KEYWORD		text: print
+STRING_LITERAL		text: "counting: "
+COMMA		text: ,
+IDENTIFIER		text: x
+SEMICOLON		text: ;
+CRLR		text: }
+IDENTIFIER		text: a
+COLON		text: :
+KEYWORD		text: integer
+ASSIGNMENT		text: =
+KEYWORD		text: 0
+SEMICOLON		text: ;
+KEYWORD		text: while
+PARL		text: (
+IDENTIFIER		text: a
+GREATER_THAN		text: >
+KEYWORD		text: 0
+PARR		text: )
+CRLL		text: {
+IDENTIFIER		text: a
+POS_DECREMENT		text: --
+SEMICOLON		text: ;
+CRLR		text: }
+
+
+
+
+===[good13.bminor Input]===
+//test some odd identifier names
+ident55
+ident55_
+ident__55__
+thisIsAReallyReallyLongIdentifierNameThatHasTonsOfLettersInIt = 7
+variable_names_may_contain_underscores_
+_variables_can_start_with_an_underscore_67
+7minus5 
+
+===[good13.bminor Output]===
+COMMENT		text: //test some odd identifier names
+IDENTIFIER		text: ident55
+IDENTIFIER		text: ident55_
+IDENTIFIER		text: ident__55__
+IDENTIFIER		text: thisIsAReallyReallyLongIdentifierNameThatHasTonsOfLettersInIt
+ASSIGNMENT		text: =
+KEYWORD		text: 7
+IDENTIFIER		text: variable_names_may_contain_underscores_
+IDENTIFIER		text: _variables_can_start_with_an_underscore_67
+KEYWORD		text: 7
+IDENTIFIER		text: minus5
+
+
+
+
+===[good14.bminor Input]===
+main: function integer ( argc: integer, argv: array [] string ) =
+{
+}
+boolFunction: function boolean(intVar:integer) =
+{
+	return intVar > 5;
+}
+intFunction: function integer(integer n) =
+{
+	total:integer = 0;
+	int count;
+	for(count = 0; count < n+1; count++)
+	{
+		total = total + count;
+	
+}
+
+
+===[good14.bminor Output]===
+IDENTIFIER		text: main
+COLON		text: :
+KEYWORD		text: function
+KEYWORD		text: integer
+PARL		text: (
+IDENTIFIER		text: argc
+COLON		text: :
+KEYWORD		text: integer
+COMMA		text: ,
+IDENTIFIER		text: argv
+COLON		text: :
+KEYWORD		text: array
+BRACKL		text: [
+BRACKR		text: ]
+KEYWORD		text: string
+PARR		text: )
+ASSIGNMENT		text: =
+CRLL		text: {
+CRLR		text: }
+IDENTIFIER		text: boolFunction
+COLON		text: :
+KEYWORD		text: function
+KEYWORD		text: boolean
+PARL		text: (
+IDENTIFIER		text: intVar
+COLON		text: :
+KEYWORD		text: integer
+PARR		text: )
+ASSIGNMENT		text: =
+CRLL		text: {
+KEYWORD		text: return
+IDENTIFIER		text: intVar
+GREATER_THAN		text: >
+KEYWORD		text: 5
+SEMICOLON		text: ;
+CRLR		text: }
+IDENTIFIER		text: intFunction
+COLON		text: :
+KEYWORD		text: function
+KEYWORD		text: integer
+PARL		text: (
+KEYWORD		text: integer
+IDENTIFIER		text: n
+PARR		text: )
+ASSIGNMENT		text: =
+CRLL		text: {
+IDENTIFIER		text: total
+COLON		text: :
+KEYWORD		text: integer
+ASSIGNMENT		text: =
+KEYWORD		text: 0
+SEMICOLON		text: ;
+IDENTIFIER		text: int
+IDENTIFIER		text: count
+SEMICOLON		text: ;
+KEYWORD		text: for
+PARL		text: (
+IDENTIFIER		text: count
+ASSIGNMENT		text: =
+KEYWORD		text: 0
+SEMICOLON		text: ;
+IDENTIFIER		text: count
+LESS_THAN		text: <
+IDENTIFIER		text: n
+ADD		text: +
+KEYWORD		text: 1
+SEMICOLON		text: ;
+IDENTIFIER		text: count
+POS_INCREMENT		text: ++
+PARR		text: )
+CRLL		text: {
+IDENTIFIER		text: total
+ASSIGNMENT		text: =
+IDENTIFIER		text: total
+ADD		text: +
+IDENTIFIER		text: count
+SEMICOLON		text: ;
+CRLR		text: }
+
+
+
+
+===[good15.bminor Input]===
+intFunction: function integer(intVar:integer, boolVar: boolean)
+{
+	if(boolVar)
+	{
+		intVar = intVar * 2;
+	}
+	return intVar;
+}
+// finds the largest value in the array
+getLargest: function integer(intArrVar:array [] integer, int len) =
+{
+	largest:integer = 0;
+	x:integer;
+	for(x = 0; x < len; x++)
+	{
+		if(intArrVar[x] > largest)
+		{
+			largest = intArrVar[x];
+		}
+	}
+	return largest;
+		
+}
+
+main: function integer ( argc: integer, argv: array [] string ) =
+{
+	b:array [10] integer = {0,1,2,3,4,5};
+	b[4] = 6;
+	i:integer;
+	z:integer = intFunction(i, true);
+	print intArrFunction(v, z);
+}
+
+===[good15.bminor Output]===
+IDENTIFIER		text: intFunction
+COLON		text: :
+KEYWORD		text: function
+KEYWORD		text: integer
+PARL		text: (
+IDENTIFIER		text: intVar
+COLON		text: :
+KEYWORD		text: integer
+COMMA		text: ,
+IDENTIFIER		text: boolVar
+COLON		text: :
+KEYWORD		text: boolean
+PARR		text: )
+CRLL		text: {
+KEYWORD		text: if
+PARL		text: (
+IDENTIFIER		text: boolVar
+PARR		text: )
+CRLL		text: {
+IDENTIFIER		text: intVar
+ASSIGNMENT		text: =
+IDENTIFIER		text: intVar
+MULTIPLY		text: *
+KEYWORD		text: 2
+SEMICOLON		text: ;
+CRLR		text: }
+KEYWORD		text: return
+IDENTIFIER		text: intVar
+SEMICOLON		text: ;
+CRLR		text: }
+COMMENT		text: // finds the largest value in the array
+IDENTIFIER		text: getLargest
+COLON		text: :
+KEYWORD		text: function
+KEYWORD		text: integer
+PARL		text: (
+IDENTIFIER		text: intArrVar
+COLON		text: :
+KEYWORD		text: array
+BRACKL		text: [
+BRACKR		text: ]
+KEYWORD		text: integer
+COMMA		text: ,
+IDENTIFIER		text: int
+IDENTIFIER		text: len
+PARR		text: )
+ASSIGNMENT		text: =
+CRLL		text: {
+IDENTIFIER		text: largest
+COLON		text: :
+KEYWORD		text: integer
+ASSIGNMENT		text: =
+KEYWORD		text: 0
+SEMICOLON		text: ;
+IDENTIFIER		text: x
+COLON		text: :
+KEYWORD		text: integer
+SEMICOLON		text: ;
+KEYWORD		text: for
+PARL		text: (
+IDENTIFIER		text: x
+ASSIGNMENT		text: =
+KEYWORD		text: 0
+SEMICOLON		text: ;
+IDENTIFIER		text: x
+LESS_THAN		text: <
+IDENTIFIER		text: len
+SEMICOLON		text: ;
+IDENTIFIER		text: x
+POS_INCREMENT		text: ++
+PARR		text: )
+CRLL		text: {
+KEYWORD		text: if
+PARL		text: (
+IDENTIFIER		text: intArrVar
+BRACKL		text: [
+IDENTIFIER		text: x
+BRACKR		text: ]
+GREATER_THAN		text: >
+IDENTIFIER		text: largest
+PARR		text: )
+CRLL		text: {
+IDENTIFIER		text: largest
+ASSIGNMENT		text: =
+IDENTIFIER		text: intArrVar
+BRACKL		text: [
+IDENTIFIER		text: x
+BRACKR		text: ]
+SEMICOLON		text: ;
+CRLR		text: }
+CRLR		text: }
+KEYWORD		text: return
+IDENTIFIER		text: largest
+SEMICOLON		text: ;
+CRLR		text: }
+IDENTIFIER		text: main
+COLON		text: :
+KEYWORD		text: function
+KEYWORD		text: integer
+PARL		text: (
+IDENTIFIER		text: argc
+COLON		text: :
+KEYWORD		text: integer
+COMMA		text: ,
+IDENTIFIER		text: argv
+COLON		text: :
+KEYWORD		text: array
+BRACKL		text: [
+BRACKR		text: ]
+KEYWORD		text: string
+PARR		text: )
+ASSIGNMENT		text: =
+CRLL		text: {
+IDENTIFIER		text: b
+COLON		text: :
+KEYWORD		text: array
+BRACKL		text: [
+KEYWORD		text: 10
+BRACKR		text: ]
+KEYWORD		text: integer
+ASSIGNMENT		text: =
+CRLL		text: {
+KEYWORD		text: 0
+COMMA		text: ,
+KEYWORD		text: 1
+COMMA		text: ,
+KEYWORD		text: 2
+COMMA		text: ,
+KEYWORD		text: 3
+COMMA		text: ,
+KEYWORD		text: 4
+COMMA		text: ,
+KEYWORD		text: 5
+CRLR		text: }
+SEMICOLON		text: ;
+IDENTIFIER		text: b
+BRACKL		text: [
+KEYWORD		text: 4
+BRACKR		text: ]
+ASSIGNMENT		text: =
+KEYWORD		text: 6
+SEMICOLON		text: ;
+IDENTIFIER		text: i
+COLON		text: :
+KEYWORD		text: integer
+SEMICOLON		text: ;
+IDENTIFIER		text: z
+COLON		text: :
+KEYWORD		text: integer
+ASSIGNMENT		text: =
+IDENTIFIER		text: intFunction
+PARL		text: (
+IDENTIFIER		text: i
+COMMA		text: ,
+KEYWORD		text: true
+PARR		text: )
+SEMICOLON		text: ;
+KEYWORD		text: print
+IDENTIFIER		text: intArrFunction
+PARL		text: (
+IDENTIFIER		text: v
+COMMA		text: ,
+IDENTIFIER		text: z
+PARR		text: )
+SEMICOLON		text: ;
+CRLR		text: }
+
+
+
+
+===[good1.bminor Input]===
+// just runs all basic tokens
+//
+/* comment */
+array 
+boolean 
+char 
+else 
+false 
+for 
+function 
+if 
+integer 
+print 
+return 
+string 
+true
+void
+while
+:
+;
+,
+[
+]
+{
+}
+(
+)
+=
+^
++
+-
+++
+--
+*
+/
+%
+==
+>=
+<=
+<
+>
+!=
+a
+ab
+ab3
+ab3a
+12314
+1
+12
+123
+'A'
+""
+"a"
+"aa"
+
+===[good1.bminor Output]===
+COMMENT		text: // just runs all basic tokens
+//
+/* comment */
+KEYWORD		text: array
+KEYWORD		text: boolean
+KEYWORD		text: char
+KEYWORD		text: else
+KEYWORD		text: false
+KEYWORD		text: for
+KEYWORD		text: function
+KEYWORD		text: if
+KEYWORD		text: integer
+KEYWORD		text: print
+KEYWORD		text: return
+KEYWORD		text: string
+KEYWORD		text: true
+KEYWORD		text: void
+KEYWORD		text: while
+COLON		text: :
+SEMICOLON		text: ;
+COMMA		text: ,
+BRACKL		text: [
+BRACKR		text: ]
+CRLL		text: {
+CRLR		text: }
+PARL		text: (
+PARR		text: )
+ASSIGNMENT		text: =
+POS_INCREMENT		text: ^
+ADD		text: +
+SUB		text: -
+POS_INCREMENT		text: ++
+POS_DECREMENT		text: --
+MULTIPLY		text: *
+DIVIDE		text: /
+MODULO		text: %
+COMPARISON		text: ==
+GREATER_THAN		text: >
+ASSIGNMENT		text: =
+COMPARISON		text: <=
+LESS_THAN		text: <
+GREATER_THAN		text: >
+COMPARISON		text: !=
+IDENTIFIER		text: a
+IDENTIFIER		text: ab
+IDENTIFIER		text: ab3
+IDENTIFIER		text: ab3a
+KEYWORD		text: 12314
+KEYWORD		text: 1
+KEYWORD		text: 12
+KEYWORD		text: 123
+CHARACTER_LITERAL		text: 'A'
+STRING_LITERAL		text: ""
+STRING_LITERAL		text: "a"
+STRING_LITERAL		text: "aa"
+
+
+
+
+===[good2.bminor Input]===
+// basic data types
+number: integer;
+number = 56;
+number = -56;
+number = +56;
+number = 0005006;
+number = +0005006;
+number = -000050006;
+
+
+
+
+
+
+
+
+
+===[good2.bminor Output]===
+COMMENT		text: // basic data types
+IDENTIFIER		text: number
+COLON		text: :
+KEYWORD		text: integer
+SEMICOLON		text: ;
+IDENTIFIER		text: number
+ASSIGNMENT		text: =
+KEYWORD		text: 56
+SEMICOLON		text: ;
+IDENTIFIER		text: number
+ASSIGNMENT		text: =
+SUB		text: -
+KEYWORD		text: 56
+SEMICOLON		text: ;
+IDENTIFIER		text: number
+ASSIGNMENT		text: =
+ADD		text: +
+KEYWORD		text: 56
+SEMICOLON		text: ;
+IDENTIFIER		text: number
+ASSIGNMENT		text: =
+KEYWORD		text: 0005006
+SEMICOLON		text: ;
+IDENTIFIER		text: number
+ASSIGNMENT		text: =
+ADD		text: +
+KEYWORD		text: 0005006
+SEMICOLON		text: ;
+IDENTIFIER		text: number
+ASSIGNMENT		text: =
+SUB		text: -
+KEYWORD		text: 000050006
+SEMICOLON		text: ;
+
+
+
+
+===[good3.bminor Input]===
+//test some boolean types
+bool:boolean = true;
+bool:boolean = false;
+bool = 5 > 4;
+
+
+===[good3.bminor Output]===
+COMMENT		text: //test some boolean types
+IDENTIFIER		text: bool
+COLON		text: :
+KEYWORD		text: boolean
+ASSIGNMENT		text: =
+KEYWORD		text: true
+SEMICOLON		text: ;
+IDENTIFIER		text: bool
+COLON		text: :
+KEYWORD		text: boolean
+ASSIGNMENT		text: =
+KEYWORD		text: false
+SEMICOLON		text: ;
+IDENTIFIER		text: bool
+ASSIGNMENT		text: =
+KEYWORD		text: 5
+GREATER_THAN		text: >
+KEYWORD		text: 4
+SEMICOLON		text: ;
+
+
+
+
+===[good4.bminor Input]===
+// basic data types
+
+
+character:	 	char = 'c';
+character: char = '\n';
+character:	char = '\0';
+character = '\6';
+character = '\c'
+character = '\t'
+
+
+===[good4.bminor Output]===
+COMMENT		text: // basic data types
+IDENTIFIER		text: character
+COLON		text: :
+KEYWORD		text: char
+ASSIGNMENT		text: =
+CHARACTER_LITERAL		text: 'c'
+SEMICOLON		text: ;
+IDENTIFIER		text: character
+COLON		text: :
+KEYWORD		text: char
+ASSIGNMENT		text: =
+CHARACTER_LITERAL		text: '\n'
+SEMICOLON		text: ;
+IDENTIFIER		text: character
+COLON		text: :
+KEYWORD		text: char
+ASSIGNMENT		text: =
+CHARACTER_LITERAL		text: '\0'
+SEMICOLON		text: ;
+IDENTIFIER		text: character
+ASSIGNMENT		text: =
+CHARACTER_LITERAL		text: '\6'
+SEMICOLON		text: ;
+IDENTIFIER		text: character
+ASSIGNMENT		text: =
+CHARACTER_LITERAL		text: '\c'
+IDENTIFIER		text: character
+ASSIGNMENT		text: =
+CHARACTER_LITERAL		text: '\t'
+
+
+
+
+===[good5.bminor Input]===
+"This is a string"
+"Notre \n Dame"
+" "
+" string with numbers 3213"
+"String with @@ works in the program"
+""
+
+===[good5.bminor Output]===
+STRING_LITERAL		text: "This is a string"
+STRING_LITERAL		text: "Notre \n Dame"
+STRING_LITERAL		text: " "
+STRING_LITERAL		text: " string with numbers 3213"
+STRING_LITERAL		text: "String with @@ works in the program"
+STRING_LITERAL		text: ""
+
+
+
+
+===[good6.bminor Input]===
+// strings
+str:string = "";
+
+str:string = "we can write an escaped backslash \\";
+" \"this is a unique test case \" ";
+" \n \t \0"
+"\e \r \y"
+str:string = "single qoute ' or \' ";
+str:string = " double qoute \" ";
+
+
+===[good6.bminor Output]===
+COMMENT		text: // strings
+IDENTIFIER		text: str
+COLON		text: :
+KEYWORD		text: string
+ASSIGNMENT		text: =
+STRING_LITERAL		text: ""
+SEMICOLON		text: ;
+IDENTIFIER		text: str
+COLON		text: :
+KEYWORD		text: string
+ASSIGNMENT		text: =
+STRING_LITERAL		text: "we can write an escaped backslash \\"
+SEMICOLON		text: ;
+STRING_LITERAL		text: " \"this is a unique test case \" "
+SEMICOLON		text: ;
+STRING_LITERAL		text: " \n \t \0"
+STRING_LITERAL		text: "\e \r \y"
+IDENTIFIER		text: str
+COLON		text: :
+KEYWORD		text: string
+ASSIGNMENT		text: =
+STRING_LITERAL		text: "single qoute ' or \' "
+SEMICOLON		text: ;
+IDENTIFIER		text: str
+COLON		text: :
+KEYWORD		text: string
+ASSIGNMENT		text: =
+STRING_LITERAL		text: " double qoute \" "
+SEMICOLON		text: ;
+
+
+
+
+===[good7.bminor Input]===
+// strings
+str:string = "";
+
+str:string = "hello this is a string!";
+str:string = "hello this is \1 a string!";
+
+str:string = "11234567891123456789112345678911234567891123456789112345678911234567891123456789112345678911234567891123456789112345678911234567891123456789112345678911234567"// less then 160 characters 
+
+
+
+===[good7.bminor Output]===
+COMMENT		text: // strings
+IDENTIFIER		text: str
+COLON		text: :
+KEYWORD		text: string
+ASSIGNMENT		text: =
+STRING_LITERAL		text: ""
+SEMICOLON		text: ;
+IDENTIFIER		text: str
+COLON		text: :
+KEYWORD		text: string
+ASSIGNMENT		text: =
+STRING_LITERAL		text: "hello this is a string!"
+SEMICOLON		text: ;
+IDENTIFIER		text: str
+COLON		text: :
+KEYWORD		text: string
+ASSIGNMENT		text: =
+STRING_LITERAL		text: "hello this is \1 a string!"
+SEMICOLON		text: ;
+IDENTIFIER		text: str
+COLON		text: :
+KEYWORD		text: string
+ASSIGNMENT		text: =
+STRING_LITERAL		text: "11234567891123456789112345678911234567891123456789112345678911234567891123456789112345678911234567891123456789112345678911234567891123456789112345678911234567"
+COMMENT		text: // less then 160 characters 
+
+
+
+
+===[good8.bminor Input]===
+//test arrays
+f:array [5]integer = { 1, 2, 3, 4, 5};
+f:array[5]char = {'a', 'b', 'c', 'd', 'e'};
+f:array[5] boolean = {false, false, true, true, true};
+f:array [] 	string = {"this", "i", "s", "a,", "test", "."};
+
+===[good8.bminor Output]===
+COMMENT		text: //test arrays
+IDENTIFIER		text: f
+COLON		text: :
+KEYWORD		text: array
+BRACKL		text: [
+KEYWORD		text: 5
+BRACKR		text: ]
+KEYWORD		text: integer
+ASSIGNMENT		text: =
+CRLL		text: {
+KEYWORD		text: 1
+COMMA		text: ,
+KEYWORD		text: 2
+COMMA		text: ,
+KEYWORD		text: 3
+COMMA		text: ,
+KEYWORD		text: 4
+COMMA		text: ,
+KEYWORD		text: 5
+CRLR		text: }
+SEMICOLON		text: ;
+IDENTIFIER		text: f
+COLON		text: :
+KEYWORD		text: array
+BRACKL		text: [
+KEYWORD		text: 5
+BRACKR		text: ]
+KEYWORD		text: char
+ASSIGNMENT		text: =
+CRLL		text: {
+CHARACTER_LITERAL		text: 'a'
+COMMA		text: ,
+CHARACTER_LITERAL		text: 'b'
+COMMA		text: ,
+CHARACTER_LITERAL		text: 'c'
+COMMA		text: ,
+CHARACTER_LITERAL		text: 'd'
+COMMA		text: ,
+CHARACTER_LITERAL		text: 'e'
+CRLR		text: }
+SEMICOLON		text: ;
+IDENTIFIER		text: f
+COLON		text: :
+KEYWORD		text: array
+BRACKL		text: [
+KEYWORD		text: 5
+BRACKR		text: ]
+KEYWORD		text: boolean
+ASSIGNMENT		text: =
+CRLL		text: {
+KEYWORD		text: false
+COMMA		text: ,
+KEYWORD		text: false
+COMMA		text: ,
+KEYWORD		text: true
+COMMA		text: ,
+KEYWORD		text: true
+COMMA		text: ,
+KEYWORD		text: true
+CRLR		text: }
+SEMICOLON		text: ;
+IDENTIFIER		text: f
+COLON		text: :
+KEYWORD		text: array
+BRACKL		text: [
+BRACKR		text: ]
+KEYWORD		text: string
+ASSIGNMENT		text: =
+CRLL		text: {
+STRING_LITERAL		text: "this"
+COMMA		text: ,
+STRING_LITERAL		text: "i"
+COMMA		text: ,
+STRING_LITERAL		text: "s"
+COMMA		text: ,
+STRING_LITERAL		text: "a,"
+COMMA		text: ,
+STRING_LITERAL		text: "test"
+COMMA		text: ,
+STRING_LITERAL		text: "."
+CRLR		text: }
+SEMICOLON		text: ;
+
+
+
+
+===[good9.bminor Input]===
+// test comparotors and boolean logic
+if ( a >= 5 )
+{
+	print "a >= 5";
+}
+if( a > 5 )
+{
+	print "a > 5";
+}
+if( a <= 5 )
+{
+	print "a <= 5";
+}
+if( a < 5 )
+{
+	print "a < 5";
+}
+if( a == 5 )
+{
+	print "a == 5";
+}
+if( a != 5 )
+{
+	print "a != 5";
+}
+a = 5; // test assigment
+if (a || b)
+{
+	print " a || b is true";
+}
+if (a && b)
+{
+	print " a && b is true";
+}
+
+===[good9.bminor Output]===
+COMMENT		text: // test comparotors and boolean logic
+KEYWORD		text: if
+PARL		text: (
+IDENTIFIER		text: a
+GREATER_THAN		text: >
+ASSIGNMENT		text: =
+KEYWORD		text: 5
+PARR		text: )
+CRLL		text: {
+KEYWORD		text: print
+STRING_LITERAL		text: "a >= 5"
+SEMICOLON		text: ;
+CRLR		text: }
+KEYWORD		text: if
+PARL		text: (
+IDENTIFIER		text: a
+GREATER_THAN		text: >
+KEYWORD		text: 5
+PARR		text: )
+CRLL		text: {
+KEYWORD		text: print
+STRING_LITERAL		text: "a > 5"
+SEMICOLON		text: ;
+CRLR		text: }
+KEYWORD		text: if
+PARL		text: (
+IDENTIFIER		text: a
+COMPARISON		text: <=
+KEYWORD		text: 5
+PARR		text: )
+CRLL		text: {
+KEYWORD		text: print
+STRING_LITERAL		text: "a <= 5"
+SEMICOLON		text: ;
+CRLR		text: }
+KEYWORD		text: if
+PARL		text: (
+IDENTIFIER		text: a
+LESS_THAN		text: <
+KEYWORD		text: 5
+PARR		text: )
+CRLL		text: {
+KEYWORD		text: print
+STRING_LITERAL		text: "a < 5"
+SEMICOLON		text: ;
+CRLR		text: }
+KEYWORD		text: if
+PARL		text: (
+IDENTIFIER		text: a
+COMPARISON		text: ==
+KEYWORD		text: 5
+PARR		text: )
+CRLL		text: {
+KEYWORD		text: print
+STRING_LITERAL		text: "a == 5"
+SEMICOLON		text: ;
+CRLR		text: }
+KEYWORD		text: if
+PARL		text: (
+IDENTIFIER		text: a
+COMPARISON		text: !=
+KEYWORD		text: 5
+PARR		text: )
+CRLL		text: {
+KEYWORD		text: print
+STRING_LITERAL		text: "a != 5"
+SEMICOLON		text: ;
+CRLR		text: }
+IDENTIFIER		text: a
+ASSIGNMENT		text: =
+KEYWORD		text: 5
+SEMICOLON		text: ;
+COMMENT		text: // test assigment
+KEYWORD		text: if
+PARL		text: (
+IDENTIFIER		text: a
+LOGICAL_OR		text: ||
+IDENTIFIER		text: b
+PARR		text: )
+CRLL		text: {
+KEYWORD		text: print
+STRING_LITERAL		text: " a || b is true"
+SEMICOLON		text: ;
+CRLR		text: }
+KEYWORD		text: if
+PARL		text: (
+IDENTIFIER		text: a
+LOGICAL_AND		text: &&
+IDENTIFIER		text: b
+PARR		text: )
+CRLL		text: {
+KEYWORD		text: print
+STRING_LITERAL		text: " a && b is true"
+SEMICOLON		text: ;
+CRLR		text: }
+
+
+
+
+===[mygood10.bminor Input]===
+
+===[mygood10.bminor Output]===
+
+
+
+
+===[mygood1.bminor Input]===
+"hello \n world"
+===[mygood1.bminor Output]===
+STRING_LITERAL		text: "hello \n world"
+
+
+
+
+===[mygood2.bminor Input]===
+3 :? 2;
+===[mygood2.bminor Output]===
+KEYWORD		text: 3
+TERNARY		text: :?
+KEYWORD		text: 2
+SEMICOLON		text: ;
+
+
+
+
+===[mygood3.bminor Input]===
+
+===[mygood3.bminor Output]===
+
+
+
+
+===[mygood4.bminor Input]===
+
+===[mygood4.bminor Output]===
+
+
+
+
+===[mygood5.bminor Input]===
+
+===[mygood5.bminor Output]===
+
+
+
+
+===[mygood6.bminor Input]===
+
+===[mygood6.bminor Output]===
+
+
+
+
+===[mygood7.bminor Input]===
+
+===[mygood7.bminor Output]===
+
+
+
+
+===[mygood8.bminor Input]===
+
+===[mygood8.bminor Output]===
+
+
+
+
+===[mygood9.bminor Input]===
+
+===[mygood9.bminor Output]===
+
+
+
+
+====Bad Tests====
+===[bad10.bminor Input]===
+// invalid character
+'\'
+
+===[bad10.bminor Output]===
+COMMENT		text: // invalid character
+
+scan error: ' is not a valid character
+
+
+
+===[bad11.bminor Input]===
+/*
+A string should not contain a literal newline,
+but use backslash-n instead.
+*/
+
+"invalid
+
+string"
+
+===[bad11.bminor Output]===
+COMMENT		text: /*
+A string should not contain a literal newline,
+but use backslash-n instead.
+*/
+
+scan error: " is not a valid character
+
+
+
+===[bad12.bminor Input]===
+'ca'
+
+===[bad12.bminor Output]===
+
+scan error: ' is not a valid character
+
+
+
+===[bad13.bminor Input]===
+''
+
+===[bad13.bminor Output]===
+
+scan error: ' is not a valid character
+
+
+
+===[bad14.bminor Input]===
+'\ac'
+
+===[bad14.bminor Output]===
+
+scan error: ' is not a valid character
+
+
+
+===[bad15.bminor Input]===
+'
+
+===[bad15.bminor Output]===
+
+scan error: ' is not a valid character
+
+
+
+===[bad1.bminor Input]===
+@
+#
+&
+|
+\
+
+===[bad1.bminor Output]===
+
+scan error: @ is not a valid character
+
+
+
+===[bad2.bminor Input]===
+// unmatched comment throws error 
+/* This is a comment.
+
+
+
+
+
+
+
+
+===[bad2.bminor Output]===
+COMMENT		text: // unmatched comment throws error 
+DIVIDE		text: /
+MULTIPLY		text: *
+IDENTIFIER		text: This
+IDENTIFIER		text: is
+IDENTIFIER		text: a
+IDENTIFIER		text: comment
+
+scan error: . is not a valid character
+
+
+
+===[bad3.bminor Input]===
+// basic data types
+" the quote is unmatched
+
+
+
+
+
+
+
+===[bad3.bminor Output]===
+COMMENT		text: // basic data types
+
+scan error: " is not a valid character
+
+
+
+===[bad4.bminor Input]===
+// doesn't support floating point
+50006.0050;
+
+===[bad4.bminor Output]===
+COMMENT		text: // doesn't support floating point
+KEYWORD		text: 50006
+
+scan error: . is not a valid character
+
+
+
+===[bad5.bminor Input]===
+// test comparotors and boolean logic
+if (a | b)
+{
+	print " a || b is true";
+}
+if (a & b)// must had 2 &&
+{
+	print " a || b is true";
+}
+
+===[bad5.bminor Output]===
+COMMENT		text: // test comparotors and boolean logic
+KEYWORD		text: if
+PARL		text: (
+IDENTIFIER		text: a
+
+scan error: | is not a valid character
+
+
+
+===[bad6.bminor Input]===
+
+"""
+
+
+===[bad6.bminor Output]===
+STRING_LITERAL		text: ""
+
+scan error: " is not a valid character
+
+
+
+===[bad7.bminor Input]===
+"012345678901234567890101234567890123456789010123456789012345678901012345678901234567890101234567890123456789010123456789012345678901012345678901234567890101234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"
+
+
+===[bad7.bminor Output]===
+
+scan error: " is not a valid character
+
+
+
+===[bad8.bminor Input]===
+$minus
+
+===[bad8.bminor Output]===
+
+scan error: $ is not a valid character
+
+
+
+===[bad9.bminor Input]===
+minus#44
+
+===[bad9.bminor Output]===
+IDENTIFIER		text: minus
+
+scan error: # is not a valid character
+
+
+
+===[mybad10.bminor Input]===
+badIdenti@fier
+===[mybad10.bminor Output]===
+IDENTIFIER		text: badIdenti
+
+scan error: @ is not a valid character
+
+
+
+===[mybad1.bminor Input]===
+@'
+#
+&
+|
+\
+'
+
+
+===[mybad1.bminor Output]===
+
+scan error: @ is not a valid character
+
+
+
+===[mybad2.bminor Input]===
+// unmatched comment throws error 
+This is a comment. *
+===[mybad2.bminor Output]===
+COMMENT		text: // unmatched comment throws error 
+IDENTIFIER		text: This
+IDENTIFIER		text: is
+IDENTIFIER		text: a
+IDENTIFIER		text: comment
+
+scan error: . is not a valid character
+
+
+
+===[mybad3.bminor Input]===
+wHile;:;:;:;
+yes
+DUrt
+'wl'
+===[mybad3.bminor Output]===
+IDENTIFIER		text: wHile
+SEMICOLON		text: ;
+COLON		text: :
+SEMICOLON		text: ;
+COLON		text: :
+SEMICOLON		text: ;
+COLON		text: :
+SEMICOLON		text: ;
+IDENTIFIER		text: yes
+IDENTIFIER		text: DUrt
+
+scan error: ' is not a valid character
+
+
+
+===[mybad4.bminor Input]===
+WHILE TRUE;
+no }{\}\/\\
+===[mybad4.bminor Output]===
+IDENTIFIER		text: WHILE
+IDENTIFIER		text: TRUE
+SEMICOLON		text: ;
+IDENTIFIER		text: no
+CRLR		text: }
+CRLL		text: {
+
+scan error: \ is not a valid character
+
+
+
+===[mybad5.bminor Input]===
+// A for loop statement.
+for( i=0; i<100; i++ ) {
+    print i;0
+    echo "ERROR'
+    }
+
+
+===[mybad5.bminor Output]===
+COMMENT		text: // A for loop statement.
+KEYWORD		text: for
+PARL		text: (
+IDENTIFIER		text: i
+ASSIGNMENT		text: =
+KEYWORD		text: 0
+SEMICOLON		text: ;
+IDENTIFIER		text: i
+LESS_THAN		text: <
+KEYWORD		text: 100
+SEMICOLON		text: ;
+IDENTIFIER		text: i
+POS_INCREMENT		text: ++
+PARR		text: )
+CRLL		text: {
+KEYWORD		text: print
+IDENTIFIER		text: i
+SEMICOLON		text: ;
+KEYWORD		text: 0
+IDENTIFIER		text: echo
+
+scan error: " is not a valid character
+
+
+
+===[mybad6.bminor Input]===
+\'
+===[mybad6.bminor Output]===
+
+scan error: \ is not a valid character
+
+
+
+===[mybad7.bminor Input]===
+\"yes"
+===[mybad7.bminor Output]===
+
+scan error: \ is not a valid character
+
+
+
+===[mybad8.bminor Input]===
+square: function integer ( x: integer ) = {
+	return "1111111111111111122222222222222222222222222222222222222222222222222222222222222222222200000000000000000000033030303301000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
+}
+===[mybad8.bminor Output]===
+IDENTIFIER		text: square
+COLON		text: :
+KEYWORD		text: function
+KEYWORD		text: integer
+PARL		text: (
+IDENTIFIER		text: x
+COLON		text: :
+KEYWORD		text: integer
+PARR		text: )
+ASSIGNMENT		text: =
+CRLL		text: {
+KEYWORD		text: return
+
+scan error: " is not a valid character
+
+
+
+===[mybad9.bminor Input]===
+main: function integer () = {
+	puts('hello world');
+}
+===[mybad9.bminor Output]===
+IDENTIFIER		text: main
+COLON		text: :
+KEYWORD		text: function
+KEYWORD		text: integer
+PARL		text: (
+PARR		text: )
+ASSIGNMENT		text: =
+CRLL		text: {
+IDENTIFIER		text: puts
+PARL		text: (
+
+scan error: ' is not a valid character
+
+
+
+=====HIDDEN TESTS=====
+====Good Tests====
+===[good1.bminor Input]===
+// Easy comment
+/* Easy comment */
+
+===[good1.bminor Output]===
+COMMENT		text: // Easy comment
+/* Easy comment */
+
+
+
+
+===[good10.bminor Input]===
+// Modulus operator
+15%3
+
+// Exponentiation operator
+2^6
+
+// Negation
+-value
+
+// Postincrement and postdecrement
+number++;
+
+number--;
+
+===[good10.bminor Output]===
+COMMENT		text: // Modulus operator
+KEYWORD		text: 15
+MODULO		text: %
+KEYWORD		text: 3
+COMMENT		text: // Exponentiation operator
+KEYWORD		text: 2
+POS_INCREMENT		text: ^
+KEYWORD		text: 6
+COMMENT		text: // Negation
+SUB		text: -
+IDENTIFIER		text: value
+COMMENT		text: // Postincrement and postdecrement
+IDENTIFIER		text: number
+POS_INCREMENT		text: ++
+SEMICOLON		text: ;
+IDENTIFIER		text: number
+POS_DECREMENT		text: --
+SEMICOLON		text: ;
+
+
+
+
+===[good3.bminor Input]===
+// Identifiers
+CamelCase
+lower_case
+skiddo23
+B4UFLY
+i
+x15
+
+
+===[good3.bminor Output]===
+COMMENT		text: // Identifiers
+IDENTIFIER		text: CamelCase
+IDENTIFIER		text: lower_case
+IDENTIFIER		text: skiddo23
+IDENTIFIER		text: B4UFLY
+IDENTIFIER		text: i
+IDENTIFIER		text: x15
+
+
+
+
+===[good5.bminor Input]===
+// Various bits of punctuation
+, : ; ( ) [ ] { }
+
+
+===[good5.bminor Output]===
+COMMENT		text: // Various bits of punctuation
+COMMA		text: ,
+COLON		text: :
+SEMICOLON		text: ;
+PARL		text: (
+PARR		text: )
+BRACKL		text: [
+BRACKR		text: ]
+CRLL		text: {
+CRLR		text: }
+
+
+
+
+===[good6.bminor Input]===
+// Complete function prototype
+main: function integer ( argc: integer, argv: array [] string );
+
+
+===[good6.bminor Output]===
+COMMENT		text: // Complete function prototype
+IDENTIFIER		text: main
+COLON		text: :
+KEYWORD		text: function
+KEYWORD		text: integer
+PARL		text: (
+IDENTIFIER		text: argc
+COLON		text: :
+KEYWORD		text: integer
+COMMA		text: ,
+IDENTIFIER		text: argv
+COLON		text: :
+KEYWORD		text: array
+BRACKL		text: [
+BRACKR		text: ]
+KEYWORD		text: string
+PARR		text: )
+SEMICOLON		text: ;
+
+
+
+
+===[good7.bminor Input]===
+// Nested statements
+if( x<15 ) {
+    print "small";
+} else {
+    print "large!";
+}
+
+
+===[good7.bminor Output]===
+COMMENT		text: // Nested statements
+KEYWORD		text: if
+PARL		text: (
+IDENTIFIER		text: x
+LESS_THAN		text: <
+KEYWORD		text: 15
+PARR		text: )
+CRLL		text: {
+KEYWORD		text: print
+STRING_LITERAL		text: "small"
+SEMICOLON		text: ;
+CRLR		text: }
+KEYWORD		text: else
+CRLL		text: {
+KEYWORD		text: print
+STRING_LITERAL		text: "large!"
+SEMICOLON		text: ;
+CRLR		text: }
+
+
+
+
+===[good8.bminor Input]===
+// Valid integers
+0
+1024
+-512
++256
+
+
+===[good8.bminor Output]===
+COMMENT		text: // Valid integers
+KEYWORD		text: 0
+KEYWORD		text: 1024
+SUB		text: -
+KEYWORD		text: 512
+ADD		text: +
+KEYWORD		text: 256
+
+
+
+
+===[good2.bminor Input]===
+////* Harder comment ***/
+/******************/
+/*
+This one works too.
+*/
+/***************
+Also a good comment.
+****************/
+// comment // comment // comment
+
+
+===[good2.bminor Output]===
+COMMENT		text: ////* Harder comment ***/
+COMMENT		text: /******************/
+COMMENT		text: /*
+This one works too.
+*/
+COMMENT		text: /***************
+Also a good comment.
+****************/
+COMMENT		text: // comment // comment // comment
+
+
+
+
+===[good4.bminor Input]===
+// Equality Operators
+== != <= < > >=
+// Ternary Tokens
+? :
+
+===[good4.bminor Output]===
+COMMENT		text: // Equality Operators
+COMPARISON		text: ==
+COMPARISON		text: !=
+COMPARISON		text: <=
+LESS_THAN		text: <
+GREATER_THAN		text: >
+GREATER_THAN		text: >
+ASSIGNMENT		text: =
+COMMENT		text: // Ternary Tokens
+
+scan error: ? is not a valid character
+
+
+
+===[good9.bminor Input]===
+// Type Keywords
+array
+boolean
+char
+string
+void
+integer
+auto
+
+===[good9.bminor Output]===
+COMMENT		text: // Type Keywords
+KEYWORD		text: array
+KEYWORD		text: boolean
+KEYWORD		text: char
+KEYWORD		text: string
+KEYWORD		text: void
+KEYWORD		text: integer
+KEYWORD		text: auto
+
+
+
+
+====Bad Tests====
+===[bad1.bminor Input]===
+"unmatched string""
+
+===[bad1.bminor Output]===
+STRING_LITERAL		text: "unmatched string"
+
+scan error: " is not a valid character
+
+
+
+===[bad10.bminor Input]===
+#compilers // No hashtags in B-minor
+
+===[bad10.bminor Output]===
+
+scan error: # is not a valid character
+
+
+
+===[bad2.bminor Input]===
+"unterminated \"
+
+
+===[bad2.bminor Output]===
+
+scan error: " is not a valid character
+
+
+
+===[bad3.bminor Input]===
+never started"
+
+
+
+
+
+
+===[bad3.bminor Output]===
+IDENTIFIER		text: never
+IDENTIFIER		text: started
+
+scan error: " is not a valid character
+
+
+
+===[bad4.bminor Input]===
+'character?' // Character too long.
+
+===[bad4.bminor Output]===
+
+scan error: ' is not a valid character
+
+
+
+===[bad5.bminor Input]===
+'' // Empty character not allowed.
+
+===[bad5.bminor Output]===
+
+scan error: ' is not a valid character
+
+
+
+===[bad8.bminor Input]===
+'' // Empty character not allowed.
+
+===[bad8.bminor Output]===
+
+scan error: ' is not a valid character
+
+
+
+===[bad9.bminor Input]===
+3.141592654 // No floating point
+
+===[bad9.bminor Output]===
+KEYWORD		text: 3
+
+scan error: . is not a valid character
+
+
+
+===[bad6.bminor Input]===
+~tilde // Invalid symbol
+
+===[bad6.bminor Output]===
+
+scan error: ~ is not a valid character
+
+
+
+===[bad7.bminor Input]===
+/* Is this a valid comment */ @ */
+
+
+===[bad7.bminor Output]===
+COMMENT		text: /* Is this a valid comment */
+
+scan error: @ is not a valid character
+
+
+
+=====COMMON TESTS=====
+====Good Tests====
+===[good1.bminor Input]===
+// just runs all basic tokens
+//
+/* comment */
+array 
+boolean 
+char 
+else 
+false 
+for 
+function 
+if 
+integer 
+print 
+return 
+string 
+true
+void
+while
+:
+;
+,
+[
+]
+{
+}
+(
+)
+=
+^
++
+-
+++
+--
+*
+/
+%
+==
+>=
+<=
+<
+>
+!=
+a
+ab
+ab3
+ab3a
+12314
+1
+12
+123
+'A'
+""
+"a"
+"aa"
+
+===[good1.bminor Output]===
+COMMENT		text: // just runs all basic tokens
+//
+/* comment */
+KEYWORD		text: array
+KEYWORD		text: boolean
+KEYWORD		text: char
+KEYWORD		text: else
+KEYWORD		text: false
+KEYWORD		text: for
+KEYWORD		text: function
+KEYWORD		text: if
+KEYWORD		text: integer
+KEYWORD		text: print
+KEYWORD		text: return
+KEYWORD		text: string
+KEYWORD		text: true
+KEYWORD		text: void
+KEYWORD		text: while
+COLON		text: :
+SEMICOLON		text: ;
+COMMA		text: ,
+BRACKL		text: [
+BRACKR		text: ]
+CRLL		text: {
+CRLR		text: }
+PARL		text: (
+PARR		text: )
+ASSIGNMENT		text: =
+POS_INCREMENT		text: ^
+ADD		text: +
+SUB		text: -
+POS_INCREMENT		text: ++
+POS_DECREMENT		text: --
+MULTIPLY		text: *
+DIVIDE		text: /
+MODULO		text: %
+COMPARISON		text: ==
+GREATER_THAN		text: >
+ASSIGNMENT		text: =
+COMPARISON		text: <=
+LESS_THAN		text: <
+GREATER_THAN		text: >
+COMPARISON		text: !=
+IDENTIFIER		text: a
+IDENTIFIER		text: ab
+IDENTIFIER		text: ab3
+IDENTIFIER		text: ab3a
+KEYWORD		text: 12314
+KEYWORD		text: 1
+KEYWORD		text: 12
+KEYWORD		text: 123
+CHARACTER_LITERAL		text: 'A'
+STRING_LITERAL		text: ""
+STRING_LITERAL		text: "a"
+STRING_LITERAL		text: "aa"
+
+
+
+
+===[good10.bminor Input]===
+/* tests some more constructs in bminor */
+z = -x; // unary negation
+x^2; //exponantiotion
+//simple test cases
+x ^ 2
+z != x % 2
+z = 5 + 6;
+z = 5 * 6;
+z = 5 - 6;
+z = 5 / 6;
+q++;
+z--;
+z = 7 + 7 - z;
+
+
+===[good10.bminor Output]===
+COMMENT		text: /* tests some more constructs in bminor */
+IDENTIFIER		text: z
+ASSIGNMENT		text: =
+SUB		text: -
+IDENTIFIER		text: x
+SEMICOLON		text: ;
+COMMENT		text: // unary negation
+IDENTIFIER		text: x
+POS_INCREMENT		text: ^
+KEYWORD		text: 2
+SEMICOLON		text: ;
+COMMENT		text: //exponantiotion
+COMMENT		text: //simple test cases
+IDENTIFIER		text: x
+POS_INCREMENT		text: ^
+KEYWORD		text: 2
+IDENTIFIER		text: z
+COMPARISON		text: !=
+IDENTIFIER		text: x
+MODULO		text: %
+KEYWORD		text: 2
+IDENTIFIER		text: z
+ASSIGNMENT		text: =
+KEYWORD		text: 5
+ADD		text: +
+KEYWORD		text: 6
+SEMICOLON		text: ;
+IDENTIFIER		text: z
+ASSIGNMENT		text: =
+KEYWORD		text: 5
+MULTIPLY		text: *
+KEYWORD		text: 6
+SEMICOLON		text: ;
+IDENTIFIER		text: z
+ASSIGNMENT		text: =
+KEYWORD		text: 5
+SUB		text: -
+KEYWORD		text: 6
+SEMICOLON		text: ;
+IDENTIFIER		text: z
+ASSIGNMENT		text: =
+KEYWORD		text: 5
+DIVIDE		text: /
+KEYWORD		text: 6
+SEMICOLON		text: ;
+IDENTIFIER		text: q
+POS_INCREMENT		text: ++
+SEMICOLON		text: ;
+IDENTIFIER		text: z
+POS_DECREMENT		text: --
+SEMICOLON		text: ;
+IDENTIFIER		text: z
+ASSIGNMENT		text: =
+KEYWORD		text: 7
+ADD		text: +
+KEYWORD		text: 7
+SUB		text: -
+IDENTIFIER		text: z
+SEMICOLON		text: ;
+
+
+
+
+===[good11.bminor Input]===
+// some more complicated corner cases
+z = -(5 * 4);
+z = 15 + 5 - 4*3/7;
+z = x + (y * 5 - (4 + 20/v) - 15) % 6 + z; //long integer expr
+z+++; // these will cause parsing errors
+w---;
+
+
+===[good11.bminor Output]===
+COMMENT		text: // some more complicated corner cases
+IDENTIFIER		text: z
+ASSIGNMENT		text: =
+SUB		text: -
+PARL		text: (
+KEYWORD		text: 5
+MULTIPLY		text: *
+KEYWORD		text: 4
+PARR		text: )
+SEMICOLON		text: ;
+IDENTIFIER		text: z
+ASSIGNMENT		text: =
+KEYWORD		text: 15
+ADD		text: +
+KEYWORD		text: 5
+SUB		text: -
+KEYWORD		text: 4
+MULTIPLY		text: *
+KEYWORD		text: 3
+DIVIDE		text: /
+KEYWORD		text: 7
+SEMICOLON		text: ;
+IDENTIFIER		text: z
+ASSIGNMENT		text: =
+IDENTIFIER		text: x
+ADD		text: +
+PARL		text: (
+IDENTIFIER		text: y
+MULTIPLY		text: *
+KEYWORD		text: 5
+SUB		text: -
+PARL		text: (
+KEYWORD		text: 4
+ADD		text: +
+KEYWORD		text: 20
+DIVIDE		text: /
+IDENTIFIER		text: v
+PARR		text: )
+SUB		text: -
+KEYWORD		text: 15
+PARR		text: )
+MODULO		text: %
+KEYWORD		text: 6
+ADD		text: +
+IDENTIFIER		text: z
+SEMICOLON		text: ;
+COMMENT		text: //long integer expr
+IDENTIFIER		text: z
+POS_INCREMENT		text: ++
+ADD		text: +
+SEMICOLON		text: ;
+COMMENT		text: // these will cause parsing errors
+IDENTIFIER		text: w
+POS_DECREMENT		text: --
+SUB		text: -
+SEMICOLON		text: ;
+
+
+
+
+===[good12.bminor Input]===
+//tests the for/print keyword and while keyword
+x:integer;
+for(x = 0; x < 5; x++)
+{
+	print "counting: ", x;
+}
+a:integer = 0;
+while(a > 0)
+{
+	a--;
+}
+
+
+
+===[good12.bminor Output]===
+COMMENT		text: //tests the for/print keyword and while keyword
+IDENTIFIER		text: x
+COLON		text: :
+KEYWORD		text: integer
+SEMICOLON		text: ;
+KEYWORD		text: for
+PARL		text: (
+IDENTIFIER		text: x
+ASSIGNMENT		text: =
+KEYWORD		text: 0
+SEMICOLON		text: ;
+IDENTIFIER		text: x
+LESS_THAN		text: <
+KEYWORD		text: 5
+SEMICOLON		text: ;
+IDENTIFIER		text: x
+POS_INCREMENT		text: ++
+PARR		text: )
+CRLL		text: {
+KEYWORD		text: print
+STRING_LITERAL		text: "counting: "
+COMMA		text: ,
+IDENTIFIER		text: x
+SEMICOLON		text: ;
+CRLR		text: }
+IDENTIFIER		text: a
+COLON		text: :
+KEYWORD		text: integer
+ASSIGNMENT		text: =
+KEYWORD		text: 0
+SEMICOLON		text: ;
+KEYWORD		text: while
+PARL		text: (
+IDENTIFIER		text: a
+GREATER_THAN		text: >
+KEYWORD		text: 0
+PARR		text: )
+CRLL		text: {
+IDENTIFIER		text: a
+POS_DECREMENT		text: --
+SEMICOLON		text: ;
+CRLR		text: }
+
+
+
+
+===[good13.bminor Input]===
+//test some odd identifier names
+ident55
+ident55_
+ident__55__
+thisIsAReallyReallyLongIdentifierNameThatHasTonsOfLettersInIt = 7
+variable_names_may_contain_underscores_
+_variables_can_start_with_an_underscore_67
+7minus5 
+
+===[good13.bminor Output]===
+COMMENT		text: //test some odd identifier names
+IDENTIFIER		text: ident55
+IDENTIFIER		text: ident55_
+IDENTIFIER		text: ident__55__
+IDENTIFIER		text: thisIsAReallyReallyLongIdentifierNameThatHasTonsOfLettersInIt
+ASSIGNMENT		text: =
+KEYWORD		text: 7
+IDENTIFIER		text: variable_names_may_contain_underscores_
+IDENTIFIER		text: _variables_can_start_with_an_underscore_67
+KEYWORD		text: 7
+IDENTIFIER		text: minus5
+
+
+
+
+===[good14.bminor Input]===
+main: function integer ( argc: integer, argv: array [] string ) =
+{
+}
+boolFunction: function boolean(intVar:integer) =
+{
+	return intVar > 5;
+}
+intFunction: function integer(integer n) =
+{
+	total:integer = 0;
+	int count;
+	for(count = 0; count < n+1; count++)
+	{
+		total = total + count;
+	
+}
+
+
+===[good14.bminor Output]===
+IDENTIFIER		text: main
+COLON		text: :
+KEYWORD		text: function
+KEYWORD		text: integer
+PARL		text: (
+IDENTIFIER		text: argc
+COLON		text: :
+KEYWORD		text: integer
+COMMA		text: ,
+IDENTIFIER		text: argv
+COLON		text: :
+KEYWORD		text: array
+BRACKL		text: [
+BRACKR		text: ]
+KEYWORD		text: string
+PARR		text: )
+ASSIGNMENT		text: =
+CRLL		text: {
+CRLR		text: }
+IDENTIFIER		text: boolFunction
+COLON		text: :
+KEYWORD		text: function
+KEYWORD		text: boolean
+PARL		text: (
+IDENTIFIER		text: intVar
+COLON		text: :
+KEYWORD		text: integer
+PARR		text: )
+ASSIGNMENT		text: =
+CRLL		text: {
+KEYWORD		text: return
+IDENTIFIER		text: intVar
+GREATER_THAN		text: >
+KEYWORD		text: 5
+SEMICOLON		text: ;
+CRLR		text: }
+IDENTIFIER		text: intFunction
+COLON		text: :
+KEYWORD		text: function
+KEYWORD		text: integer
+PARL		text: (
+KEYWORD		text: integer
+IDENTIFIER		text: n
+PARR		text: )
+ASSIGNMENT		text: =
+CRLL		text: {
+IDENTIFIER		text: total
+COLON		text: :
+KEYWORD		text: integer
+ASSIGNMENT		text: =
+KEYWORD		text: 0
+SEMICOLON		text: ;
+IDENTIFIER		text: int
+IDENTIFIER		text: count
+SEMICOLON		text: ;
+KEYWORD		text: for
+PARL		text: (
+IDENTIFIER		text: count
+ASSIGNMENT		text: =
+KEYWORD		text: 0
+SEMICOLON		text: ;
+IDENTIFIER		text: count
+LESS_THAN		text: <
+IDENTIFIER		text: n
+ADD		text: +
+KEYWORD		text: 1
+SEMICOLON		text: ;
+IDENTIFIER		text: count
+POS_INCREMENT		text: ++
+PARR		text: )
+CRLL		text: {
+IDENTIFIER		text: total
+ASSIGNMENT		text: =
+IDENTIFIER		text: total
+ADD		text: +
+IDENTIFIER		text: count
+SEMICOLON		text: ;
+CRLR		text: }
+
+
+
+
+===[good15.bminor Input]===
+intFunction: function integer(intVar:integer, boolVar: boolean)
+{
+	if(boolVar)
+	{
+		intVar = intVar * 2;
+	}
+	return intVar;
+}
+// finds the largest value in the array
+getLargest: function integer(intArrVar:array [] integer, int len) =
+{
+	largest:integer = 0;
+	x:integer;
+	for(x = 0; x < len; x++)
+	{
+		if(intArrVar[x] > largest)
+		{
+			largest = intArrVar[x];
+		}
+	}
+	return largest;
+		
+}
+
+main: function integer ( argc: integer, argv: array [] string ) =
+{
+	b:array [10] integer = {0,1,2,3,4,5};
+	b[4] = 6;
+	i:integer;
+	z:integer = intFunction(i, true);
+	print intArrFunction(v, z);
+}
+
+===[good15.bminor Output]===
+IDENTIFIER		text: intFunction
+COLON		text: :
+KEYWORD		text: function
+KEYWORD		text: integer
+PARL		text: (
+IDENTIFIER		text: intVar
+COLON		text: :
+KEYWORD		text: integer
+COMMA		text: ,
+IDENTIFIER		text: boolVar
+COLON		text: :
+KEYWORD		text: boolean
+PARR		text: )
+CRLL		text: {
+KEYWORD		text: if
+PARL		text: (
+IDENTIFIER		text: boolVar
+PARR		text: )
+CRLL		text: {
+IDENTIFIER		text: intVar
+ASSIGNMENT		text: =
+IDENTIFIER		text: intVar
+MULTIPLY		text: *
+KEYWORD		text: 2
+SEMICOLON		text: ;
+CRLR		text: }
+KEYWORD		text: return
+IDENTIFIER		text: intVar
+SEMICOLON		text: ;
+CRLR		text: }
+COMMENT		text: // finds the largest value in the array
+IDENTIFIER		text: getLargest
+COLON		text: :
+KEYWORD		text: function
+KEYWORD		text: integer
+PARL		text: (
+IDENTIFIER		text: intArrVar
+COLON		text: :
+KEYWORD		text: array
+BRACKL		text: [
+BRACKR		text: ]
+KEYWORD		text: integer
+COMMA		text: ,
+IDENTIFIER		text: int
+IDENTIFIER		text: len
+PARR		text: )
+ASSIGNMENT		text: =
+CRLL		text: {
+IDENTIFIER		text: largest
+COLON		text: :
+KEYWORD		text: integer
+ASSIGNMENT		text: =
+KEYWORD		text: 0
+SEMICOLON		text: ;
+IDENTIFIER		text: x
+COLON		text: :
+KEYWORD		text: integer
+SEMICOLON		text: ;
+KEYWORD		text: for
+PARL		text: (
+IDENTIFIER		text: x
+ASSIGNMENT		text: =
+KEYWORD		text: 0
+SEMICOLON		text: ;
+IDENTIFIER		text: x
+LESS_THAN		text: <
+IDENTIFIER		text: len
+SEMICOLON		text: ;
+IDENTIFIER		text: x
+POS_INCREMENT		text: ++
+PARR		text: )
+CRLL		text: {
+KEYWORD		text: if
+PARL		text: (
+IDENTIFIER		text: intArrVar
+BRACKL		text: [
+IDENTIFIER		text: x
+BRACKR		text: ]
+GREATER_THAN		text: >
+IDENTIFIER		text: largest
+PARR		text: )
+CRLL		text: {
+IDENTIFIER		text: largest
+ASSIGNMENT		text: =
+IDENTIFIER		text: intArrVar
+BRACKL		text: [
+IDENTIFIER		text: x
+BRACKR		text: ]
+SEMICOLON		text: ;
+CRLR		text: }
+CRLR		text: }
+KEYWORD		text: return
+IDENTIFIER		text: largest
+SEMICOLON		text: ;
+CRLR		text: }
+IDENTIFIER		text: main
+COLON		text: :
+KEYWORD		text: function
+KEYWORD		text: integer
+PARL		text: (
+IDENTIFIER		text: argc
+COLON		text: :
+KEYWORD		text: integer
+COMMA		text: ,
+IDENTIFIER		text: argv
+COLON		text: :
+KEYWORD		text: array
+BRACKL		text: [
+BRACKR		text: ]
+KEYWORD		text: string
+PARR		text: )
+ASSIGNMENT		text: =
+CRLL		text: {
+IDENTIFIER		text: b
+COLON		text: :
+KEYWORD		text: array
+BRACKL		text: [
+KEYWORD		text: 10
+BRACKR		text: ]
+KEYWORD		text: integer
+ASSIGNMENT		text: =
+CRLL		text: {
+KEYWORD		text: 0
+COMMA		text: ,
+KEYWORD		text: 1
+COMMA		text: ,
+KEYWORD		text: 2
+COMMA		text: ,
+KEYWORD		text: 3
+COMMA		text: ,
+KEYWORD		text: 4
+COMMA		text: ,
+KEYWORD		text: 5
+CRLR		text: }
+SEMICOLON		text: ;
+IDENTIFIER		text: b
+BRACKL		text: [
+KEYWORD		text: 4
+BRACKR		text: ]
+ASSIGNMENT		text: =
+KEYWORD		text: 6
+SEMICOLON		text: ;
+IDENTIFIER		text: i
+COLON		text: :
+KEYWORD		text: integer
+SEMICOLON		text: ;
+IDENTIFIER		text: z
+COLON		text: :
+KEYWORD		text: integer
+ASSIGNMENT		text: =
+IDENTIFIER		text: intFunction
+PARL		text: (
+IDENTIFIER		text: i
+COMMA		text: ,
+KEYWORD		text: true
+PARR		text: )
+SEMICOLON		text: ;
+KEYWORD		text: print
+IDENTIFIER		text: intArrFunction
+PARL		text: (
+IDENTIFIER		text: v
+COMMA		text: ,
+IDENTIFIER		text: z
+PARR		text: )
+SEMICOLON		text: ;
+CRLR		text: }
+
+
+
+
+===[good2.bminor Input]===
+// basic data types
+number: integer;
+number = 56;
+number = -56;
+number = +56;
+number = 0005006;
+number = +0005006;
+number = -000050006;
+
+
+
+
+
+
+
+
+
+===[good2.bminor Output]===
+COMMENT		text: // basic data types
+IDENTIFIER		text: number
+COLON		text: :
+KEYWORD		text: integer
+SEMICOLON		text: ;
+IDENTIFIER		text: number
+ASSIGNMENT		text: =
+KEYWORD		text: 56
+SEMICOLON		text: ;
+IDENTIFIER		text: number
+ASSIGNMENT		text: =
+SUB		text: -
+KEYWORD		text: 56
+SEMICOLON		text: ;
+IDENTIFIER		text: number
+ASSIGNMENT		text: =
+ADD		text: +
+KEYWORD		text: 56
+SEMICOLON		text: ;
+IDENTIFIER		text: number
+ASSIGNMENT		text: =
+KEYWORD		text: 0005006
+SEMICOLON		text: ;
+IDENTIFIER		text: number
+ASSIGNMENT		text: =
+ADD		text: +
+KEYWORD		text: 0005006
+SEMICOLON		text: ;
+IDENTIFIER		text: number
+ASSIGNMENT		text: =
+SUB		text: -
+KEYWORD		text: 000050006
+SEMICOLON		text: ;
+
+
+
+
+===[good3.bminor Input]===
+//test some boolean types
+bool:boolean = true;
+bool:boolean = false;
+bool = 5 > 4;
+
+
+===[good3.bminor Output]===
+COMMENT		text: //test some boolean types
+IDENTIFIER		text: bool
+COLON		text: :
+KEYWORD		text: boolean
+ASSIGNMENT		text: =
+KEYWORD		text: true
+SEMICOLON		text: ;
+IDENTIFIER		text: bool
+COLON		text: :
+KEYWORD		text: boolean
+ASSIGNMENT		text: =
+KEYWORD		text: false
+SEMICOLON		text: ;
+IDENTIFIER		text: bool
+ASSIGNMENT		text: =
+KEYWORD		text: 5
+GREATER_THAN		text: >
+KEYWORD		text: 4
+SEMICOLON		text: ;
+
+
+
+
+===[good4.bminor Input]===
+// basic data types
+
+
+character:	 	char = 'c';
+character: char = '\n';
+character:	char = '\0';
+character = '\6';
+character = '\c'
+character = '\t'
+
+
+===[good4.bminor Output]===
+COMMENT		text: // basic data types
+IDENTIFIER		text: character
+COLON		text: :
+KEYWORD		text: char
+ASSIGNMENT		text: =
+CHARACTER_LITERAL		text: 'c'
+SEMICOLON		text: ;
+IDENTIFIER		text: character
+COLON		text: :
+KEYWORD		text: char
+ASSIGNMENT		text: =
+CHARACTER_LITERAL		text: '\n'
+SEMICOLON		text: ;
+IDENTIFIER		text: character
+COLON		text: :
+KEYWORD		text: char
+ASSIGNMENT		text: =
+CHARACTER_LITERAL		text: '\0'
+SEMICOLON		text: ;
+IDENTIFIER		text: character
+ASSIGNMENT		text: =
+CHARACTER_LITERAL		text: '\6'
+SEMICOLON		text: ;
+IDENTIFIER		text: character
+ASSIGNMENT		text: =
+CHARACTER_LITERAL		text: '\c'
+IDENTIFIER		text: character
+ASSIGNMENT		text: =
+CHARACTER_LITERAL		text: '\t'
+
+
+
+
+===[good5.bminor Input]===
+"This is a string"
+"Notre \n Dame"
+" "
+" string with numbers 3213"
+"String with @@ works in the program"
+""
+
+===[good5.bminor Output]===
+STRING_LITERAL		text: "This is a string"
+STRING_LITERAL		text: "Notre \n Dame"
+STRING_LITERAL		text: " "
+STRING_LITERAL		text: " string with numbers 3213"
+STRING_LITERAL		text: "String with @@ works in the program"
+STRING_LITERAL		text: ""
+
+
+
+
+===[good6.bminor Input]===
+// strings
+str:string = "";
+
+str:string = "we can write an escaped backslash \\";
+" \"this is a unique test case \" ";
+" \n \t \0"
+"\e \r \y"
+str:string = "single qoute ' or \' ";
+str:string = " double qoute \" ";
+
+
+===[good6.bminor Output]===
+COMMENT		text: // strings
+IDENTIFIER		text: str
+COLON		text: :
+KEYWORD		text: string
+ASSIGNMENT		text: =
+STRING_LITERAL		text: ""
+SEMICOLON		text: ;
+IDENTIFIER		text: str
+COLON		text: :
+KEYWORD		text: string
+ASSIGNMENT		text: =
+STRING_LITERAL		text: "we can write an escaped backslash \\"
+SEMICOLON		text: ;
+STRING_LITERAL		text: " \"this is a unique test case \" "
+SEMICOLON		text: ;
+STRING_LITERAL		text: " \n \t \0"
+STRING_LITERAL		text: "\e \r \y"
+IDENTIFIER		text: str
+COLON		text: :
+KEYWORD		text: string
+ASSIGNMENT		text: =
+STRING_LITERAL		text: "single qoute ' or \' "
+SEMICOLON		text: ;
+IDENTIFIER		text: str
+COLON		text: :
+KEYWORD		text: string
+ASSIGNMENT		text: =
+STRING_LITERAL		text: " double qoute \" "
+SEMICOLON		text: ;
+
+
+
+
+===[good7.bminor Input]===
+// strings
+str:string = "";
+
+str:string = "hello this is a string!";
+str:string = "hello this is \1 a string!";
+
+str:string = "11234567891123456789112345678911234567891123456789112345678911234567891123456789112345678911234567891123456789112345678911234567891123456789112345678911234567"// less then 160 characters 
+
+
+
+===[good7.bminor Output]===
+COMMENT		text: // strings
+IDENTIFIER		text: str
+COLON		text: :
+KEYWORD		text: string
+ASSIGNMENT		text: =
+STRING_LITERAL		text: ""
+SEMICOLON		text: ;
+IDENTIFIER		text: str
+COLON		text: :
+KEYWORD		text: string
+ASSIGNMENT		text: =
+STRING_LITERAL		text: "hello this is a string!"
+SEMICOLON		text: ;
+IDENTIFIER		text: str
+COLON		text: :
+KEYWORD		text: string
+ASSIGNMENT		text: =
+STRING_LITERAL		text: "hello this is \1 a string!"
+SEMICOLON		text: ;
+IDENTIFIER		text: str
+COLON		text: :
+KEYWORD		text: string
+ASSIGNMENT		text: =
+STRING_LITERAL		text: "11234567891123456789112345678911234567891123456789112345678911234567891123456789112345678911234567891123456789112345678911234567891123456789112345678911234567"
+COMMENT		text: // less then 160 characters 
+
+
+
+
+===[good8.bminor Input]===
+//test arrays
+f:array [5]integer = { 1, 2, 3, 4, 5};
+f:array[5]char = {'a', 'b', 'c', 'd', 'e'};
+f:array[5] boolean = {false, false, true, true, true};
+f:array [] 	string = {"this", "i", "s", "a,", "test", "."};
+
+===[good8.bminor Output]===
+COMMENT		text: //test arrays
+IDENTIFIER		text: f
+COLON		text: :
+KEYWORD		text: array
+BRACKL		text: [
+KEYWORD		text: 5
+BRACKR		text: ]
+KEYWORD		text: integer
+ASSIGNMENT		text: =
+CRLL		text: {
+KEYWORD		text: 1
+COMMA		text: ,
+KEYWORD		text: 2
+COMMA		text: ,
+KEYWORD		text: 3
+COMMA		text: ,
+KEYWORD		text: 4
+COMMA		text: ,
+KEYWORD		text: 5
+CRLR		text: }
+SEMICOLON		text: ;
+IDENTIFIER		text: f
+COLON		text: :
+KEYWORD		text: array
+BRACKL		text: [
+KEYWORD		text: 5
+BRACKR		text: ]
+KEYWORD		text: char
+ASSIGNMENT		text: =
+CRLL		text: {
+CHARACTER_LITERAL		text: 'a'
+COMMA		text: ,
+CHARACTER_LITERAL		text: 'b'
+COMMA		text: ,
+CHARACTER_LITERAL		text: 'c'
+COMMA		text: ,
+CHARACTER_LITERAL		text: 'd'
+COMMA		text: ,
+CHARACTER_LITERAL		text: 'e'
+CRLR		text: }
+SEMICOLON		text: ;
+IDENTIFIER		text: f
+COLON		text: :
+KEYWORD		text: array
+BRACKL		text: [
+KEYWORD		text: 5
+BRACKR		text: ]
+KEYWORD		text: boolean
+ASSIGNMENT		text: =
+CRLL		text: {
+KEYWORD		text: false
+COMMA		text: ,
+KEYWORD		text: false
+COMMA		text: ,
+KEYWORD		text: true
+COMMA		text: ,
+KEYWORD		text: true
+COMMA		text: ,
+KEYWORD		text: true
+CRLR		text: }
+SEMICOLON		text: ;
+IDENTIFIER		text: f
+COLON		text: :
+KEYWORD		text: array
+BRACKL		text: [
+BRACKR		text: ]
+KEYWORD		text: string
+ASSIGNMENT		text: =
+CRLL		text: {
+STRING_LITERAL		text: "this"
+COMMA		text: ,
+STRING_LITERAL		text: "i"
+COMMA		text: ,
+STRING_LITERAL		text: "s"
+COMMA		text: ,
+STRING_LITERAL		text: "a,"
+COMMA		text: ,
+STRING_LITERAL		text: "test"
+COMMA		text: ,
+STRING_LITERAL		text: "."
+CRLR		text: }
+SEMICOLON		text: ;
+
+
+
+
+===[good9.bminor Input]===
+// test comparotors and boolean logic
+if ( a >= 5 )
+{
+	print "a >= 5";
+}
+if( a > 5 )
+{
+	print "a > 5";
+}
+if( a <= 5 )
+{
+	print "a <= 5";
+}
+if( a < 5 )
+{
+	print "a < 5";
+}
+if( a == 5 )
+{
+	print "a == 5";
+}
+if( a != 5 )
+{
+	print "a != 5";
+}
+a = 5; // test assigment
+if (a || b)
+{
+	print " a || b is true";
+}
+if (a && b)
+{
+	print " a && b is true";
+}
+
+===[good9.bminor Output]===
+COMMENT		text: // test comparotors and boolean logic
+KEYWORD		text: if
+PARL		text: (
+IDENTIFIER		text: a
+GREATER_THAN		text: >
+ASSIGNMENT		text: =
+KEYWORD		text: 5
+PARR		text: )
+CRLL		text: {
+KEYWORD		text: print
+STRING_LITERAL		text: "a >= 5"
+SEMICOLON		text: ;
+CRLR		text: }
+KEYWORD		text: if
+PARL		text: (
+IDENTIFIER		text: a
+GREATER_THAN		text: >
+KEYWORD		text: 5
+PARR		text: )
+CRLL		text: {
+KEYWORD		text: print
+STRING_LITERAL		text: "a > 5"
+SEMICOLON		text: ;
+CRLR		text: }
+KEYWORD		text: if
+PARL		text: (
+IDENTIFIER		text: a
+COMPARISON		text: <=
+KEYWORD		text: 5
+PARR		text: )
+CRLL		text: {
+KEYWORD		text: print
+STRING_LITERAL		text: "a <= 5"
+SEMICOLON		text: ;
+CRLR		text: }
+KEYWORD		text: if
+PARL		text: (
+IDENTIFIER		text: a
+LESS_THAN		text: <
+KEYWORD		text: 5
+PARR		text: )
+CRLL		text: {
+KEYWORD		text: print
+STRING_LITERAL		text: "a < 5"
+SEMICOLON		text: ;
+CRLR		text: }
+KEYWORD		text: if
+PARL		text: (
+IDENTIFIER		text: a
+COMPARISON		text: ==
+KEYWORD		text: 5
+PARR		text: )
+CRLL		text: {
+KEYWORD		text: print
+STRING_LITERAL		text: "a == 5"
+SEMICOLON		text: ;
+CRLR		text: }
+KEYWORD		text: if
+PARL		text: (
+IDENTIFIER		text: a
+COMPARISON		text: !=
+KEYWORD		text: 5
+PARR		text: )
+CRLL		text: {
+KEYWORD		text: print
+STRING_LITERAL		text: "a != 5"
+SEMICOLON		text: ;
+CRLR		text: }
+IDENTIFIER		text: a
+ASSIGNMENT		text: =
+KEYWORD		text: 5
+SEMICOLON		text: ;
+COMMENT		text: // test assigment
+KEYWORD		text: if
+PARL		text: (
+IDENTIFIER		text: a
+LOGICAL_OR		text: ||
+IDENTIFIER		text: b
+PARR		text: )
+CRLL		text: {
+KEYWORD		text: print
+STRING_LITERAL		text: " a || b is true"
+SEMICOLON		text: ;
+CRLR		text: }
+KEYWORD		text: if
+PARL		text: (
+IDENTIFIER		text: a
+LOGICAL_AND		text: &&
+IDENTIFIER		text: b
+PARR		text: )
+CRLL		text: {
+KEYWORD		text: print
+STRING_LITERAL		text: " a && b is true"
+SEMICOLON		text: ;
+CRLR		text: }
+
+
+
+
+====Bad Tests====
+===[bad1.bminor Input]===
+@
+#
+&
+|
+\
+
+===[bad1.bminor Output]===
+
+scan error: @ is not a valid character
+
+
+
+===[bad10.bminor Input]===
+// invalid character
+'\'
+
+===[bad10.bminor Output]===
+COMMENT		text: // invalid character
+
+scan error: ' is not a valid character
+
+
+
+===[bad11.bminor Input]===
+/*
+A string should not contain a literal newline,
+but use backslash-n instead.
+*/
+
+"invalid
+
+string"
+
+===[bad11.bminor Output]===
+COMMENT		text: /*
+A string should not contain a literal newline,
+but use backslash-n instead.
+*/
+
+scan error: " is not a valid character
+
+
+
+===[bad12.bminor Input]===
+'ca'
+
+===[bad12.bminor Output]===
+
+scan error: ' is not a valid character
+
+
+
+===[bad13.bminor Input]===
+''
+
+===[bad13.bminor Output]===
+
+scan error: ' is not a valid character
+
+
+
+===[bad14.bminor Input]===
+'\ac'
+
+===[bad14.bminor Output]===
+
+scan error: ' is not a valid character
+
+
+
+===[bad15.bminor Input]===
+'
+
+===[bad15.bminor Output]===
+
+scan error: ' is not a valid character
+
+
+
+===[bad2.bminor Input]===
+// unmatched comment throws error 
+/* This is a comment.
+
+
+
+
+
+
+
+
+===[bad2.bminor Output]===
+COMMENT		text: // unmatched comment throws error 
+DIVIDE		text: /
+MULTIPLY		text: *
+IDENTIFIER		text: This
+IDENTIFIER		text: is
+IDENTIFIER		text: a
+IDENTIFIER		text: comment
+
+scan error: . is not a valid character
+
+
+
+===[bad3.bminor Input]===
+// basic data types
+" the quote is unmatched
+
+
+
+
+
+
+
+===[bad3.bminor Output]===
+COMMENT		text: // basic data types
+
+scan error: " is not a valid character
+
+
+
+===[bad4.bminor Input]===
+// doesn't support floating point
+50006.0050;
+
+===[bad4.bminor Output]===
+COMMENT		text: // doesn't support floating point
+KEYWORD		text: 50006
+
+scan error: . is not a valid character
+
+
+
+===[bad5.bminor Input]===
+// test comparotors and boolean logic
+if (a | b)
+{
+	print " a || b is true";
+}
+if (a & b)// must had 2 &&
+{
+	print " a || b is true";
+}
+
+===[bad5.bminor Output]===
+COMMENT		text: // test comparotors and boolean logic
+KEYWORD		text: if
+PARL		text: (
+IDENTIFIER		text: a
+
+scan error: | is not a valid character
+
+
+
+===[bad6.bminor Input]===
+
+"""
+
+
+===[bad6.bminor Output]===
+STRING_LITERAL		text: ""
+
+scan error: " is not a valid character
+
+
+
+===[bad7.bminor Input]===
+"012345678901234567890101234567890123456789010123456789012345678901012345678901234567890101234567890123456789010123456789012345678901012345678901234567890101234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"
+
+
+===[bad7.bminor Output]===
+
+scan error: " is not a valid character
+
+
+
+===[bad8.bminor Input]===
+$minus
+
+===[bad8.bminor Output]===
+
+scan error: $ is not a valid character
+
+
+
+===[bad9.bminor Input]===
+minus#44
+
+===[bad9.bminor Output]===
+IDENTIFIER		text: minus
+
+scan error: # is not a valid character
+
+
+
