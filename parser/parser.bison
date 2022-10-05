@@ -104,7 +104,7 @@
 		;
 	
 	inside_arr: TOKEN_NUMBER
-		|		operation
+		|		expr
 		|		/*epsilon*/
 		;
 	
@@ -113,8 +113,11 @@
 		;
 	
 
-	operation: expr operator operation
-		|		expr
+	operation: 	expr operation_end
+		;
+	
+	operation_end: operator operation
+		|
 		;
 	
 	operator:	TOKEN_EXP
@@ -124,8 +127,11 @@
 		|		TOKEN_DIV
 		|		TOKEN_MOD
 		;
-	comparison:expr comparer comparison
-		|		expr
+	comparison: expr comparison_end
+		;
+	
+	comparison_end: comparer comparison
+		|
 		;
 	
 	comparer:	TOKEN_COMP
@@ -154,10 +160,6 @@
 		|		TOKEN_IF 	TOKEN_PARL expr TOKEN_PARR statement end_if
 		;
 	
-	statement_common: 	TOKEN_IF
-		|				TOKEN_WHILE
-		;
-
 	body: 	statement
 		;	
 
@@ -169,8 +171,11 @@
 		|	/*epsilon*/
 		;
 	
-	arg_list:	expr TOKEN_COMMA arg_list
-		| expr
+	arg_list:	expr arg_list_end
+		;
+
+	arg_list_end:	TOKEN_COMMA arg_list
+		| 
 		;
 			
 	atomic: TOKEN_NUMBER

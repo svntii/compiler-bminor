@@ -4,4 +4,4 @@
 
 
 int usage(int exit_code);
-void main_token_lookuo(char * t_str, int t);
+void main_token_lookup(char * t_str, int t);
