@@ -76,74 +76,10 @@
 
 	declaration:	ident TOKEN_COLON TOKEN_FUNC ident TOKEN_PARL /*LOOK*/ TOKEN_PARR arg_epsilon TOKEN_CRLL body TOKEN_CRLR
 	;
-
-	expr:	assignment
-		|	comparison
-		|	operation
-		|	function_call
-		|	atomic
-		;
-
-	assignment: ident TOKEN_COLON type
-		;
 	
-	type:	TOKEN_INT end_type
-		|	TOKEN_NUMBER end_type
-		|	TOKEN_BOOL end_type
-		|	TOKEN_CHAR end_type
-		|	TOKEN_STR end_type
-		|	TOKEN_ARRAY TOKEN_BRACKL inside_arr TOKEN_BRACKR mult_arr
-		;
+	body: 	statement
+		;	
 	
-	ident:	TOKEN_IDENT;
-
-	mult_arr:	TOKEN_BRACKL inside_arr TOKEN_BRACKR mult_arr
-		|		type 
-		|		end_type
-		|		/*epsilon*/
-		;
-	
-	inside_arr: TOKEN_NUMBER
-		|		expr
-		|		/*epsilon*/
-		;
-	
-	end_type:	TOKEN_ASSIGN expr TOKEN_SEMI
-		|		TOKEN_SEMI
-		;
-	
-
-	operation: 	expr operation_end
-		;
-	
-	operation_end: operator operation
-		|
-		;
-	
-	operator:	TOKEN_EXP
-		|		TOKEN_ADD
-		|		TOKEN_SUB
-		|		TOKEN_MULT
-		|		TOKEN_DIV
-		|		TOKEN_MOD
-		;
-	comparison: expr comparison_end
-		;
-	
-	comparison_end: comparer comparison
-		|
-		;
-	
-	comparer:	TOKEN_COMP
-		|		TOKEN_LTE
-		|		TOKEN_LT
-		|		TOKEN_GTE
-		|		TOKEN_GT
-		|		TOKEN_NE
-		|		TOKEN_LOGAND
-		|		TOKEN_LOGOR
-		;
-
 	statement: 	TOKEN_RETURN expr TOKEN_SEMI
 		| 		TOKEN_IF 	TOKEN_PARL expr TOKEN_PARR statement end_if
 		|		TOKEN_WHILE TOKEN_PARL expr TOKEN_PARR statement
@@ -159,10 +95,85 @@
 	end_else:	TOKEN_CRLL statement TOKEN_CRLR
 		|		TOKEN_IF 	TOKEN_PARL expr TOKEN_PARR statement end_if
 		;
-	
-	body: 	statement
-		;	
 
+	expr:	ass_ter
+		|	assignment
+		;
+	
+	assignment: ident TOKEN_COLON auto
+		;
+	
+	auto: TOKEN_AUTO end_type;
+		| type
+		;
+	type:	TOKEN_INT end_type
+		|	TOKEN_NUMBER end_type
+		|	TOKEN_BOOL end_type
+		|	TOKEN_CHAR end_type
+		|	TOKEN_STR end_type
+		|	TOKEN_ARRAY TOKEN_BRACKL inside_arr TOKEN_BRACKR mult_arr
+		;
+	
+	end_type:	TOKEN_ASSIGN expr TOKEN_SEMI
+		|		TOKEN_SEMI
+		;
+	
+	ident:	TOKEN_IDENT;
+
+	ass_ter: 	expr TOKEN_ASSIGN or
+		|		expr TOKEN_TERN   or
+		|		or
+		;
+
+	or:		ass_ter TOKEN_LOGOR and
+		|	and
+		;
+
+	and:	or  TOKEN_LOGAND comparison
+		| 	comparison
+		;
+
+	comparison:	and TOKEN_GT add_sub
+		|		and TOKEN_GTE add_sub
+		|		and TOKEN_LT add_sub
+		|		and TOKEN_LTE add_sub
+		|		and TOKEN_COMP add_sub
+		|		and TOKEN_NE add_sub
+		|		add_sub
+		;
+
+	add_sub: 	comparison 	TOKEN_PLUS 	mult_div
+		|		comparison 	TOKEN_SUB 	mult_div
+		|		mult_div
+		;
+	
+	mult_div: 	mult_div	TOKEN_MULT 	exponent	
+		|		mult_div	TOKEN_DIV 	exponent
+		|		mult_div	TOKEN_MOD 	exponent
+		|		exponent
+		;
+
+	exponent:	exponent TOKEN_EXP factor
+		|		factor
+		;
+
+	factor:		factor TOKEN_MINUS 	postfix
+		|		factor TOKEN_NOT	postfix
+		|		postfix
+		;
+	
+	postfix:	postfix TOKEN_POSIN  atomic
+		|		postfix TOKEN_POSDEC atomic
+		|		atomic
+		;
+
+	atomic: TOKEN_NUMBER
+		|	TOKEN_STRLIT
+		|	TOKEN_CHARLIT
+		|	TOKEN_BRACKR expr array_end
+		|	TOKEN_PARL expr TOKEN_PARR
+		|	function_call
+		;
 	
 	function_call: ident TOKEN_PARL arg_epsilon TOKEN_PARR
 		;
@@ -178,17 +189,21 @@
 		| 
 		;
 			
-	atomic: TOKEN_NUMBER
-		|	TOKEN_STRLIT
-		|	TOKEN_CHARLIT
-		|	TOKEN_BRACKR expr array_end
-		|	TOKEN_PARL expr TOKEN_PARR
-		;
-
 	array_end:	atomic TOKEN_COMMA array_end
 		| TOKEN_BRACKR
 		;
 
+	mult_arr:	TOKEN_BRACKL inside_arr TOKEN_BRACKR mult_arr
+		|		type 
+		|		end_type
+		|		/*epsilon*/
+		;
+	
+	inside_arr: TOKEN_NUMBER
+		|		expr
+		|		/*epsilon*/
+		;
+	
 
 %%
 int yywrap() { return 0; }
