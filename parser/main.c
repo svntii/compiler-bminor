@@ -7,7 +7,7 @@
 extern int yyparse();
 extern FILE *yyin;
 extern int yydebug;
-
+extern int yywrap();
 
 int main(int argc, char *argv[])
 {
@@ -37,6 +37,11 @@ int main(int argc, char *argv[])
 				yyin = fopen(argv[i + 1], "r");
 				if(!yyin) return usage(4);
 			}
+			else if (strcmp(flag, "-parse") == 0)
+			{
+				yyin = fopen(argv[i + 1], "r");
+				if(!yyin) return usage(4);
+			}
 			else if (strcmp(flag, "-l") == 0)
 			{
 				yyin = stdin;
@@ -59,16 +64,28 @@ int main(int argc, char *argv[])
 	printf("CSE 40243 B-Minor Parser\n");
 	printf("Enter a valid  B-Minor Code \n\n");
 
+	if ( yywrap() == 1)
+	{
+		printf("Scan Successful\n");
+	}
+	else
+	{
+		printf("Scan Unsuccessful\n");
+		return 1;
+	}
+
+
 	if (yyparse() == 0)
 	{
 		printf("Parse Successful\n");
-		return 0;
 	}
 	else
 	{
 		printf("Parse Unsuccessful\n");
-		return -1;
+		return 1;
 	}
+
+	return 0;
 }
 
 int usage(int exit_code)
@@ -77,7 +94,8 @@ int usage(int exit_code)
 	fprintf(stderr, "bminor scanner.... sample use is \n\t \
 					./bminor -s FILENAME\n\tflags to use:\
 					\n\t\t-h help\
-					\n\t\t-s to scan file in the next argument\n\
+					\n\t\t-scan to scan file in the next argument\
+					\n\t\t-parse to parse file in the next argument\
 					\n\t\t-l for interpreter\
 					\n\t\t-debug for debugging output\n");
 

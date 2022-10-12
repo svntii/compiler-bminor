@@ -48,7 +48,7 @@ while            		{ return TOKEN_WHILE;   	}
 \/\/.*								{                           }
 
 
-\:\?                        { return TOKEN_TERN;     } 
+\?                        { return TOKEN_TERN;     } 
 
 
 \!\=	                    { return TOKEN_NE;	    }

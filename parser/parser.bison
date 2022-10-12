@@ -83,9 +83,9 @@ extern int yyerror(char * str);
 		|				declaration													{}
 		;	
 
-	declaration: 	TOKEN_IDENT TOKEN_COLON auto_decl decl_stmnt TOKEN_SEMI
+	declaration: 	TOKEN_IDENT TOKEN_COLON auto_decl decl_stmnt TOKEN_SEMI /*Variable Declaration*/
 		|			TOKEN_IDENT TOKEN_COLON TOKEN_FUNC return_types	TOKEN_PARL decl_args_epsilon TOKEN_PARR TOKEN_ASSIGN TOKEN_CRLL stmnt_list TOKEN_CRLR
-		|			TOKEN_IDENT TOKEN_COLON TOKEN_FUNC return_types	TOKEN_PARL decl_args_epsilon TOKEN_PARR	TOKEN_SEMI 
+		|			TOKEN_IDENT TOKEN_COLON TOKEN_FUNC return_types	TOKEN_PARL decl_args_epsilon TOKEN_PARR	TOKEN_SEMI /*function prototype */
 		;
 	
 	
@@ -131,9 +131,9 @@ extern int yyerror(char * str);
 		|		TOKEN_IF TOKEN_PARL expr TOKEN_PARR if_term TOKEN_ELSE statement	{ }
 		|		TOKEN_WHILE TOKEN_PARL expr TOKEN_PARR 	statement					{ }
 		|		TOKEN_FOR 	TOKEN_PARL for_list	TOKEN_PARR statement				{ }
-		|		TOKEN_CRLL stmnt_list TOKEN_CRLR									{ }
-		|		TOKEN_PRINT	expr_list TOKEN_SEMI									{ }	
-		|		TOKEN_IDENT TOKEN_COLON auto_decl decl_stmnt TOKEN_SEMI
+		|		TOKEN_CRLL stmnt_list TOKEN_CRLR					/*body*/		{ }
+		|		TOKEN_PRINT	expr_epsilon TOKEN_SEMI					/*print*/		{ }	
+		|		TOKEN_IDENT TOKEN_COLON auto_decl decl_stmnt TOKEN_SEMI /*decl*/
 		|		expr TOKEN_SEMI														{ }
 		;
 
@@ -142,7 +142,7 @@ extern int yyerror(char * str);
 		;
 
 	if_term:	TOKEN_IF TOKEN_PARL expr TOKEN_PARR if_term TOKEN_ELSE if_term		{ }
-		|		expr																{ }
+		|		TOKEN_CRLL stmnt_list TOKEN_CRLR	/*only statement i am iffy about because you can have if statements as is*/						{ }
 		;
 
 	for_list: for_arg TOKEN_SEMI for_arg TOKEN_SEMI for_arg							{ }
@@ -159,13 +159,17 @@ extern int yyerror(char * str);
 		| TOKEN_STR
 		| TOKEN_FUNC return_types
 		;
-	
+
+	expr_epsilon:	expr_list
+		|
+		;
+
 	expr_list:	expr TOKEN_COMMA expr_list
 		|		expr
 		;
 
-	expr: 		TOKEN_IDENT TOKEN_ASSIGN expr
-		|		or TOKEN_TERN expr TOKEN_COLON expr	
+	expr: 		ident_assign TOKEN_ASSIGN expr
+		|		or TOKEN_TERN expr TOKEN_COLON expr			/*Also this one ish*/	
 		|		or											{$$ = $1;		}
 		;
 
@@ -217,6 +221,13 @@ extern int yyerror(char * str);
 		| 		atomic
 		;
 
+
+	ident_assign:	TOKEN_IDENT
+		|			TOKEN_IDENT TOKEN_BRACKL inside_arr TOKEN_BRACKR array_end
+		;
+
+
+
 	atomic: TOKEN_NUMBER			
 		|	TOKEN_STRLIT
 		|	TOKEN_CHARLIT
@@ -248,7 +259,7 @@ extern int yyerror(char * str);
 		;
 
 	
-	array_end: TOKEN_BRACKL expr_list TOKEN_BRACKR
+	array_end: TOKEN_BRACKL inside_arr TOKEN_BRACKR
 		|
 		;
 
