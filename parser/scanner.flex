@@ -2,7 +2,7 @@
 
 /* C Preamble Code */
 
-# include "token.h"
+#include "token.h"
 
 %}
 
@@ -15,7 +15,7 @@ STRVALS	[^\"]
 %%
 
 
-(" "|\t|\n)     		
+[ \n\r\t]*	            {                           }   		
 
 array					{ return TOKEN_ARRAY;		}
 auto					{ return TOKEN_AUTO;  		}
@@ -44,8 +44,8 @@ while            		{ return TOKEN_WHILE;   	}
 \(						{ return TOKEN_PARL;		}
 \)						{ return TOKEN_PARR;		}
 
-\/+([^\*]|(\*+([^\*\/])))*\*+\/     { return TOKEN_COMMENT;  }
-\/\/.*								{ return TOKEN_COMMENT; }
+\/+([^\*]|(\*+([^\*\/])))*\*+\/     {                           }
+\/\/.*								{                           }
 
 
 \:\?                        { return TOKEN_TERN;     } 
@@ -68,7 +68,7 @@ while            		{ return TOKEN_WHILE;   	}
 \|\|					    { return TOKEN_LOGOR;	}
 \&\&					    { return TOKEN_LOGAND;	}
 
-\! | \-                     { return  TOKEN_NOT;    }
+\!                     		{ return  TOKEN_NOT;    }
 \+\+					    { return TOKEN_POSIN;	}
 \-\-					    { return TOKEN_POSDEC;	}
 \=                          { return TOKEN_ASSIGN;  }
@@ -80,10 +80,10 @@ while            		{ return TOKEN_WHILE;   	}
 
 
 
-[_a-zA-Z][_a-zA-Z0-9]{0,255}   	{ return TOKEN_IDENT;  }
+[_a-zA-Z][_a-zA-Z0-9]{0,255}   	{ return TOKEN_IDENT;   }
 {DIGIT}+                		{ return TOKEN_NUMBER;  }
-	
-.                       		{ return TOKEN_ERROR;   }
+<<EOF>>                         { return TOKEN_EOF;      }
+.                       		{  printf("scan error: bad token: %c\n",yytext[0]); return TOKEN_ERROR;   }
 
 %%
 

@@ -1,0 +1,6 @@
+
+main: function integer () = {
+    puts: function void ( s: string );
+
+	puts("hello world");
+}

@@ -1,0 +1,5 @@
+x:integer = 1;
+f:integer = x;
+c:integer = f = x;  
+
+//double equal;

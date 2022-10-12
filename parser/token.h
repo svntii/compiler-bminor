@@ -38,7 +38,7 @@
 # define YY_YY_TOKEN_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
-# define YYDEBUG 0
+# define YYDEBUG 1
 #endif
 #if YYDEBUG
 extern int yydebug;
@@ -74,31 +74,32 @@ extern int yydebug;
     TOKEN_CRLR = 280,
     TOKEN_PARL = 281,
     TOKEN_PARR = 282,
-    TOKEN_COMMENT = 283,
-    TOKEN_TERN = 284,
-    TOKEN_NE = 285,
-    TOKEN_LT = 286,
-    TOKEN_LTE = 287,
-    TOKEN_GT = 288,
-    TOKEN_GTE = 289,
-    TOKEN_COMP = 290,
-    TOKEN_ADD = 291,
-    TOKEN_SUB = 292,
-    TOKEN_DIV = 293,
-    TOKEN_MULT = 294,
-    TOKEN_MOD = 295,
-    TOKEN_EXP = 296,
-    TOKEN_LOGOR = 297,
-    TOKEN_LOGAND = 298,
-    TOKEN_NOT = 299,
-    TOKEN_POSDEC = 300,
-    TOKEN_POSIN = 301,
-    TOKEN_ASSIGN = 302,
-    TOKEN_CHARLIT = 303,
-    TOKEN_STRLIT = 304,
-    TOKEN_IDENT = 305,
-    TOKEN_NUMBER = 306,
-    TOKEN_ERROR = 307
+    TOKEN_TERN = 283,
+    TOKEN_NE = 284,
+    TOKEN_LT = 285,
+    TOKEN_LTE = 286,
+    TOKEN_GT = 287,
+    TOKEN_GTE = 288,
+    TOKEN_COMP = 289,
+    TOKEN_ADD = 290,
+    TOKEN_SUB = 291,
+    TOKEN_DIV = 292,
+    TOKEN_MULT = 293,
+    TOKEN_MOD = 294,
+    TOKEN_EXP = 295,
+    TOKEN_LOGOR = 296,
+    TOKEN_LOGAND = 297,
+    TOKEN_NOT = 298,
+    TOKEN_POSDEC = 299,
+    TOKEN_POSIN = 300,
+    TOKEN_ASSIGN = 301,
+    TOKEN_CHARLIT = 302,
+    TOKEN_STRLIT = 303,
+    TOKEN_IDENT = 304,
+    TOKEN_NUMBER = 305,
+    TOKEN_ERROR = 306,
+    TOKEN_COMMENT = 307,
+    TOKEN_EOF = 308
   };
 #endif
 

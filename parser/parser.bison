@@ -1,6 +1,4 @@
-%{
-	#include <stdio.h>
-%}
+%define parse.trace
 
 %token TOKEN_ARRAY
 %token TOKEN_AUTO  		
@@ -28,11 +26,7 @@
 %token TOKEN_PARL	"("		
 %token TOKEN_PARR	")"	
 
-%token TOKEN_COMMENT 
-
-
-%token TOKEN_TERN   ":?"   
-
+%token TOKEN_TERN   "?"   
 
 %token TOKEN_NE	    "!="
 %token TOKEN_LT		"<"
@@ -41,17 +35,16 @@
 %token TOKEN_GTE    ">="
 %token TOKEN_COMP   "=="
 
-
 %token TOKEN_ADD    "+"
 %token TOKEN_SUB	"-"	
 %token TOKEN_DIV	"/"	
-%token TOKEN_MULT	"**"
+%token TOKEN_MULT	"*"
 %token TOKEN_MOD	"%"	
 %token TOKEN_EXP	"^"	
 %token TOKEN_LOGOR	"||"
 %token TOKEN_LOGAND	"&&"
-
 %token TOKEN_NOT    "!"
+
 %token TOKEN_POSDEC	"--"
 %token TOKEN_POSIN	"++"
 %token TOKEN_ASSIGN "="
@@ -60,140 +53,189 @@
 %token TOKEN_STRLIT
 %token TOKEN_IDENT
 %token TOKEN_NUMBER
+
 %token TOKEN_ERROR
+%token TOKEN_COMMENT 
+%token TOKEN_EOF
+
+
+%{
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+#define YYSTYPE struct expr *
+
+extern char *yytext;
+extern int yylex();
+extern int yyerror(char * str);
+
+
+%}
+
 
 %%
-	program : statement_epsilon
-	;
+	program : declaration_list TOKEN_EOF							{return 0;}	
+		|		TOKEN_EOF											{return 0;}
+		;
 	
-	statement_epsilon: 	statement_list TOKEN_SEMI
-	|						/*epsilon*/
-	;
+	declaration_list:	declaration declaration_list								{}
+		|				declaration													{}
+		;	
 
-	statement_list:		statement_list TOKEN_SEMI statement
-	|					statement TOKEN_SEMI													{ $$ = $1;					}
-	;
+	declaration: 	TOKEN_IDENT TOKEN_COLON auto_decl decl_stmnt TOKEN_SEMI
+		|			TOKEN_IDENT TOKEN_COLON TOKEN_FUNC return_types	TOKEN_PARL decl_args_epsilon TOKEN_PARR TOKEN_ASSIGN TOKEN_CRLL stmnt_list TOKEN_CRLR
+		|			TOKEN_IDENT TOKEN_COLON TOKEN_FUNC return_types	TOKEN_PARL decl_args_epsilon TOKEN_PARR	TOKEN_SEMI 
+		;
 	
-	statement: 	TOKEN_RETURN expr TOKEN_SEMI										{ $$ = return $1; }
-		| 		if 
-		|		TOKEN_WHILE TOKEN_PARL expr TOKEN_PARR 	statement_list		
-		|		TOKEN_FOR 	TOKEN_PARL for_list	TOKEN_PARR body						{ $$ = for( $3 )   $5		}
-		|		TOKEN_PRINT	arg_epsilon TOKEN_SEMI									
-		|		expr TOKEN_SEMI														{ $$ = $1;					}
-		|		ident TOKEN_PARL arg_epsilon TOKEN_PARR TOKEN_SEMI					{ $$ = $1($3);				}
-		|		ident TOKEN_SEMI TOKEN_FUNC return_types TOKEN_PARL arg_epsilon TOKEN_PARR TOKEN_ASSIGN body
+	
+	decl_stmnt: TOKEN_ASSIGN expr
+		|
+		;
+	
+	auto_decl: TOKEN_AUTO 
+		| type_decl									{$$ = $1;}
+		;
+	
+	type_decl:	TOKEN_INT 
+		|		TOKEN_BOOL 
+		|		TOKEN_CHAR
+		|		TOKEN_STR
+		|		TOKEN_ARRAY TOKEN_BRACKL inside_arr TOKEN_BRACKR auto_decl
+
+	
+	auto_decl_args: TOKEN_AUTO
+		|	type_decl_args
+		;
+	
+	type_decl_args:		TOKEN_INT 
+		|				TOKEN_BOOL
+		|				TOKEN_CHAR
+		|				TOKEN_STR
+		|				TOKEN_ARRAY TOKEN_BRACKL expr TOKEN_BRACKR auto_decl_args
+		|				TOKEN_FUNC return_types 
 		;
 
-	if	:	matched_if 
-		| 	open_if
+	decl_args_epsilon: decl_args
+		|
 		;
-	open_if: 	TOKEN_IF TOKEN_PARL expr TOKEN_PARR statement_list
-		|		TOKEN_IF TOKEN_PARL expr TOKEN_PARR matched_if TOKEN_ELSE open_if
+	decl_args: TOKEN_IDENT TOKEN_COLON auto_decl_args decl_args_end
 		;
-
-	matched_if:	TOKEN_IF TOKEN_PARL expr TOKEN_PARR matched_if TOKEN_ELSE matched_if
-		|		expr
-		;
-
-	body:	TOKEN_CRLL statement TOKEN_CRLR 				{ $$ = "{"$1"}";		}
-		;
-
-	for_list: for_arg TOKEN_SEMI for_arg TOKEN_SEMI for_arg		{$$ = $1; $3; $5	}
-		;
-
-	for_arg: expr			{$$ = $1}
+	
+	decl_args_end: TOKEN_COMMA decl_args
 		|
 		;
 
-	return_types:
-		| TOKEN_VOID		{ $$ = void;	}
-		| TOKEN_INT			{ $$ = int; 	}
-		| TOKEN_BOOL		{ $$ = bool; 	}
-		| TOKEN_CHAR		{ $$ = char;	}
+	statement: 	TOKEN_RETURN expr TOKEN_SEMI										{ }
+		| 		TOKEN_IF TOKEN_PARL expr TOKEN_PARR statement						{ }
+		|		TOKEN_IF TOKEN_PARL expr TOKEN_PARR if_term TOKEN_ELSE statement	{ }
+		|		TOKEN_WHILE TOKEN_PARL expr TOKEN_PARR 	statement					{ }
+		|		TOKEN_FOR 	TOKEN_PARL for_list	TOKEN_PARR statement				{ }
+		|		TOKEN_CRLL stmnt_list TOKEN_CRLR									{ }
+		|		TOKEN_PRINT	expr_list TOKEN_SEMI									{ }	
+		|		TOKEN_IDENT TOKEN_COLON auto_decl decl_stmnt TOKEN_SEMI
+		|		expr TOKEN_SEMI														{ }
+		;
+
+	stmnt_list:	statement stmnt_list												{ }
+		|		statement															{ }
+		;
+
+	if_term:	TOKEN_IF TOKEN_PARL expr TOKEN_PARR if_term TOKEN_ELSE if_term		{ }
+		|		expr																{ }
+		;
+
+	for_list: for_arg TOKEN_SEMI for_arg TOKEN_SEMI for_arg							{ }
+		;
+
+	for_arg: expr
+		|
+		;
+
+	return_types: TOKEN_VOID		
+		| TOKEN_INT		
+		| TOKEN_BOOL
+		| TOKEN_CHAR
 		| TOKEN_STR
+		| TOKEN_FUNC return_types
+		;
+	
+	expr_list:	expr TOKEN_COMMA expr_list
+		|		expr
 		;
 
-	expr:	TOKEN_IDENT TOKEN_COLON auto		{ 				}
-		|	ass_ter 							{ $$ = $1;		}
-		;
-	
-	
-	auto: TOKEN_AUTO end_type;
-		| type
-		;
-	type:	TOKEN_INT end_type
-		|	TOKEN_NUMBER end_type
-		|	TOKEN_BOOL end_type
-		|	TOKEN_CHAR end_type
-		|	TOKEN_STR end_type
-		|	TOKEN_ARRAY TOKEN_BRACKL inside_arr TOKEN_BRACKR mult_arr
-		|	TOKEN_FUNC type TOKEN_PARL arg_epsilon TOKEN_PARR TOKEN_ASSIGN expr
-		;
-	
-	end_type:	TOKEN_ASSIGN expr TOKEN_SEMI
-		|		TOKEN_SEMI
-		;
-	
-	ident:	TOKEN_IDENT;
-
-	ass_ter: 	expr TOKEN_ASSIGN or	
-		|		expr TOKEN_TERN   or	
-		|		or							{$$ = $1;		}
+	expr: 		TOKEN_IDENT TOKEN_ASSIGN expr
+		|		or TOKEN_TERN expr TOKEN_COLON expr	
+		|		or											{$$ = $1;		}
 		;
 
-	or:		ass_ter TOKEN_LOGOR and			{$$ = $1 || $3;	}
+	or:		or TOKEN_LOGOR and				{}
 		|	and								{$$ = $1;		}
 		;
 
-	and:	or  TOKEN_LOGAND comparison		{$$ = $1 && $3;	}
+	and:	and  TOKEN_LOGAND comparison	{}
 		| 	comparison						{$$ = $1;		}
 		;
 
-	comparison:	and TOKEN_GT add_sub		{$$ = $1 > $3;	}
-		|		and TOKEN_GTE add_sub		{$$ = $1 >= $3;	}
-		|		and TOKEN_LT add_sub		{$$ = $1 < $3;	}
-		|		and TOKEN_LTE add_sub		{$$ = $1 <= $3;	}
-		|		and TOKEN_COMP add_sub		{$$ = $1 == $3;	}
-		|		and TOKEN_NE add_sub		{$$ = $1 != $3;	}
-		|		add_sub						{$$ = $1;		}
+	comparison:	comparison TOKEN_GT term	{	}
+		|		comparison TOKEN_GTE term	{	}
+		|		comparison TOKEN_LT term		{	}
+		|		comparison TOKEN_LTE term	{	}
+		|		comparison TOKEN_COMP term	{	}
+		|		comparison TOKEN_NE term		{	}
+		|		term							{	}
 		;
 
-	add_sub: 	comparison 	TOKEN_ADD 	mult_div	{$$ = $1 + $3; 	}
-		|		comparison 	TOKEN_SUB 	mult_div	{$$ = $1 - $3; 	}
-		|		mult_div							{$$ = $1;		}
+	term: 	term 	TOKEN_ADD 	factor	{ 	}
+		|	term 	TOKEN_SUB 	factor	{ 	}
+		|		factor							{$$ = $1;		}
 		;
 	
-	mult_div: 	mult_div	TOKEN_MULT 	exponent	{$$ = $1 * $3; 	}
-		|		mult_div	TOKEN_DIV 	exponent	{$$ = $1 / $3; 	}
-		|		mult_div	TOKEN_MOD 	exponent	{$$ = $1 % $3; 	}
+	factor: 	factor	TOKEN_MULT 	exponent	{ 	}
+		|		factor	TOKEN_DIV 	exponent	{ 	}
+		|		factor	TOKEN_MOD 	exponent	{ 	}
 		|		exponent							{$$ = $1;		}
 		;
 
-	exponent:	exponent TOKEN_EXP factor		{$$ = $1 ** $3;	}
-		|		factor							{$$ = $1;		}
+	exponent:	exponent TOKEN_EXP unary		{	}
+		|		unary							{$$ = $1;		}
 		;
 
-	factor:		factor TOKEN_SUB 	postfix		
-		|		factor TOKEN_NOT	postfix		{$$ = -$1;		}
+	unary:		TOKEN_SUB unary					{		}	
+		|		TOKEN_NOT unary					{		}
 		|		postfix							{$$ = $1;		}
 		;
 	
-	postfix:	postfix TOKEN_POSIN  atomic		{$$ = $1++;		}
-		|		postfix TOKEN_POSDEC atomic		{$$ = $1--;		}
-		|		atomic							{$$ = $1;		}
+	postfix:	pre_atomic TOKEN_POSIN 				{				}
+		|		pre_atomic TOKEN_POSDEC 			{				}
+		|		pre_atomic							{ $$ = $1;		}
 		;
 
-	atomic: TOKEN_NUMBER						{$$ = atoi(yytext);	}
+	pre_atomic:	TOKEN_IDENT TOKEN_PARL arg_epsilon TOKEN_PARR			/*function call*/
+		|		TOKEN_IDENT TOKEN_BRACKL inside_arr TOKEN_BRACKR array_end			/*subscript*/
+		|		TOKEN_PARL expr TOKEN_PARR						/*grouping */
+		| 		atomic
+		;
+
+	atomic: TOKEN_NUMBER			
 		|	TOKEN_STRLIT
 		|	TOKEN_CHARLIT
-		|	TOKEN_BRACKR expr array_end
-		|	TOKEN_PARL expr TOKEN_PARR
-		|	function_call
+		|	TOKEN_TRUE
+		|	TOKEN_FALSE
+		|	TOKEN_IDENT
+		|	TOKEN_CRLL atomic_array_epsilon TOKEN_CRLR
 		;
 	
-	function_call: ident TOKEN_PARL arg_epsilon TOKEN_PARR
+	atomic_array_epsilon: atomic_array
+		|
 		;
 
+	atomic_array: atomic atomic_array_end
+		;
+
+	atomic_array_end: TOKEN_COMMA atomic_array
+		|
+		;
 	arg_epsilon: arg_list
 		|	/*epsilon*/
 		;
@@ -204,19 +246,21 @@
 	arg_list_end:	TOKEN_COMMA arg_list
 		| 
 		;
-			
-	array_end:	atomic TOKEN_COMMA array_end
-		| 		TOKEN_BRACKR
+
+	
+	array_end: TOKEN_BRACKL expr_list TOKEN_BRACKR
+		|
 		;
 
-	mult_arr:	TOKEN_BRACKL inside_arr TOKEN_BRACKR mult_arr
-		|		return_types mult_arr
-		|		end_type
-		;
-	
 	inside_arr: expr
+		|
 		;
-	
-
 %%
-int yywrap() { return 0; }
+
+int yyerror( char *str )
+{
+	printf("parse error: %s\n",str);
+	return 0;
+}
+
+
