@@ -1,0 +1,1 @@
+if(a > b) if(d>c) return 0;

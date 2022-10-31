@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "expr.h": "c",
+        "special.h": "c",
+        "type.h": "c",
+        "stmt.h": "c",
+        "param_list.h": "c",
+        "decl.h": "c"
+    }
+}

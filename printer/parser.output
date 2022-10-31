@@ -1,0 +1,3447 @@
+Terminals unused in grammar
+
+    TOKEN_WHILE
+    TOKEN_ERROR
+    TOKEN_COMMENT
+
+
+Grammar
+
+    0 $accept: program $end
+
+    1 program: decl_list TOKEN_EOF
+
+    2 decl_list: decl decl_list
+    3          | ε
+
+    4 decl: name ":" auto_decl decl_stmnt ";"
+    5     | name ":" TOKEN_FUNC return_types "(" decl_args_epsilon ")" ";"
+    6     | name ":" TOKEN_FUNC return_types "(" decl_args_epsilon ")" "=" body
+
+    7 name: TOKEN_IDENT
+
+    8 decl_stmnt: "=" expr
+    9           | ε
+
+   10 auto_decl: TOKEN_AUTO
+   11          | type_decl
+
+   12 type_decl: TOKEN_INT
+   13          | TOKEN_BOOL
+   14          | TOKEN_CHAR
+   15          | TOKEN_STR
+   16          | TOKEN_ARRAY "[" inside_arr "]" auto_decl
+
+   17 auto_decl_args: TOKEN_AUTO
+   18               | type_decl_args
+
+   19 type_decl_args: TOKEN_INT
+   20               | TOKEN_BOOL
+   21               | TOKEN_CHAR
+   22               | TOKEN_STR
+   23               | TOKEN_ARRAY "[" inside_arr "]" auto_decl_args
+   24               | TOKEN_FUNC return_types
+
+   25 decl_args_epsilon: decl_args
+   26                  | ε
+
+   27 decl_args: name ":" auto_decl_args decl_args_end
+
+   28 decl_args_end: "," decl_args
+   29              | ε
+
+   30 statement: TOKEN_IF "(" expr ")" statement
+   31          | TOKEN_IF "(" expr ")" if_term TOKEN_ELSE statement
+   32          | TOKEN_RETURN expr ";"
+   33          | TOKEN_FOR "(" for_arg ";" for_arg ";" for_arg ")" statement
+   34          | body
+   35          | TOKEN_PRINT expr_epsilon ";"
+   36          | name ":" auto_decl decl_stmnt ";"
+   37          | expr ";"
+
+   38 stmnt_list: statement stmnt_list
+   39           | statement
+
+   40 body: "{" stmnt_list "}"
+
+   41 if_term: TOKEN_IF "(" expr ")" if_term TOKEN_ELSE if_term
+   42        | TOKEN_RETURN expr ";"
+   43        | TOKEN_FOR "(" for_arg ";" for_arg ";" for_arg ")" if_term
+   44        | body
+   45        | TOKEN_PRINT expr_epsilon ";"
+   46        | name ":" auto_decl decl_stmnt ";"
+   47        | expr ";"
+
+   48 for_arg: expr
+   49        | ε
+
+   50 return_types: TOKEN_VOID
+   51             | TOKEN_INT
+   52             | TOKEN_BOOL
+   53             | TOKEN_CHAR
+   54             | TOKEN_STR
+   55             | TOKEN_FUNC return_types
+
+   56 expr_epsilon: expr_list
+   57             | ε
+
+   58 expr_list: expr "," expr_list
+   59          | expr
+
+   60 expr: ident_assign "=" expr
+   61     | or "?" expr ":" expr
+   62     | or
+
+   63 or: or "||" and
+   64   | and
+
+   65 and: and "&&" comparison
+   66    | comparison
+
+   67 comparison: comparison ">" term
+   68           | comparison ">=" term
+   69           | comparison "<" term
+   70           | comparison "<=" term
+   71           | comparison "==" term
+   72           | comparison "!=" term
+   73           | term
+
+   74 term: term "+" factor
+   75     | term "-" factor
+   76     | factor
+
+   77 factor: factor "*" exponent
+   78       | factor "/" exponent
+   79       | factor "%" exponent
+   80       | exponent
+
+   81 exponent: exponent "^" unary
+   82         | unary
+
+   83 unary: "-" unary
+   84      | "!" unary
+   85      | postfix
+
+   86 postfix: pre_atomic "++"
+   87        | pre_atomic "--"
+   88        | pre_atomic
+
+   89 pre_atomic: name "(" arg_epsilon ")"
+   90           | name "[" inside_arr "]" array_end
+   91           | "(" expr ")"
+   92           | atomic
+
+   93 ident_assign: name
+   94             | name "[" inside_arr "]" array_end
+
+   95 atomic: TOKEN_NUMBER
+   96       | TOKEN_STRLIT
+   97       | TOKEN_CHARLIT
+   98       | TOKEN_TRUE
+   99       | TOKEN_FALSE
+  100       | name
+  101       | "{" atomic_array_epsilon "}"
+
+  102 atomic_array_epsilon: atomic_array
+  103                     | ε
+
+  104 atomic_array: atomic atomic_array_end
+
+  105 atomic_array_end: "," atomic_array
+  106                 | ε
+
+  107 arg_epsilon: arg_list
+  108            | ε
+
+  109 arg_list: expr arg_list_end
+
+  110 arg_list_end: "," arg_list
+  111             | ε
+
+  112 array_end: "[" inside_arr "]"
+  113          | ε
+
+  114 inside_arr: expr
+  115           | ε
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    error (256)
+    TOKEN_ARRAY (258) 16 23
+    TOKEN_AUTO (259) 10 17
+    TOKEN_BOOL (260) 13 20 52
+    TOKEN_CHAR (261) 14 21 53
+    TOKEN_ELSE (262) 31 41
+    TOKEN_TRUE (263) 98
+    TOKEN_FALSE (264) 99
+    TOKEN_FOR (265) 33 43
+    TOKEN_FUNC (266) 5 6 24 55
+    TOKEN_IF (267) 30 31 41
+    TOKEN_INT (268) 12 19 51
+    TOKEN_PRINT (269) 35 45
+    TOKEN_RETURN (270) 32 42
+    TOKEN_STR (271) 15 22 54
+    TOKEN_VOID (272) 50
+    ";" (273) 4 5 32 33 35 36 37 42 43 45 46 47
+    ":" (274) 4 5 6 27 36 46 61
+    "," (275) 28 58 105 110
+    "[" (276) 16 23 90 94 112
+    "]" (277) 16 23 90 94 112
+    "{" (278) 40 101
+    "}" (279) 40 101
+    "(" (280) 5 6 30 31 33 41 43 89 91
+    ")" (281) 5 6 30 31 33 41 43 89 91
+    "?" (282) 61
+    "!=" (283) 72
+    "<" (284) 69
+    "<=" (285) 70
+    ">" (286) 67
+    ">=" (287) 68
+    "==" (288) 71
+    "+" (289) 74
+    "-" (290) 75 83
+    "/" (291) 78
+    "*" (292) 77
+    "%" (293) 79
+    "^" (294) 81
+    "||" (295) 63
+    "&&" (296) 65
+    "!" (297) 84
+    "--" (298) 87
+    "++" (299) 86
+    "=" (300) 6 8 60
+    TOKEN_CHARLIT (301) 97
+    TOKEN_STRLIT (302) 96
+    TOKEN_IDENT (303) 7
+    TOKEN_NUMBER (304) 95
+    TOKEN_EOF (305) 1
+    TOKEN_WHILE (306)
+    TOKEN_ERROR (307)
+    TOKEN_COMMENT (308)
+
+
+Nonterminals, with rules where they appear
+
+    $accept (54)
+        on left: 0
+    program <decl> (55)
+        on left: 1
+        on right: 0
+    decl_list <decl> (56)
+        on left: 2 3
+        on right: 1 2
+    decl <decl> (57)
+        on left: 4 5 6
+        on right: 2
+    name <name> (58)
+        on left: 7
+        on right: 4 5 6 27 36 46 89 90 93 94 100
+    decl_stmnt <expr> (59)
+        on left: 8 9
+        on right: 4 36 46
+    auto_decl <type> (60)
+        on left: 10 11
+        on right: 4 16 36 46
+    type_decl <type> (61)
+        on left: 12 13 14 15 16
+        on right: 11
+    auto_decl_args <type> (62)
+        on left: 17 18
+        on right: 23 27
+    type_decl_args <type> (63)
+        on left: 19 20 21 22 23 24
+        on right: 18
+    decl_args_epsilon <param_list> (64)
+        on left: 25 26
+        on right: 5 6
+    decl_args <param_list> (65)
+        on left: 27
+        on right: 25 28
+    decl_args_end <param_list> (66)
+        on left: 28 29
+        on right: 27
+    statement <stmt> (67)
+        on left: 30 31 32 33 34 35 36 37
+        on right: 30 31 33 38 39
+    stmnt_list <stmt> (68)
+        on left: 38 39
+        on right: 38 40
+    body <stmt> (69)
+        on left: 40
+        on right: 6 34 44
+    if_term <stmt> (70)
+        on left: 41 42 43 44 45 46 47
+        on right: 31 41 43
+    for_arg <expr> (71)
+        on left: 48 49
+        on right: 33 43
+    return_types <type> (72)
+        on left: 50 51 52 53 54 55
+        on right: 5 6 24 55
+    expr_epsilon <expr> (73)
+        on left: 56 57
+        on right: 35 45
+    expr_list <expr> (74)
+        on left: 58 59
+        on right: 56 58
+    expr <expr> (75)
+        on left: 60 61 62
+        on right: 8 30 31 32 37 41 42 47 48 58 59 60 61 91 109 114
+    or <expr> (76)
+        on left: 63 64
+        on right: 61 62 63
+    and <expr> (77)
+        on left: 65 66
+        on right: 63 64 65
+    comparison <expr> (78)
+        on left: 67 68 69 70 71 72 73
+        on right: 65 66 67 68 69 70 71 72
+    term <expr> (79)
+        on left: 74 75 76
+        on right: 67 68 69 70 71 72 73 74 75
+    factor <expr> (80)
+        on left: 77 78 79 80
+        on right: 74 75 76 77 78 79
+    exponent <expr> (81)
+        on left: 81 82
+        on right: 77 78 79 80 81
+    unary <expr> (82)
+        on left: 83 84 85
+        on right: 81 82 83 84
+    postfix <expr> (83)
+        on left: 86 87 88
+        on right: 85
+    pre_atomic <expr> (84)
+        on left: 89 90 91 92
+        on right: 86 87 88
+    ident_assign <expr> (85)
+        on left: 93 94
+        on right: 60
+    atomic <expr> (86)
+        on left: 95 96 97 98 99 100 101
+        on right: 92 104
+    atomic_array_epsilon <expr> (87)
+        on left: 102 103
+        on right: 101
+    atomic_array <expr> (88)
+        on left: 104
+        on right: 102 105
+    atomic_array_end <expr> (89)
+        on left: 105 106
+        on right: 104
+    arg_epsilon <expr> (90)
+        on left: 107 108
+        on right: 89
+    arg_list <expr> (91)
+        on left: 109
+        on right: 107 110
+    arg_list_end <expr> (92)
+        on left: 110 111
+        on right: 109
+    array_end <expr> (93)
+        on left: 112 113
+        on right: 90 94
+    inside_arr <expr> (94)
+        on left: 114 115
+        on right: 16 23 90 94 112
+
+
+State 0
+
+    0 $accept: • program $end
+
+    TOKEN_IDENT  shift, and go to state 1
+
+    $default  reduce using rule 3 (decl_list)
+
+    program    go to state 2
+    decl_list  go to state 3
+    decl       go to state 4
+    name       go to state 5
+
+
+State 1
+
+    7 name: TOKEN_IDENT •
+
+    $default  reduce using rule 7 (name)
+
+
+State 2
+
+    0 $accept: program • $end
+
+    $end  shift, and go to state 6
+
+
+State 3
+
+    1 program: decl_list • TOKEN_EOF
+
+    TOKEN_EOF  shift, and go to state 7
+
+
+State 4
+
+    2 decl_list: decl • decl_list
+
+    TOKEN_IDENT  shift, and go to state 1
+
+    $default  reduce using rule 3 (decl_list)
+
+    decl_list  go to state 8
+    decl       go to state 4
+    name       go to state 5
+
+
+State 5
+
+    4 decl: name • ":" auto_decl decl_stmnt ";"
+    5     | name • ":" TOKEN_FUNC return_types "(" decl_args_epsilon ")" ";"
+    6     | name • ":" TOKEN_FUNC return_types "(" decl_args_epsilon ")" "=" body
+
+    ":"  shift, and go to state 9
+
+
+State 6
+
+    0 $accept: program $end •
+
+    $default  accept
+
+
+State 7
+
+    1 program: decl_list TOKEN_EOF •
+
+    $default  reduce using rule 1 (program)
+
+
+State 8
+
+    2 decl_list: decl decl_list •
+
+    $default  reduce using rule 2 (decl_list)
+
+
+State 9
+
+    4 decl: name ":" • auto_decl decl_stmnt ";"
+    5     | name ":" • TOKEN_FUNC return_types "(" decl_args_epsilon ")" ";"
+    6     | name ":" • TOKEN_FUNC return_types "(" decl_args_epsilon ")" "=" body
+
+    TOKEN_ARRAY  shift, and go to state 10
+    TOKEN_AUTO   shift, and go to state 11
+    TOKEN_BOOL   shift, and go to state 12
+    TOKEN_CHAR   shift, and go to state 13
+    TOKEN_FUNC   shift, and go to state 14
+    TOKEN_INT    shift, and go to state 15
+    TOKEN_STR    shift, and go to state 16
+
+    auto_decl  go to state 17
+    type_decl  go to state 18
+
+
+State 10
+
+   16 type_decl: TOKEN_ARRAY • "[" inside_arr "]" auto_decl
+
+    "["  shift, and go to state 19
+
+
+State 11
+
+   10 auto_decl: TOKEN_AUTO •
+
+    $default  reduce using rule 10 (auto_decl)
+
+
+State 12
+
+   13 type_decl: TOKEN_BOOL •
+
+    $default  reduce using rule 13 (type_decl)
+
+
+State 13
+
+   14 type_decl: TOKEN_CHAR •
+
+    $default  reduce using rule 14 (type_decl)
+
+
+State 14
+
+    5 decl: name ":" TOKEN_FUNC • return_types "(" decl_args_epsilon ")" ";"
+    6     | name ":" TOKEN_FUNC • return_types "(" decl_args_epsilon ")" "=" body
+
+    TOKEN_BOOL  shift, and go to state 20
+    TOKEN_CHAR  shift, and go to state 21
+    TOKEN_FUNC  shift, and go to state 22
+    TOKEN_INT   shift, and go to state 23
+    TOKEN_STR   shift, and go to state 24
+    TOKEN_VOID  shift, and go to state 25
+
+    return_types  go to state 26
+
+
+State 15
+
+   12 type_decl: TOKEN_INT •
+
+    $default  reduce using rule 12 (type_decl)
+
+
+State 16
+
+   15 type_decl: TOKEN_STR •
+
+    $default  reduce using rule 15 (type_decl)
+
+
+State 17
+
+    4 decl: name ":" auto_decl • decl_stmnt ";"
+
+    "="  shift, and go to state 27
+
+    $default  reduce using rule 9 (decl_stmnt)
+
+    decl_stmnt  go to state 28
+
+
+State 18
+
+   11 auto_decl: type_decl •
+
+    $default  reduce using rule 11 (auto_decl)
+
+
+State 19
+
+   16 type_decl: TOKEN_ARRAY "[" • inside_arr "]" auto_decl
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    "{"            shift, and go to state 31
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    $default  reduce using rule 115 (inside_arr)
+
+    name          go to state 38
+    expr          go to state 39
+    or            go to state 40
+    and           go to state 41
+    comparison    go to state 42
+    term          go to state 43
+    factor        go to state 44
+    exponent      go to state 45
+    unary         go to state 46
+    postfix       go to state 47
+    pre_atomic    go to state 48
+    ident_assign  go to state 49
+    atomic        go to state 50
+    inside_arr    go to state 51
+
+
+State 20
+
+   52 return_types: TOKEN_BOOL •
+
+    $default  reduce using rule 52 (return_types)
+
+
+State 21
+
+   53 return_types: TOKEN_CHAR •
+
+    $default  reduce using rule 53 (return_types)
+
+
+State 22
+
+   55 return_types: TOKEN_FUNC • return_types
+
+    TOKEN_BOOL  shift, and go to state 20
+    TOKEN_CHAR  shift, and go to state 21
+    TOKEN_FUNC  shift, and go to state 22
+    TOKEN_INT   shift, and go to state 23
+    TOKEN_STR   shift, and go to state 24
+    TOKEN_VOID  shift, and go to state 25
+
+    return_types  go to state 52
+
+
+State 23
+
+   51 return_types: TOKEN_INT •
+
+    $default  reduce using rule 51 (return_types)
+
+
+State 24
+
+   54 return_types: TOKEN_STR •
+
+    $default  reduce using rule 54 (return_types)
+
+
+State 25
+
+   50 return_types: TOKEN_VOID •
+
+    $default  reduce using rule 50 (return_types)
+
+
+State 26
+
+    5 decl: name ":" TOKEN_FUNC return_types • "(" decl_args_epsilon ")" ";"
+    6     | name ":" TOKEN_FUNC return_types • "(" decl_args_epsilon ")" "=" body
+
+    "("  shift, and go to state 53
+
+
+State 27
+
+    8 decl_stmnt: "=" • expr
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    "{"            shift, and go to state 31
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    name          go to state 38
+    expr          go to state 54
+    or            go to state 40
+    and           go to state 41
+    comparison    go to state 42
+    term          go to state 43
+    factor        go to state 44
+    exponent      go to state 45
+    unary         go to state 46
+    postfix       go to state 47
+    pre_atomic    go to state 48
+    ident_assign  go to state 49
+    atomic        go to state 50
+
+
+State 28
+
+    4 decl: name ":" auto_decl decl_stmnt • ";"
+
+    ";"  shift, and go to state 55
+
+
+State 29
+
+   98 atomic: TOKEN_TRUE •
+
+    $default  reduce using rule 98 (atomic)
+
+
+State 30
+
+   99 atomic: TOKEN_FALSE •
+
+    $default  reduce using rule 99 (atomic)
+
+
+State 31
+
+  101 atomic: "{" • atomic_array_epsilon "}"
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    "{"            shift, and go to state 31
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    $default  reduce using rule 103 (atomic_array_epsilon)
+
+    name                  go to state 56
+    atomic                go to state 57
+    atomic_array_epsilon  go to state 58
+    atomic_array          go to state 59
+
+
+State 32
+
+   91 pre_atomic: "(" • expr ")"
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    "{"            shift, and go to state 31
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    name          go to state 38
+    expr          go to state 60
+    or            go to state 40
+    and           go to state 41
+    comparison    go to state 42
+    term          go to state 43
+    factor        go to state 44
+    exponent      go to state 45
+    unary         go to state 46
+    postfix       go to state 47
+    pre_atomic    go to state 48
+    ident_assign  go to state 49
+    atomic        go to state 50
+
+
+State 33
+
+   83 unary: "-" • unary
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    "{"            shift, and go to state 31
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    name        go to state 61
+    unary       go to state 62
+    postfix     go to state 47
+    pre_atomic  go to state 48
+    atomic      go to state 50
+
+
+State 34
+
+   84 unary: "!" • unary
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    "{"            shift, and go to state 31
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    name        go to state 61
+    unary       go to state 63
+    postfix     go to state 47
+    pre_atomic  go to state 48
+    atomic      go to state 50
+
+
+State 35
+
+   97 atomic: TOKEN_CHARLIT •
+
+    $default  reduce using rule 97 (atomic)
+
+
+State 36
+
+   96 atomic: TOKEN_STRLIT •
+
+    $default  reduce using rule 96 (atomic)
+
+
+State 37
+
+   95 atomic: TOKEN_NUMBER •
+
+    $default  reduce using rule 95 (atomic)
+
+
+State 38
+
+   89 pre_atomic: name • "(" arg_epsilon ")"
+   90           | name • "[" inside_arr "]" array_end
+   93 ident_assign: name •
+   94             | name • "[" inside_arr "]" array_end
+  100 atomic: name •
+
+    "["  shift, and go to state 64
+    "("  shift, and go to state 65
+
+    "="       reduce using rule 93 (ident_assign)
+    $default  reduce using rule 100 (atomic)
+
+
+State 39
+
+  114 inside_arr: expr •
+
+    $default  reduce using rule 114 (inside_arr)
+
+
+State 40
+
+   61 expr: or • "?" expr ":" expr
+   62     | or •
+   63 or: or • "||" and
+
+    "?"   shift, and go to state 66
+    "||"  shift, and go to state 67
+
+    $default  reduce using rule 62 (expr)
+
+
+State 41
+
+   64 or: and •
+   65 and: and • "&&" comparison
+
+    "&&"  shift, and go to state 68
+
+    $default  reduce using rule 64 (or)
+
+
+State 42
+
+   66 and: comparison •
+   67 comparison: comparison • ">" term
+   68           | comparison • ">=" term
+   69           | comparison • "<" term
+   70           | comparison • "<=" term
+   71           | comparison • "==" term
+   72           | comparison • "!=" term
+
+    "!="  shift, and go to state 69
+    "<"   shift, and go to state 70
+    "<="  shift, and go to state 71
+    ">"   shift, and go to state 72
+    ">="  shift, and go to state 73
+    "=="  shift, and go to state 74
+
+    $default  reduce using rule 66 (and)
+
+
+State 43
+
+   73 comparison: term •
+   74 term: term • "+" factor
+   75     | term • "-" factor
+
+    "+"  shift, and go to state 75
+    "-"  shift, and go to state 76
+
+    $default  reduce using rule 73 (comparison)
+
+
+State 44
+
+   76 term: factor •
+   77 factor: factor • "*" exponent
+   78       | factor • "/" exponent
+   79       | factor • "%" exponent
+
+    "/"  shift, and go to state 77
+    "*"  shift, and go to state 78
+    "%"  shift, and go to state 79
+
+    $default  reduce using rule 76 (term)
+
+
+State 45
+
+   80 factor: exponent •
+   81 exponent: exponent • "^" unary
+
+    "^"  shift, and go to state 80
+
+    $default  reduce using rule 80 (factor)
+
+
+State 46
+
+   82 exponent: unary •
+
+    $default  reduce using rule 82 (exponent)
+
+
+State 47
+
+   85 unary: postfix •
+
+    $default  reduce using rule 85 (unary)
+
+
+State 48
+
+   86 postfix: pre_atomic • "++"
+   87        | pre_atomic • "--"
+   88        | pre_atomic •
+
+    "--"  shift, and go to state 81
+    "++"  shift, and go to state 82
+
+    $default  reduce using rule 88 (postfix)
+
+
+State 49
+
+   60 expr: ident_assign • "=" expr
+
+    "="  shift, and go to state 83
+
+
+State 50
+
+   92 pre_atomic: atomic •
+
+    $default  reduce using rule 92 (pre_atomic)
+
+
+State 51
+
+   16 type_decl: TOKEN_ARRAY "[" inside_arr • "]" auto_decl
+
+    "]"  shift, and go to state 84
+
+
+State 52
+
+   55 return_types: TOKEN_FUNC return_types •
+
+    $default  reduce using rule 55 (return_types)
+
+
+State 53
+
+    5 decl: name ":" TOKEN_FUNC return_types "(" • decl_args_epsilon ")" ";"
+    6     | name ":" TOKEN_FUNC return_types "(" • decl_args_epsilon ")" "=" body
+
+    TOKEN_IDENT  shift, and go to state 1
+
+    $default  reduce using rule 26 (decl_args_epsilon)
+
+    name               go to state 85
+    decl_args_epsilon  go to state 86
+    decl_args          go to state 87
+
+
+State 54
+
+    8 decl_stmnt: "=" expr •
+
+    $default  reduce using rule 8 (decl_stmnt)
+
+
+State 55
+
+    4 decl: name ":" auto_decl decl_stmnt ";" •
+
+    $default  reduce using rule 4 (decl)
+
+
+State 56
+
+  100 atomic: name •
+
+    $default  reduce using rule 100 (atomic)
+
+
+State 57
+
+  104 atomic_array: atomic • atomic_array_end
+
+    ","  shift, and go to state 88
+
+    $default  reduce using rule 106 (atomic_array_end)
+
+    atomic_array_end  go to state 89
+
+
+State 58
+
+  101 atomic: "{" atomic_array_epsilon • "}"
+
+    "}"  shift, and go to state 90
+
+
+State 59
+
+  102 atomic_array_epsilon: atomic_array •
+
+    $default  reduce using rule 102 (atomic_array_epsilon)
+
+
+State 60
+
+   91 pre_atomic: "(" expr • ")"
+
+    ")"  shift, and go to state 91
+
+
+State 61
+
+   89 pre_atomic: name • "(" arg_epsilon ")"
+   90           | name • "[" inside_arr "]" array_end
+  100 atomic: name •
+
+    "["  shift, and go to state 92
+    "("  shift, and go to state 65
+
+    $default  reduce using rule 100 (atomic)
+
+
+State 62
+
+   83 unary: "-" unary •
+
+    $default  reduce using rule 83 (unary)
+
+
+State 63
+
+   84 unary: "!" unary •
+
+    $default  reduce using rule 84 (unary)
+
+
+State 64
+
+   90 pre_atomic: name "[" • inside_arr "]" array_end
+   94 ident_assign: name "[" • inside_arr "]" array_end
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    "{"            shift, and go to state 31
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    $default  reduce using rule 115 (inside_arr)
+
+    name          go to state 38
+    expr          go to state 39
+    or            go to state 40
+    and           go to state 41
+    comparison    go to state 42
+    term          go to state 43
+    factor        go to state 44
+    exponent      go to state 45
+    unary         go to state 46
+    postfix       go to state 47
+    pre_atomic    go to state 48
+    ident_assign  go to state 49
+    atomic        go to state 50
+    inside_arr    go to state 93
+
+
+State 65
+
+   89 pre_atomic: name "(" • arg_epsilon ")"
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    "{"            shift, and go to state 31
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    $default  reduce using rule 108 (arg_epsilon)
+
+    name          go to state 38
+    expr          go to state 94
+    or            go to state 40
+    and           go to state 41
+    comparison    go to state 42
+    term          go to state 43
+    factor        go to state 44
+    exponent      go to state 45
+    unary         go to state 46
+    postfix       go to state 47
+    pre_atomic    go to state 48
+    ident_assign  go to state 49
+    atomic        go to state 50
+    arg_epsilon   go to state 95
+    arg_list      go to state 96
+
+
+State 66
+
+   61 expr: or "?" • expr ":" expr
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    "{"            shift, and go to state 31
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    name          go to state 38
+    expr          go to state 97
+    or            go to state 40
+    and           go to state 41
+    comparison    go to state 42
+    term          go to state 43
+    factor        go to state 44
+    exponent      go to state 45
+    unary         go to state 46
+    postfix       go to state 47
+    pre_atomic    go to state 48
+    ident_assign  go to state 49
+    atomic        go to state 50
+
+
+State 67
+
+   63 or: or "||" • and
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    "{"            shift, and go to state 31
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    name        go to state 61
+    and         go to state 98
+    comparison  go to state 42
+    term        go to state 43
+    factor      go to state 44
+    exponent    go to state 45
+    unary       go to state 46
+    postfix     go to state 47
+    pre_atomic  go to state 48
+    atomic      go to state 50
+
+
+State 68
+
+   65 and: and "&&" • comparison
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    "{"            shift, and go to state 31
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    name        go to state 61
+    comparison  go to state 99
+    term        go to state 43
+    factor      go to state 44
+    exponent    go to state 45
+    unary       go to state 46
+    postfix     go to state 47
+    pre_atomic  go to state 48
+    atomic      go to state 50
+
+
+State 69
+
+   72 comparison: comparison "!=" • term
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    "{"            shift, and go to state 31
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    name        go to state 61
+    term        go to state 100
+    factor      go to state 44
+    exponent    go to state 45
+    unary       go to state 46
+    postfix     go to state 47
+    pre_atomic  go to state 48
+    atomic      go to state 50
+
+
+State 70
+
+   69 comparison: comparison "<" • term
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    "{"            shift, and go to state 31
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    name        go to state 61
+    term        go to state 101
+    factor      go to state 44
+    exponent    go to state 45
+    unary       go to state 46
+    postfix     go to state 47
+    pre_atomic  go to state 48
+    atomic      go to state 50
+
+
+State 71
+
+   70 comparison: comparison "<=" • term
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    "{"            shift, and go to state 31
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    name        go to state 61
+    term        go to state 102
+    factor      go to state 44
+    exponent    go to state 45
+    unary       go to state 46
+    postfix     go to state 47
+    pre_atomic  go to state 48
+    atomic      go to state 50
+
+
+State 72
+
+   67 comparison: comparison ">" • term
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    "{"            shift, and go to state 31
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    name        go to state 61
+    term        go to state 103
+    factor      go to state 44
+    exponent    go to state 45
+    unary       go to state 46
+    postfix     go to state 47
+    pre_atomic  go to state 48
+    atomic      go to state 50
+
+
+State 73
+
+   68 comparison: comparison ">=" • term
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    "{"            shift, and go to state 31
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    name        go to state 61
+    term        go to state 104
+    factor      go to state 44
+    exponent    go to state 45
+    unary       go to state 46
+    postfix     go to state 47
+    pre_atomic  go to state 48
+    atomic      go to state 50
+
+
+State 74
+
+   71 comparison: comparison "==" • term
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    "{"            shift, and go to state 31
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    name        go to state 61
+    term        go to state 105
+    factor      go to state 44
+    exponent    go to state 45
+    unary       go to state 46
+    postfix     go to state 47
+    pre_atomic  go to state 48
+    atomic      go to state 50
+
+
+State 75
+
+   74 term: term "+" • factor
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    "{"            shift, and go to state 31
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    name        go to state 61
+    factor      go to state 106
+    exponent    go to state 45
+    unary       go to state 46
+    postfix     go to state 47
+    pre_atomic  go to state 48
+    atomic      go to state 50
+
+
+State 76
+
+   75 term: term "-" • factor
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    "{"            shift, and go to state 31
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    name        go to state 61
+    factor      go to state 107
+    exponent    go to state 45
+    unary       go to state 46
+    postfix     go to state 47
+    pre_atomic  go to state 48
+    atomic      go to state 50
+
+
+State 77
+
+   78 factor: factor "/" • exponent
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    "{"            shift, and go to state 31
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    name        go to state 61
+    exponent    go to state 108
+    unary       go to state 46
+    postfix     go to state 47
+    pre_atomic  go to state 48
+    atomic      go to state 50
+
+
+State 78
+
+   77 factor: factor "*" • exponent
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    "{"            shift, and go to state 31
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    name        go to state 61
+    exponent    go to state 109
+    unary       go to state 46
+    postfix     go to state 47
+    pre_atomic  go to state 48
+    atomic      go to state 50
+
+
+State 79
+
+   79 factor: factor "%" • exponent
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    "{"            shift, and go to state 31
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    name        go to state 61
+    exponent    go to state 110
+    unary       go to state 46
+    postfix     go to state 47
+    pre_atomic  go to state 48
+    atomic      go to state 50
+
+
+State 80
+
+   81 exponent: exponent "^" • unary
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    "{"            shift, and go to state 31
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    name        go to state 61
+    unary       go to state 111
+    postfix     go to state 47
+    pre_atomic  go to state 48
+    atomic      go to state 50
+
+
+State 81
+
+   87 postfix: pre_atomic "--" •
+
+    $default  reduce using rule 87 (postfix)
+
+
+State 82
+
+   86 postfix: pre_atomic "++" •
+
+    $default  reduce using rule 86 (postfix)
+
+
+State 83
+
+   60 expr: ident_assign "=" • expr
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    "{"            shift, and go to state 31
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    name          go to state 38
+    expr          go to state 112
+    or            go to state 40
+    and           go to state 41
+    comparison    go to state 42
+    term          go to state 43
+    factor        go to state 44
+    exponent      go to state 45
+    unary         go to state 46
+    postfix       go to state 47
+    pre_atomic    go to state 48
+    ident_assign  go to state 49
+    atomic        go to state 50
+
+
+State 84
+
+   16 type_decl: TOKEN_ARRAY "[" inside_arr "]" • auto_decl
+
+    TOKEN_ARRAY  shift, and go to state 10
+    TOKEN_AUTO   shift, and go to state 11
+    TOKEN_BOOL   shift, and go to state 12
+    TOKEN_CHAR   shift, and go to state 13
+    TOKEN_INT    shift, and go to state 15
+    TOKEN_STR    shift, and go to state 16
+
+    auto_decl  go to state 113
+    type_decl  go to state 18
+
+
+State 85
+
+   27 decl_args: name • ":" auto_decl_args decl_args_end
+
+    ":"  shift, and go to state 114
+
+
+State 86
+
+    5 decl: name ":" TOKEN_FUNC return_types "(" decl_args_epsilon • ")" ";"
+    6     | name ":" TOKEN_FUNC return_types "(" decl_args_epsilon • ")" "=" body
+
+    ")"  shift, and go to state 115
+
+
+State 87
+
+   25 decl_args_epsilon: decl_args •
+
+    $default  reduce using rule 25 (decl_args_epsilon)
+
+
+State 88
+
+  105 atomic_array_end: "," • atomic_array
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    "{"            shift, and go to state 31
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    name          go to state 56
+    atomic        go to state 57
+    atomic_array  go to state 116
+
+
+State 89
+
+  104 atomic_array: atomic atomic_array_end •
+
+    $default  reduce using rule 104 (atomic_array)
+
+
+State 90
+
+  101 atomic: "{" atomic_array_epsilon "}" •
+
+    $default  reduce using rule 101 (atomic)
+
+
+State 91
+
+   91 pre_atomic: "(" expr ")" •
+
+    $default  reduce using rule 91 (pre_atomic)
+
+
+State 92
+
+   90 pre_atomic: name "[" • inside_arr "]" array_end
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    "{"            shift, and go to state 31
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    $default  reduce using rule 115 (inside_arr)
+
+    name          go to state 38
+    expr          go to state 39
+    or            go to state 40
+    and           go to state 41
+    comparison    go to state 42
+    term          go to state 43
+    factor        go to state 44
+    exponent      go to state 45
+    unary         go to state 46
+    postfix       go to state 47
+    pre_atomic    go to state 48
+    ident_assign  go to state 49
+    atomic        go to state 50
+    inside_arr    go to state 117
+
+
+State 93
+
+   90 pre_atomic: name "[" inside_arr • "]" array_end
+   94 ident_assign: name "[" inside_arr • "]" array_end
+
+    "]"  shift, and go to state 118
+
+
+State 94
+
+  109 arg_list: expr • arg_list_end
+
+    ","  shift, and go to state 119
+
+    $default  reduce using rule 111 (arg_list_end)
+
+    arg_list_end  go to state 120
+
+
+State 95
+
+   89 pre_atomic: name "(" arg_epsilon • ")"
+
+    ")"  shift, and go to state 121
+
+
+State 96
+
+  107 arg_epsilon: arg_list •
+
+    $default  reduce using rule 107 (arg_epsilon)
+
+
+State 97
+
+   61 expr: or "?" expr • ":" expr
+
+    ":"  shift, and go to state 122
+
+
+State 98
+
+   63 or: or "||" and •
+   65 and: and • "&&" comparison
+
+    "&&"  shift, and go to state 68
+
+    $default  reduce using rule 63 (or)
+
+
+State 99
+
+   65 and: and "&&" comparison •
+   67 comparison: comparison • ">" term
+   68           | comparison • ">=" term
+   69           | comparison • "<" term
+   70           | comparison • "<=" term
+   71           | comparison • "==" term
+   72           | comparison • "!=" term
+
+    "!="  shift, and go to state 69
+    "<"   shift, and go to state 70
+    "<="  shift, and go to state 71
+    ">"   shift, and go to state 72
+    ">="  shift, and go to state 73
+    "=="  shift, and go to state 74
+
+    $default  reduce using rule 65 (and)
+
+
+State 100
+
+   72 comparison: comparison "!=" term •
+   74 term: term • "+" factor
+   75     | term • "-" factor
+
+    "+"  shift, and go to state 75
+    "-"  shift, and go to state 76
+
+    $default  reduce using rule 72 (comparison)
+
+
+State 101
+
+   69 comparison: comparison "<" term •
+   74 term: term • "+" factor
+   75     | term • "-" factor
+
+    "+"  shift, and go to state 75
+    "-"  shift, and go to state 76
+
+    $default  reduce using rule 69 (comparison)
+
+
+State 102
+
+   70 comparison: comparison "<=" term •
+   74 term: term • "+" factor
+   75     | term • "-" factor
+
+    "+"  shift, and go to state 75
+    "-"  shift, and go to state 76
+
+    $default  reduce using rule 70 (comparison)
+
+
+State 103
+
+   67 comparison: comparison ">" term •
+   74 term: term • "+" factor
+   75     | term • "-" factor
+
+    "+"  shift, and go to state 75
+    "-"  shift, and go to state 76
+
+    $default  reduce using rule 67 (comparison)
+
+
+State 104
+
+   68 comparison: comparison ">=" term •
+   74 term: term • "+" factor
+   75     | term • "-" factor
+
+    "+"  shift, and go to state 75
+    "-"  shift, and go to state 76
+
+    $default  reduce using rule 68 (comparison)
+
+
+State 105
+
+   71 comparison: comparison "==" term •
+   74 term: term • "+" factor
+   75     | term • "-" factor
+
+    "+"  shift, and go to state 75
+    "-"  shift, and go to state 76
+
+    $default  reduce using rule 71 (comparison)
+
+
+State 106
+
+   74 term: term "+" factor •
+   77 factor: factor • "*" exponent
+   78       | factor • "/" exponent
+   79       | factor • "%" exponent
+
+    "/"  shift, and go to state 77
+    "*"  shift, and go to state 78
+    "%"  shift, and go to state 79
+
+    $default  reduce using rule 74 (term)
+
+
+State 107
+
+   75 term: term "-" factor •
+   77 factor: factor • "*" exponent
+   78       | factor • "/" exponent
+   79       | factor • "%" exponent
+
+    "/"  shift, and go to state 77
+    "*"  shift, and go to state 78
+    "%"  shift, and go to state 79
+
+    $default  reduce using rule 75 (term)
+
+
+State 108
+
+   78 factor: factor "/" exponent •
+   81 exponent: exponent • "^" unary
+
+    "^"  shift, and go to state 80
+
+    $default  reduce using rule 78 (factor)
+
+
+State 109
+
+   77 factor: factor "*" exponent •
+   81 exponent: exponent • "^" unary
+
+    "^"  shift, and go to state 80
+
+    $default  reduce using rule 77 (factor)
+
+
+State 110
+
+   79 factor: factor "%" exponent •
+   81 exponent: exponent • "^" unary
+
+    "^"  shift, and go to state 80
+
+    $default  reduce using rule 79 (factor)
+
+
+State 111
+
+   81 exponent: exponent "^" unary •
+
+    $default  reduce using rule 81 (exponent)
+
+
+State 112
+
+   60 expr: ident_assign "=" expr •
+
+    $default  reduce using rule 60 (expr)
+
+
+State 113
+
+   16 type_decl: TOKEN_ARRAY "[" inside_arr "]" auto_decl •
+
+    $default  reduce using rule 16 (type_decl)
+
+
+State 114
+
+   27 decl_args: name ":" • auto_decl_args decl_args_end
+
+    TOKEN_ARRAY  shift, and go to state 123
+    TOKEN_AUTO   shift, and go to state 124
+    TOKEN_BOOL   shift, and go to state 125
+    TOKEN_CHAR   shift, and go to state 126
+    TOKEN_FUNC   shift, and go to state 127
+    TOKEN_INT    shift, and go to state 128
+    TOKEN_STR    shift, and go to state 129
+
+    auto_decl_args  go to state 130
+    type_decl_args  go to state 131
+
+
+State 115
+
+    5 decl: name ":" TOKEN_FUNC return_types "(" decl_args_epsilon ")" • ";"
+    6     | name ":" TOKEN_FUNC return_types "(" decl_args_epsilon ")" • "=" body
+
+    ";"  shift, and go to state 132
+    "="  shift, and go to state 133
+
+
+State 116
+
+  105 atomic_array_end: "," atomic_array •
+
+    $default  reduce using rule 105 (atomic_array_end)
+
+
+State 117
+
+   90 pre_atomic: name "[" inside_arr • "]" array_end
+
+    "]"  shift, and go to state 134
+
+
+State 118
+
+   90 pre_atomic: name "[" inside_arr "]" • array_end
+   94 ident_assign: name "[" inside_arr "]" • array_end
+
+    "["  shift, and go to state 135
+
+    $default  reduce using rule 113 (array_end)
+
+    array_end  go to state 136
+
+
+State 119
+
+  110 arg_list_end: "," • arg_list
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    "{"            shift, and go to state 31
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    name          go to state 38
+    expr          go to state 94
+    or            go to state 40
+    and           go to state 41
+    comparison    go to state 42
+    term          go to state 43
+    factor        go to state 44
+    exponent      go to state 45
+    unary         go to state 46
+    postfix       go to state 47
+    pre_atomic    go to state 48
+    ident_assign  go to state 49
+    atomic        go to state 50
+    arg_list      go to state 137
+
+
+State 120
+
+  109 arg_list: expr arg_list_end •
+
+    $default  reduce using rule 109 (arg_list)
+
+
+State 121
+
+   89 pre_atomic: name "(" arg_epsilon ")" •
+
+    $default  reduce using rule 89 (pre_atomic)
+
+
+State 122
+
+   61 expr: or "?" expr ":" • expr
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    "{"            shift, and go to state 31
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    name          go to state 38
+    expr          go to state 138
+    or            go to state 40
+    and           go to state 41
+    comparison    go to state 42
+    term          go to state 43
+    factor        go to state 44
+    exponent      go to state 45
+    unary         go to state 46
+    postfix       go to state 47
+    pre_atomic    go to state 48
+    ident_assign  go to state 49
+    atomic        go to state 50
+
+
+State 123
+
+   23 type_decl_args: TOKEN_ARRAY • "[" inside_arr "]" auto_decl_args
+
+    "["  shift, and go to state 139
+
+
+State 124
+
+   17 auto_decl_args: TOKEN_AUTO •
+
+    $default  reduce using rule 17 (auto_decl_args)
+
+
+State 125
+
+   20 type_decl_args: TOKEN_BOOL •
+
+    $default  reduce using rule 20 (type_decl_args)
+
+
+State 126
+
+   21 type_decl_args: TOKEN_CHAR •
+
+    $default  reduce using rule 21 (type_decl_args)
+
+
+State 127
+
+   24 type_decl_args: TOKEN_FUNC • return_types
+
+    TOKEN_BOOL  shift, and go to state 20
+    TOKEN_CHAR  shift, and go to state 21
+    TOKEN_FUNC  shift, and go to state 22
+    TOKEN_INT   shift, and go to state 23
+    TOKEN_STR   shift, and go to state 24
+    TOKEN_VOID  shift, and go to state 25
+
+    return_types  go to state 140
+
+
+State 128
+
+   19 type_decl_args: TOKEN_INT •
+
+    $default  reduce using rule 19 (type_decl_args)
+
+
+State 129
+
+   22 type_decl_args: TOKEN_STR •
+
+    $default  reduce using rule 22 (type_decl_args)
+
+
+State 130
+
+   27 decl_args: name ":" auto_decl_args • decl_args_end
+
+    ","  shift, and go to state 141
+
+    $default  reduce using rule 29 (decl_args_end)
+
+    decl_args_end  go to state 142
+
+
+State 131
+
+   18 auto_decl_args: type_decl_args •
+
+    $default  reduce using rule 18 (auto_decl_args)
+
+
+State 132
+
+    5 decl: name ":" TOKEN_FUNC return_types "(" decl_args_epsilon ")" ";" •
+
+    $default  reduce using rule 5 (decl)
+
+
+State 133
+
+    6 decl: name ":" TOKEN_FUNC return_types "(" decl_args_epsilon ")" "=" • body
+
+    "{"  shift, and go to state 143
+
+    body  go to state 144
+
+
+State 134
+
+   90 pre_atomic: name "[" inside_arr "]" • array_end
+
+    "["  shift, and go to state 135
+
+    $default  reduce using rule 113 (array_end)
+
+    array_end  go to state 145
+
+
+State 135
+
+  112 array_end: "[" • inside_arr "]"
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    "{"            shift, and go to state 31
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    $default  reduce using rule 115 (inside_arr)
+
+    name          go to state 38
+    expr          go to state 39
+    or            go to state 40
+    and           go to state 41
+    comparison    go to state 42
+    term          go to state 43
+    factor        go to state 44
+    exponent      go to state 45
+    unary         go to state 46
+    postfix       go to state 47
+    pre_atomic    go to state 48
+    ident_assign  go to state 49
+    atomic        go to state 50
+    inside_arr    go to state 146
+
+
+State 136
+
+   90 pre_atomic: name "[" inside_arr "]" array_end •
+   94 ident_assign: name "[" inside_arr "]" array_end •
+
+    "="       reduce using rule 94 (ident_assign)
+    $default  reduce using rule 90 (pre_atomic)
+
+
+State 137
+
+  110 arg_list_end: "," arg_list •
+
+    $default  reduce using rule 110 (arg_list_end)
+
+
+State 138
+
+   61 expr: or "?" expr ":" expr •
+
+    $default  reduce using rule 61 (expr)
+
+
+State 139
+
+   23 type_decl_args: TOKEN_ARRAY "[" • inside_arr "]" auto_decl_args
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    "{"            shift, and go to state 31
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    $default  reduce using rule 115 (inside_arr)
+
+    name          go to state 38
+    expr          go to state 39
+    or            go to state 40
+    and           go to state 41
+    comparison    go to state 42
+    term          go to state 43
+    factor        go to state 44
+    exponent      go to state 45
+    unary         go to state 46
+    postfix       go to state 47
+    pre_atomic    go to state 48
+    ident_assign  go to state 49
+    atomic        go to state 50
+    inside_arr    go to state 147
+
+
+State 140
+
+   24 type_decl_args: TOKEN_FUNC return_types •
+
+    $default  reduce using rule 24 (type_decl_args)
+
+
+State 141
+
+   28 decl_args_end: "," • decl_args
+
+    TOKEN_IDENT  shift, and go to state 1
+
+    name       go to state 85
+    decl_args  go to state 148
+
+
+State 142
+
+   27 decl_args: name ":" auto_decl_args decl_args_end •
+
+    $default  reduce using rule 27 (decl_args)
+
+
+State 143
+
+   40 body: "{" • stmnt_list "}"
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    TOKEN_FOR      shift, and go to state 149
+    TOKEN_IF       shift, and go to state 150
+    TOKEN_PRINT    shift, and go to state 151
+    TOKEN_RETURN   shift, and go to state 152
+    "{"            shift, and go to state 153
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    name          go to state 154
+    statement     go to state 155
+    stmnt_list    go to state 156
+    body          go to state 157
+    expr          go to state 158
+    or            go to state 40
+    and           go to state 41
+    comparison    go to state 42
+    term          go to state 43
+    factor        go to state 44
+    exponent      go to state 45
+    unary         go to state 46
+    postfix       go to state 47
+    pre_atomic    go to state 48
+    ident_assign  go to state 49
+    atomic        go to state 50
+
+
+State 144
+
+    6 decl: name ":" TOKEN_FUNC return_types "(" decl_args_epsilon ")" "=" body •
+
+    $default  reduce using rule 6 (decl)
+
+
+State 145
+
+   90 pre_atomic: name "[" inside_arr "]" array_end •
+
+    $default  reduce using rule 90 (pre_atomic)
+
+
+State 146
+
+  112 array_end: "[" inside_arr • "]"
+
+    "]"  shift, and go to state 159
+
+
+State 147
+
+   23 type_decl_args: TOKEN_ARRAY "[" inside_arr • "]" auto_decl_args
+
+    "]"  shift, and go to state 160
+
+
+State 148
+
+   28 decl_args_end: "," decl_args •
+
+    $default  reduce using rule 28 (decl_args_end)
+
+
+State 149
+
+   33 statement: TOKEN_FOR • "(" for_arg ";" for_arg ";" for_arg ")" statement
+
+    "("  shift, and go to state 161
+
+
+State 150
+
+   30 statement: TOKEN_IF • "(" expr ")" statement
+   31          | TOKEN_IF • "(" expr ")" if_term TOKEN_ELSE statement
+
+    "("  shift, and go to state 162
+
+
+State 151
+
+   35 statement: TOKEN_PRINT • expr_epsilon ";"
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    "{"            shift, and go to state 31
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    $default  reduce using rule 57 (expr_epsilon)
+
+    name          go to state 38
+    expr_epsilon  go to state 163
+    expr_list     go to state 164
+    expr          go to state 165
+    or            go to state 40
+    and           go to state 41
+    comparison    go to state 42
+    term          go to state 43
+    factor        go to state 44
+    exponent      go to state 45
+    unary         go to state 46
+    postfix       go to state 47
+    pre_atomic    go to state 48
+    ident_assign  go to state 49
+    atomic        go to state 50
+
+
+State 152
+
+   32 statement: TOKEN_RETURN • expr ";"
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    "{"            shift, and go to state 31
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    name          go to state 38
+    expr          go to state 166
+    or            go to state 40
+    and           go to state 41
+    comparison    go to state 42
+    term          go to state 43
+    factor        go to state 44
+    exponent      go to state 45
+    unary         go to state 46
+    postfix       go to state 47
+    pre_atomic    go to state 48
+    ident_assign  go to state 49
+    atomic        go to state 50
+
+
+State 153
+
+   40 body: "{" • stmnt_list "}"
+  101 atomic: "{" • atomic_array_epsilon "}"
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    TOKEN_FOR      shift, and go to state 149
+    TOKEN_IF       shift, and go to state 150
+    TOKEN_PRINT    shift, and go to state 151
+    TOKEN_RETURN   shift, and go to state 152
+    "{"            shift, and go to state 153
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    $default  reduce using rule 103 (atomic_array_epsilon)
+
+    name                  go to state 154
+    statement             go to state 155
+    stmnt_list            go to state 156
+    body                  go to state 157
+    expr                  go to state 158
+    or                    go to state 40
+    and                   go to state 41
+    comparison            go to state 42
+    term                  go to state 43
+    factor                go to state 44
+    exponent              go to state 45
+    unary                 go to state 46
+    postfix               go to state 47
+    pre_atomic            go to state 48
+    ident_assign          go to state 49
+    atomic                go to state 167
+    atomic_array_epsilon  go to state 58
+    atomic_array          go to state 59
+
+
+State 154
+
+   36 statement: name • ":" auto_decl decl_stmnt ";"
+   89 pre_atomic: name • "(" arg_epsilon ")"
+   90           | name • "[" inside_arr "]" array_end
+   93 ident_assign: name •
+   94             | name • "[" inside_arr "]" array_end
+  100 atomic: name •
+
+    ":"  shift, and go to state 168
+    "["  shift, and go to state 64
+    "("  shift, and go to state 65
+
+    "="       reduce using rule 93 (ident_assign)
+    $default  reduce using rule 100 (atomic)
+
+
+State 155
+
+   38 stmnt_list: statement • stmnt_list
+   39           | statement •
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    TOKEN_FOR      shift, and go to state 149
+    TOKEN_IF       shift, and go to state 150
+    TOKEN_PRINT    shift, and go to state 151
+    TOKEN_RETURN   shift, and go to state 152
+    "{"            shift, and go to state 153
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    $default  reduce using rule 39 (stmnt_list)
+
+    name          go to state 154
+    statement     go to state 155
+    stmnt_list    go to state 169
+    body          go to state 157
+    expr          go to state 158
+    or            go to state 40
+    and           go to state 41
+    comparison    go to state 42
+    term          go to state 43
+    factor        go to state 44
+    exponent      go to state 45
+    unary         go to state 46
+    postfix       go to state 47
+    pre_atomic    go to state 48
+    ident_assign  go to state 49
+    atomic        go to state 50
+
+
+State 156
+
+   40 body: "{" stmnt_list • "}"
+
+    "}"  shift, and go to state 170
+
+
+State 157
+
+   34 statement: body •
+
+    $default  reduce using rule 34 (statement)
+
+
+State 158
+
+   37 statement: expr • ";"
+
+    ";"  shift, and go to state 171
+
+
+State 159
+
+  112 array_end: "[" inside_arr "]" •
+
+    $default  reduce using rule 112 (array_end)
+
+
+State 160
+
+   23 type_decl_args: TOKEN_ARRAY "[" inside_arr "]" • auto_decl_args
+
+    TOKEN_ARRAY  shift, and go to state 123
+    TOKEN_AUTO   shift, and go to state 124
+    TOKEN_BOOL   shift, and go to state 125
+    TOKEN_CHAR   shift, and go to state 126
+    TOKEN_FUNC   shift, and go to state 127
+    TOKEN_INT    shift, and go to state 128
+    TOKEN_STR    shift, and go to state 129
+
+    auto_decl_args  go to state 172
+    type_decl_args  go to state 131
+
+
+State 161
+
+   33 statement: TOKEN_FOR "(" • for_arg ";" for_arg ";" for_arg ")" statement
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    "{"            shift, and go to state 31
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    $default  reduce using rule 49 (for_arg)
+
+    name          go to state 38
+    for_arg       go to state 173
+    expr          go to state 174
+    or            go to state 40
+    and           go to state 41
+    comparison    go to state 42
+    term          go to state 43
+    factor        go to state 44
+    exponent      go to state 45
+    unary         go to state 46
+    postfix       go to state 47
+    pre_atomic    go to state 48
+    ident_assign  go to state 49
+    atomic        go to state 50
+
+
+State 162
+
+   30 statement: TOKEN_IF "(" • expr ")" statement
+   31          | TOKEN_IF "(" • expr ")" if_term TOKEN_ELSE statement
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    "{"            shift, and go to state 31
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    name          go to state 38
+    expr          go to state 175
+    or            go to state 40
+    and           go to state 41
+    comparison    go to state 42
+    term          go to state 43
+    factor        go to state 44
+    exponent      go to state 45
+    unary         go to state 46
+    postfix       go to state 47
+    pre_atomic    go to state 48
+    ident_assign  go to state 49
+    atomic        go to state 50
+
+
+State 163
+
+   35 statement: TOKEN_PRINT expr_epsilon • ";"
+
+    ";"  shift, and go to state 176
+
+
+State 164
+
+   56 expr_epsilon: expr_list •
+
+    $default  reduce using rule 56 (expr_epsilon)
+
+
+State 165
+
+   58 expr_list: expr • "," expr_list
+   59          | expr •
+
+    ","  shift, and go to state 177
+
+    $default  reduce using rule 59 (expr_list)
+
+
+State 166
+
+   32 statement: TOKEN_RETURN expr • ";"
+
+    ";"  shift, and go to state 178
+
+
+State 167
+
+   92 pre_atomic: atomic •
+  104 atomic_array: atomic • atomic_array_end
+
+    ","  shift, and go to state 88
+
+    "}"       reduce using rule 106 (atomic_array_end)
+    $default  reduce using rule 92 (pre_atomic)
+
+    atomic_array_end  go to state 89
+
+
+State 168
+
+   36 statement: name ":" • auto_decl decl_stmnt ";"
+
+    TOKEN_ARRAY  shift, and go to state 10
+    TOKEN_AUTO   shift, and go to state 11
+    TOKEN_BOOL   shift, and go to state 12
+    TOKEN_CHAR   shift, and go to state 13
+    TOKEN_INT    shift, and go to state 15
+    TOKEN_STR    shift, and go to state 16
+
+    auto_decl  go to state 179
+    type_decl  go to state 18
+
+
+State 169
+
+   38 stmnt_list: statement stmnt_list •
+
+    $default  reduce using rule 38 (stmnt_list)
+
+
+State 170
+
+   40 body: "{" stmnt_list "}" •
+
+    $default  reduce using rule 40 (body)
+
+
+State 171
+
+   37 statement: expr ";" •
+
+    $default  reduce using rule 37 (statement)
+
+
+State 172
+
+   23 type_decl_args: TOKEN_ARRAY "[" inside_arr "]" auto_decl_args •
+
+    $default  reduce using rule 23 (type_decl_args)
+
+
+State 173
+
+   33 statement: TOKEN_FOR "(" for_arg • ";" for_arg ";" for_arg ")" statement
+
+    ";"  shift, and go to state 180
+
+
+State 174
+
+   48 for_arg: expr •
+
+    $default  reduce using rule 48 (for_arg)
+
+
+State 175
+
+   30 statement: TOKEN_IF "(" expr • ")" statement
+   31          | TOKEN_IF "(" expr • ")" if_term TOKEN_ELSE statement
+
+    ")"  shift, and go to state 181
+
+
+State 176
+
+   35 statement: TOKEN_PRINT expr_epsilon ";" •
+
+    $default  reduce using rule 35 (statement)
+
+
+State 177
+
+   58 expr_list: expr "," • expr_list
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    "{"            shift, and go to state 31
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    name          go to state 38
+    expr_list     go to state 182
+    expr          go to state 165
+    or            go to state 40
+    and           go to state 41
+    comparison    go to state 42
+    term          go to state 43
+    factor        go to state 44
+    exponent      go to state 45
+    unary         go to state 46
+    postfix       go to state 47
+    pre_atomic    go to state 48
+    ident_assign  go to state 49
+    atomic        go to state 50
+
+
+State 178
+
+   32 statement: TOKEN_RETURN expr ";" •
+
+    $default  reduce using rule 32 (statement)
+
+
+State 179
+
+   36 statement: name ":" auto_decl • decl_stmnt ";"
+
+    "="  shift, and go to state 27
+
+    $default  reduce using rule 9 (decl_stmnt)
+
+    decl_stmnt  go to state 183
+
+
+State 180
+
+   33 statement: TOKEN_FOR "(" for_arg ";" • for_arg ";" for_arg ")" statement
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    "{"            shift, and go to state 31
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    $default  reduce using rule 49 (for_arg)
+
+    name          go to state 38
+    for_arg       go to state 184
+    expr          go to state 174
+    or            go to state 40
+    and           go to state 41
+    comparison    go to state 42
+    term          go to state 43
+    factor        go to state 44
+    exponent      go to state 45
+    unary         go to state 46
+    postfix       go to state 47
+    pre_atomic    go to state 48
+    ident_assign  go to state 49
+    atomic        go to state 50
+
+
+State 181
+
+   30 statement: TOKEN_IF "(" expr ")" • statement
+   31          | TOKEN_IF "(" expr ")" • if_term TOKEN_ELSE statement
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    TOKEN_FOR      shift, and go to state 185
+    TOKEN_IF       shift, and go to state 186
+    TOKEN_PRINT    shift, and go to state 187
+    TOKEN_RETURN   shift, and go to state 188
+    "{"            shift, and go to state 153
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    name          go to state 189
+    statement     go to state 190
+    body          go to state 191
+    if_term       go to state 192
+    expr          go to state 193
+    or            go to state 40
+    and           go to state 41
+    comparison    go to state 42
+    term          go to state 43
+    factor        go to state 44
+    exponent      go to state 45
+    unary         go to state 46
+    postfix       go to state 47
+    pre_atomic    go to state 48
+    ident_assign  go to state 49
+    atomic        go to state 50
+
+
+State 182
+
+   58 expr_list: expr "," expr_list •
+
+    $default  reduce using rule 58 (expr_list)
+
+
+State 183
+
+   36 statement: name ":" auto_decl decl_stmnt • ";"
+
+    ";"  shift, and go to state 194
+
+
+State 184
+
+   33 statement: TOKEN_FOR "(" for_arg ";" for_arg • ";" for_arg ")" statement
+
+    ";"  shift, and go to state 195
+
+
+State 185
+
+   33 statement: TOKEN_FOR • "(" for_arg ";" for_arg ";" for_arg ")" statement
+   43 if_term: TOKEN_FOR • "(" for_arg ";" for_arg ";" for_arg ")" if_term
+
+    "("  shift, and go to state 196
+
+
+State 186
+
+   30 statement: TOKEN_IF • "(" expr ")" statement
+   31          | TOKEN_IF • "(" expr ")" if_term TOKEN_ELSE statement
+   41 if_term: TOKEN_IF • "(" expr ")" if_term TOKEN_ELSE if_term
+
+    "("  shift, and go to state 197
+
+
+State 187
+
+   35 statement: TOKEN_PRINT • expr_epsilon ";"
+   45 if_term: TOKEN_PRINT • expr_epsilon ";"
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    "{"            shift, and go to state 31
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    $default  reduce using rule 57 (expr_epsilon)
+
+    name          go to state 38
+    expr_epsilon  go to state 198
+    expr_list     go to state 164
+    expr          go to state 165
+    or            go to state 40
+    and           go to state 41
+    comparison    go to state 42
+    term          go to state 43
+    factor        go to state 44
+    exponent      go to state 45
+    unary         go to state 46
+    postfix       go to state 47
+    pre_atomic    go to state 48
+    ident_assign  go to state 49
+    atomic        go to state 50
+
+
+State 188
+
+   32 statement: TOKEN_RETURN • expr ";"
+   42 if_term: TOKEN_RETURN • expr ";"
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    "{"            shift, and go to state 31
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    name          go to state 38
+    expr          go to state 199
+    or            go to state 40
+    and           go to state 41
+    comparison    go to state 42
+    term          go to state 43
+    factor        go to state 44
+    exponent      go to state 45
+    unary         go to state 46
+    postfix       go to state 47
+    pre_atomic    go to state 48
+    ident_assign  go to state 49
+    atomic        go to state 50
+
+
+State 189
+
+   36 statement: name • ":" auto_decl decl_stmnt ";"
+   46 if_term: name • ":" auto_decl decl_stmnt ";"
+   89 pre_atomic: name • "(" arg_epsilon ")"
+   90           | name • "[" inside_arr "]" array_end
+   93 ident_assign: name •
+   94             | name • "[" inside_arr "]" array_end
+  100 atomic: name •
+
+    ":"  shift, and go to state 200
+    "["  shift, and go to state 64
+    "("  shift, and go to state 65
+
+    "="       reduce using rule 93 (ident_assign)
+    $default  reduce using rule 100 (atomic)
+
+
+State 190
+
+   30 statement: TOKEN_IF "(" expr ")" statement •
+
+    $default  reduce using rule 30 (statement)
+
+
+State 191
+
+   34 statement: body •
+   44 if_term: body •
+
+    TOKEN_ELSE  reduce using rule 44 (if_term)
+    $default    reduce using rule 34 (statement)
+
+
+State 192
+
+   31 statement: TOKEN_IF "(" expr ")" if_term • TOKEN_ELSE statement
+
+    TOKEN_ELSE  shift, and go to state 201
+
+
+State 193
+
+   37 statement: expr • ";"
+   47 if_term: expr • ";"
+
+    ";"  shift, and go to state 202
+
+
+State 194
+
+   36 statement: name ":" auto_decl decl_stmnt ";" •
+
+    $default  reduce using rule 36 (statement)
+
+
+State 195
+
+   33 statement: TOKEN_FOR "(" for_arg ";" for_arg ";" • for_arg ")" statement
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    "{"            shift, and go to state 31
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    $default  reduce using rule 49 (for_arg)
+
+    name          go to state 38
+    for_arg       go to state 203
+    expr          go to state 174
+    or            go to state 40
+    and           go to state 41
+    comparison    go to state 42
+    term          go to state 43
+    factor        go to state 44
+    exponent      go to state 45
+    unary         go to state 46
+    postfix       go to state 47
+    pre_atomic    go to state 48
+    ident_assign  go to state 49
+    atomic        go to state 50
+
+
+State 196
+
+   33 statement: TOKEN_FOR "(" • for_arg ";" for_arg ";" for_arg ")" statement
+   43 if_term: TOKEN_FOR "(" • for_arg ";" for_arg ";" for_arg ")" if_term
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    "{"            shift, and go to state 31
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    $default  reduce using rule 49 (for_arg)
+
+    name          go to state 38
+    for_arg       go to state 204
+    expr          go to state 174
+    or            go to state 40
+    and           go to state 41
+    comparison    go to state 42
+    term          go to state 43
+    factor        go to state 44
+    exponent      go to state 45
+    unary         go to state 46
+    postfix       go to state 47
+    pre_atomic    go to state 48
+    ident_assign  go to state 49
+    atomic        go to state 50
+
+
+State 197
+
+   30 statement: TOKEN_IF "(" • expr ")" statement
+   31          | TOKEN_IF "(" • expr ")" if_term TOKEN_ELSE statement
+   41 if_term: TOKEN_IF "(" • expr ")" if_term TOKEN_ELSE if_term
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    "{"            shift, and go to state 31
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    name          go to state 38
+    expr          go to state 205
+    or            go to state 40
+    and           go to state 41
+    comparison    go to state 42
+    term          go to state 43
+    factor        go to state 44
+    exponent      go to state 45
+    unary         go to state 46
+    postfix       go to state 47
+    pre_atomic    go to state 48
+    ident_assign  go to state 49
+    atomic        go to state 50
+
+
+State 198
+
+   35 statement: TOKEN_PRINT expr_epsilon • ";"
+   45 if_term: TOKEN_PRINT expr_epsilon • ";"
+
+    ";"  shift, and go to state 206
+
+
+State 199
+
+   32 statement: TOKEN_RETURN expr • ";"
+   42 if_term: TOKEN_RETURN expr • ";"
+
+    ";"  shift, and go to state 207
+
+
+State 200
+
+   36 statement: name ":" • auto_decl decl_stmnt ";"
+   46 if_term: name ":" • auto_decl decl_stmnt ";"
+
+    TOKEN_ARRAY  shift, and go to state 10
+    TOKEN_AUTO   shift, and go to state 11
+    TOKEN_BOOL   shift, and go to state 12
+    TOKEN_CHAR   shift, and go to state 13
+    TOKEN_INT    shift, and go to state 15
+    TOKEN_STR    shift, and go to state 16
+
+    auto_decl  go to state 208
+    type_decl  go to state 18
+
+
+State 201
+
+   31 statement: TOKEN_IF "(" expr ")" if_term TOKEN_ELSE • statement
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    TOKEN_FOR      shift, and go to state 149
+    TOKEN_IF       shift, and go to state 150
+    TOKEN_PRINT    shift, and go to state 151
+    TOKEN_RETURN   shift, and go to state 152
+    "{"            shift, and go to state 153
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    name          go to state 154
+    statement     go to state 209
+    body          go to state 157
+    expr          go to state 158
+    or            go to state 40
+    and           go to state 41
+    comparison    go to state 42
+    term          go to state 43
+    factor        go to state 44
+    exponent      go to state 45
+    unary         go to state 46
+    postfix       go to state 47
+    pre_atomic    go to state 48
+    ident_assign  go to state 49
+    atomic        go to state 50
+
+
+State 202
+
+   37 statement: expr ";" •
+   47 if_term: expr ";" •
+
+    TOKEN_ELSE  reduce using rule 47 (if_term)
+    $default    reduce using rule 37 (statement)
+
+
+State 203
+
+   33 statement: TOKEN_FOR "(" for_arg ";" for_arg ";" for_arg • ")" statement
+
+    ")"  shift, and go to state 210
+
+
+State 204
+
+   33 statement: TOKEN_FOR "(" for_arg • ";" for_arg ";" for_arg ")" statement
+   43 if_term: TOKEN_FOR "(" for_arg • ";" for_arg ";" for_arg ")" if_term
+
+    ";"  shift, and go to state 211
+
+
+State 205
+
+   30 statement: TOKEN_IF "(" expr • ")" statement
+   31          | TOKEN_IF "(" expr • ")" if_term TOKEN_ELSE statement
+   41 if_term: TOKEN_IF "(" expr • ")" if_term TOKEN_ELSE if_term
+
+    ")"  shift, and go to state 212
+
+
+State 206
+
+   35 statement: TOKEN_PRINT expr_epsilon ";" •
+   45 if_term: TOKEN_PRINT expr_epsilon ";" •
+
+    TOKEN_ELSE  reduce using rule 45 (if_term)
+    $default    reduce using rule 35 (statement)
+
+
+State 207
+
+   32 statement: TOKEN_RETURN expr ";" •
+   42 if_term: TOKEN_RETURN expr ";" •
+
+    TOKEN_ELSE  reduce using rule 42 (if_term)
+    $default    reduce using rule 32 (statement)
+
+
+State 208
+
+   36 statement: name ":" auto_decl • decl_stmnt ";"
+   46 if_term: name ":" auto_decl • decl_stmnt ";"
+
+    "="  shift, and go to state 27
+
+    $default  reduce using rule 9 (decl_stmnt)
+
+    decl_stmnt  go to state 213
+
+
+State 209
+
+   31 statement: TOKEN_IF "(" expr ")" if_term TOKEN_ELSE statement •
+
+    $default  reduce using rule 31 (statement)
+
+
+State 210
+
+   33 statement: TOKEN_FOR "(" for_arg ";" for_arg ";" for_arg ")" • statement
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    TOKEN_FOR      shift, and go to state 149
+    TOKEN_IF       shift, and go to state 150
+    TOKEN_PRINT    shift, and go to state 151
+    TOKEN_RETURN   shift, and go to state 152
+    "{"            shift, and go to state 153
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    name          go to state 154
+    statement     go to state 214
+    body          go to state 157
+    expr          go to state 158
+    or            go to state 40
+    and           go to state 41
+    comparison    go to state 42
+    term          go to state 43
+    factor        go to state 44
+    exponent      go to state 45
+    unary         go to state 46
+    postfix       go to state 47
+    pre_atomic    go to state 48
+    ident_assign  go to state 49
+    atomic        go to state 50
+
+
+State 211
+
+   33 statement: TOKEN_FOR "(" for_arg ";" • for_arg ";" for_arg ")" statement
+   43 if_term: TOKEN_FOR "(" for_arg ";" • for_arg ";" for_arg ")" if_term
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    "{"            shift, and go to state 31
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    $default  reduce using rule 49 (for_arg)
+
+    name          go to state 38
+    for_arg       go to state 215
+    expr          go to state 174
+    or            go to state 40
+    and           go to state 41
+    comparison    go to state 42
+    term          go to state 43
+    factor        go to state 44
+    exponent      go to state 45
+    unary         go to state 46
+    postfix       go to state 47
+    pre_atomic    go to state 48
+    ident_assign  go to state 49
+    atomic        go to state 50
+
+
+State 212
+
+   30 statement: TOKEN_IF "(" expr ")" • statement
+   31          | TOKEN_IF "(" expr ")" • if_term TOKEN_ELSE statement
+   41 if_term: TOKEN_IF "(" expr ")" • if_term TOKEN_ELSE if_term
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    TOKEN_FOR      shift, and go to state 185
+    TOKEN_IF       shift, and go to state 186
+    TOKEN_PRINT    shift, and go to state 187
+    TOKEN_RETURN   shift, and go to state 188
+    "{"            shift, and go to state 153
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    name          go to state 189
+    statement     go to state 190
+    body          go to state 191
+    if_term       go to state 216
+    expr          go to state 193
+    or            go to state 40
+    and           go to state 41
+    comparison    go to state 42
+    term          go to state 43
+    factor        go to state 44
+    exponent      go to state 45
+    unary         go to state 46
+    postfix       go to state 47
+    pre_atomic    go to state 48
+    ident_assign  go to state 49
+    atomic        go to state 50
+
+
+State 213
+
+   36 statement: name ":" auto_decl decl_stmnt • ";"
+   46 if_term: name ":" auto_decl decl_stmnt • ";"
+
+    ";"  shift, and go to state 217
+
+
+State 214
+
+   33 statement: TOKEN_FOR "(" for_arg ";" for_arg ";" for_arg ")" statement •
+
+    $default  reduce using rule 33 (statement)
+
+
+State 215
+
+   33 statement: TOKEN_FOR "(" for_arg ";" for_arg • ";" for_arg ")" statement
+   43 if_term: TOKEN_FOR "(" for_arg ";" for_arg • ";" for_arg ")" if_term
+
+    ";"  shift, and go to state 218
+
+
+State 216
+
+   31 statement: TOKEN_IF "(" expr ")" if_term • TOKEN_ELSE statement
+   41 if_term: TOKEN_IF "(" expr ")" if_term • TOKEN_ELSE if_term
+
+    TOKEN_ELSE  shift, and go to state 219
+
+
+State 217
+
+   36 statement: name ":" auto_decl decl_stmnt ";" •
+   46 if_term: name ":" auto_decl decl_stmnt ";" •
+
+    TOKEN_ELSE  reduce using rule 46 (if_term)
+    $default    reduce using rule 36 (statement)
+
+
+State 218
+
+   33 statement: TOKEN_FOR "(" for_arg ";" for_arg ";" • for_arg ")" statement
+   43 if_term: TOKEN_FOR "(" for_arg ";" for_arg ";" • for_arg ")" if_term
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    "{"            shift, and go to state 31
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    $default  reduce using rule 49 (for_arg)
+
+    name          go to state 38
+    for_arg       go to state 220
+    expr          go to state 174
+    or            go to state 40
+    and           go to state 41
+    comparison    go to state 42
+    term          go to state 43
+    factor        go to state 44
+    exponent      go to state 45
+    unary         go to state 46
+    postfix       go to state 47
+    pre_atomic    go to state 48
+    ident_assign  go to state 49
+    atomic        go to state 50
+
+
+State 219
+
+   31 statement: TOKEN_IF "(" expr ")" if_term TOKEN_ELSE • statement
+   41 if_term: TOKEN_IF "(" expr ")" if_term TOKEN_ELSE • if_term
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    TOKEN_FOR      shift, and go to state 185
+    TOKEN_IF       shift, and go to state 186
+    TOKEN_PRINT    shift, and go to state 187
+    TOKEN_RETURN   shift, and go to state 188
+    "{"            shift, and go to state 153
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    name          go to state 189
+    statement     go to state 209
+    body          go to state 191
+    if_term       go to state 221
+    expr          go to state 193
+    or            go to state 40
+    and           go to state 41
+    comparison    go to state 42
+    term          go to state 43
+    factor        go to state 44
+    exponent      go to state 45
+    unary         go to state 46
+    postfix       go to state 47
+    pre_atomic    go to state 48
+    ident_assign  go to state 49
+    atomic        go to state 50
+
+
+State 220
+
+   33 statement: TOKEN_FOR "(" for_arg ";" for_arg ";" for_arg • ")" statement
+   43 if_term: TOKEN_FOR "(" for_arg ";" for_arg ";" for_arg • ")" if_term
+
+    ")"  shift, and go to state 222
+
+
+State 221
+
+   41 if_term: TOKEN_IF "(" expr ")" if_term TOKEN_ELSE if_term •
+
+    $default  reduce using rule 41 (if_term)
+
+
+State 222
+
+   33 statement: TOKEN_FOR "(" for_arg ";" for_arg ";" for_arg ")" • statement
+   43 if_term: TOKEN_FOR "(" for_arg ";" for_arg ";" for_arg ")" • if_term
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    TOKEN_FOR      shift, and go to state 185
+    TOKEN_IF       shift, and go to state 186
+    TOKEN_PRINT    shift, and go to state 187
+    TOKEN_RETURN   shift, and go to state 188
+    "{"            shift, and go to state 153
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    name          go to state 189
+    statement     go to state 214
+    body          go to state 191
+    if_term       go to state 223
+    expr          go to state 193
+    or            go to state 40
+    and           go to state 41
+    comparison    go to state 42
+    term          go to state 43
+    factor        go to state 44
+    exponent      go to state 45
+    unary         go to state 46
+    postfix       go to state 47
+    pre_atomic    go to state 48
+    ident_assign  go to state 49
+    atomic        go to state 50
+
+
+State 223
+
+   43 if_term: TOKEN_FOR "(" for_arg ";" for_arg ";" for_arg ")" if_term •
+
+    $default  reduce using rule 43 (if_term)
