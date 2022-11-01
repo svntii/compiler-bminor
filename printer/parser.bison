@@ -97,6 +97,7 @@ static struct decl * parser_result;
 extern char *yytext;
 extern int yylex();
 extern int yyerror(char * str);
+extern FILE *yyin;
 
 %}
 
@@ -316,7 +317,7 @@ static struct decl * AST(char * file_contents)
 {
 	yyin = file_contents;
 
-	if(yyparse() == true){
+	if(yyparse() != 0){
 		return parser_result;
 	}
 	yyerror(file_contents);

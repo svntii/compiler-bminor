@@ -1,16 +1,5 @@
 #include "expr.h"
-#include "stmt.h"
-#include "token.h"
-#include "decl.h"
-#include "type.h"
-#include "param_list.h"
-
-#include "token.h"
-
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "special.h"
 
 struct expr *expr_create(expr_t kind, struct expr *left, struct expr *right)
 {
@@ -59,3 +48,5 @@ struct expr *expr_create_string_literal(const char *str)
     e->string_literal = str;
     return e;
 }
+
+void expr_print(struct expr *e) {}

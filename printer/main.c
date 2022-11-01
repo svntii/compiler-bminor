@@ -1,9 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "token.h"
 #include "main.h"
+
 #include "special.h"
+#include "type.h"
+#include "expr.h"
+#include "stmt.h"
+#include "param_list.h"
+#include "decl.h"
+#include "token.h"
+
+
 
 extern int yyparse();
 extern FILE *yyin;
