@@ -1,3 +1,45 @@
+/*	bminor parser	*/
+/* ALL THE C Modules needed in our parser*/
+%{
+#include "expr.h"
+#include "stmt.h"
+#include "token.h"
+#include "decl.h"
+#include "type.h"
+#include "param_list.h"
+
+#include "token.h"
+
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+struct decl * parser_result;
+extern char *yytext;
+extern int yylex();
+extern int yyerror(char * str);
+extern FILE *yyin;
+
+%}
+
+
+%union{
+	struct decl *decl;
+	struct stmt *stmt;
+	struct expr *expr;
+	char * name;
+	struct type *type;
+	struct param_list *param_list;
+};
+
+%type <decl> program decl decl_list
+%type <stmt> body stmnt_list statement if_term
+%type <type> auto_decl type_decl auto_decl_args type_decl_args return_types
+%type <expr> decl_stmnt expr expr_list expr_epsilon for_arg ident_assign or and comparison term factor exponent unary postfix pre_atomic atomic atomic_array_epsilon atomic_array atomic_array_end arg_epsilon arg_list arg_list_end array_end inside_arr
+%type <param_list> decl_args_epsilon decl_args decl_args_end
+%type <name> name 
+
 %define parse.trace
 
 %token TOKEN_ARRAY
@@ -59,51 +101,10 @@
 %token TOKEN_ERROR
 %token TOKEN_COMMENT
 
-%union{
-	struct decl *decl;
-	struct stmt *stmt;
-	struct expr *expr;
-	char * name;
-	struct type *type;
-	struct param_list *param_list;
-};
-
-%type <decl> program decl decl_list
-%type <stmt> body stmnt_list statement if_term
-%type <type> auto_decl type_decl auto_decl_args type_decl_args return_types
-%type <expr> decl_stmnt expr expr_list expr_epsilon for_arg ident_assign or and comparison term factor exponent unary postfix pre_atomic atomic atomic_array_epsilon atomic_array atomic_array_end arg_epsilon arg_list arg_list_end array_end inside_arr
-%type <param_list> decl_args_epsilon decl_args decl_args_end
-%type <name> name 
-
-%{
-
-/* ALL THE C Modules need in our parser*/
-
-#include "expr.h"
-#include "stmt.h"
-#include "token.h"
-#include "decl.h"
-#include "type.h"
-#include "param_list.h"
-
-#include "token.h"
-
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-static struct decl * parser_result;
-extern char *yytext;
-extern int yylex();
-extern int yyerror(char * str);
-extern FILE *yyin;
-
-%}
 
 
 %%
-	program: decl_list TOKEN_EOF							{ parser_result = $1; }	
+	program: decl_list TOKEN_EOF							{ parser_result = $1; return 0; }	
 		;
 	
 	decl_list:	decl decl_list								{ $$ = $1; $1->next = $2;	}
@@ -111,8 +112,8 @@ extern FILE *yyin;
 		;	
 
 	decl: 			name TOKEN_COLON auto_decl decl_stmnt TOKEN_SEMI /*Variable Declaration*/	{ $$ = decl_create($1, $3, $4, 0, 0);  }
-		|			name TOKEN_COLON TOKEN_FUNC return_types	TOKEN_PARL decl_args_epsilon TOKEN_PARR	TOKEN_SEMI /*function prototype */ { $$ = decl_create($1, type_create(TYPE_FUNCTION, $4, 0), 0, 0, 0);  }
-		|			name TOKEN_COLON TOKEN_FUNC return_types	TOKEN_PARL decl_args_epsilon TOKEN_PARR TOKEN_ASSIGN body { $$ = decl_create($1, type_create(TYPE_FUNCTION, $4, 0), 0, $9, 0); }
+		|			name TOKEN_COLON TOKEN_FUNC return_types	TOKEN_PARL decl_args_epsilon TOKEN_PARR	TOKEN_SEMI /*function prototype */ { $$ = decl_create($1, type_create(TYPE_FUNCTION, $4, $6, 0), 0, 0, 0);  }
+		|			name TOKEN_COLON TOKEN_FUNC return_types	TOKEN_PARL decl_args_epsilon TOKEN_PARR TOKEN_ASSIGN body { $$ = decl_create($1, type_create(TYPE_FUNCTION, $4, $6, 0), 0, $9, 0); }
 		;
 
 	name:	TOKEN_IDENT 				{ $$ = strdup(yytext); }	
@@ -121,33 +122,33 @@ extern FILE *yyin;
 		|								{ $$ = 0; 	}
 		;
 	
-	auto_decl: 	TOKEN_AUTO				{ $$ = type_create(TYPE_AUTO, 0, 0); 	}
+	auto_decl: 	TOKEN_AUTO				{ $$ = type_create(TYPE_AUTO, 0, 0, 0); 	}
 		| 		type_decl				{ $$ = $1;	}
 		;
 	
-	type_decl:	TOKEN_INT 				{ $$ = type_create(TYPE_INTEGER, 0, 0);	}
-		|		TOKEN_BOOL 				{ $$ = type_create(TYPE_BOOLEAN, 0, 0);	}
-		|		TOKEN_CHAR				{ $$ = type_create(TYPE_CHAR,	 0, 0); }
-		|		TOKEN_STR				{ $$ = type_create(TYPE_STRING,  0, 0);	}
-		|		TOKEN_ARRAY TOKEN_BRACKL inside_arr TOKEN_BRACKR auto_decl { $$ = type_create( TYPE_ARRAY,$5, 0);  }
+	type_decl:	TOKEN_INT 				{ $$ = type_create(TYPE_INTEGER, 0, 0, 0);	}
+		|		TOKEN_BOOL 				{ $$ = type_create(TYPE_BOOLEAN, 0, 0, 0);	}
+		|		TOKEN_CHAR				{ $$ = type_create(TYPE_CHAR,	 0, 0, 0); }
+		|		TOKEN_STR				{ $$ = type_create(TYPE_STRING,  0, 0, 0);	}
+		|		TOKEN_ARRAY TOKEN_BRACKL inside_arr TOKEN_BRACKR auto_decl { $$ = type_create( TYPE_ARRAY,$5, 0, 0);  }
 
 	
-	auto_decl_args: TOKEN_AUTO 		{ $$ = type_create(TYPE_AUTO, 0,0);	}
+	auto_decl_args: TOKEN_AUTO 		{ $$ = type_create(TYPE_AUTO, 0, 0, 0);	}
 		|			type_decl_args	{ $$ = $1;							}
 		;
 	
-	type_decl_args:	TOKEN_INT 		{ $$ = type_create(TYPE_INTEGER, 0, 0);	}
-		|			TOKEN_BOOL		{ $$ = type_create(TYPE_BOOLEAN, 0, 0);	}
-		|			TOKEN_CHAR		{ $$ = type_create(TYPE_CHAR,    0, 0); }
-		|			TOKEN_STR		{ $$ = type_create(TYPE_STRING,  0, 0); }	
-		|			TOKEN_ARRAY TOKEN_BRACKL inside_arr TOKEN_BRACKR auto_decl_args	{ $$ = type_create(TYPE_ARRAY, $5, 0);  }
-		|			TOKEN_FUNC return_types	{ $$ = type_create(TYPE_FUNCTION, $2, 0); } 
+	type_decl_args:	TOKEN_INT 		{ $$ = type_create(TYPE_INTEGER, 0, 0, 0);	}
+		|			TOKEN_BOOL		{ $$ = type_create(TYPE_BOOLEAN, 0, 0, 0);	}
+		|			TOKEN_CHAR		{ $$ = type_create(TYPE_CHAR,    0, 0, 0); }
+		|			TOKEN_STR		{ $$ = type_create(TYPE_STRING,  0, 0, 0); }	
+		|			TOKEN_ARRAY TOKEN_BRACKL inside_arr TOKEN_BRACKR auto_decl_args	{ $$ = type_create(TYPE_ARRAY, $5, 0, $3);  }
+		|			TOKEN_FUNC return_types	{ $$ = type_create(TYPE_FUNCTION, $2, 0, 0); } 
 		;
 
 	decl_args_epsilon: decl_args  { $$ = $1; }
 		|						  { $$ = 0;  }
 		;
-	decl_args: 		name TOKEN_COLON auto_decl_args decl_args_end 	{ $$ = param_list_create($1, $3,0 ,$4) ;   } /*What is symbol in param_list*/
+	decl_args: 		name TOKEN_COLON auto_decl_args decl_args_end 	{ $$ = param_list_create($1, $3, 0 ,$4) ;   } /*What is symbol in param_list*/
 		;
 	
 	decl_args_end: 	TOKEN_COMMA decl_args {	$$ = $2;	}
@@ -160,7 +161,7 @@ extern FILE *yyin;
 		|		TOKEN_FOR 	TOKEN_PARL for_arg TOKEN_SEMI for_arg TOKEN_SEMI for_arg TOKEN_PARR statement{ $$ = stmt_create_for($3, $5, $7, $9);}
 		|		body																{ $$ = $1; }
 		|		TOKEN_PRINT	expr_epsilon TOKEN_SEMI						/*print*/	{ $$ = stmt_create_print($2);			}	
-		|		name TOKEN_COLON auto_decl decl_stmnt TOKEN_SEMI /*decl*/	{ $$ = stmt_create_decl( decl_create($1, $3, $4, 0, 0) );	}
+		|		name TOKEN_COLON auto_decl decl_stmnt TOKEN_SEMI /*decl*/			{ $$ = stmt_create_decl( decl_create($1, $3, $4, 0, 0) );	}
 		|		expr TOKEN_SEMI														{ $$ = stmt_create_expr($1);			}
 		;
 
@@ -177,7 +178,7 @@ extern FILE *yyin;
 		|		TOKEN_FOR 	TOKEN_PARL for_arg TOKEN_SEMI for_arg TOKEN_SEMI for_arg TOKEN_PARR 	if_term	{ $$ = stmt_create_for($3, $5, $7, $9);	}
 		|		body																{ $$ = $1;								}
 		|		TOKEN_PRINT	expr_epsilon TOKEN_SEMI					/*print*/		{ $$ = stmt_create_print($2);			}	
-		|		name TOKEN_COLON auto_decl decl_stmnt TOKEN_SEMI /*decl*/	{ $$ = stmt_create_decl( decl_create($1, $3, $4, 0, 0)); 		}
+		|		name TOKEN_COLON auto_decl decl_stmnt TOKEN_SEMI /*decl*/			{ $$ = stmt_create_decl( decl_create($1, $3, $4, 0, 0)); 		}
 		|		expr TOKEN_SEMI														{ $$ = stmt_create_expr($1);			}
 		;
 		
@@ -188,19 +189,19 @@ extern FILE *yyin;
 		|				{$$ = 0	;	}
 		;
 
-	return_types: 	TOKEN_VOID 		{ $$ = type_create(TYPE_VOID,    0, 0); }		
-		| 			TOKEN_INT		{ $$ = type_create(TYPE_INTEGER, 0, 0); }
-		| 			TOKEN_BOOL		{ $$ = type_create(TYPE_BOOLEAN, 0, 0); }
-		| 			TOKEN_CHAR		{ $$ = type_create(TYPE_CHAR, 	 0, 0); }
-		| 			TOKEN_STR		{ $$ = type_create(TYPE_STRING,  0, 0); }
-		| 			TOKEN_FUNC return_types { $$ = type_create(TYPE_FUNCTION, $2, 0); }
+	return_types: 	TOKEN_VOID 		{ $$ = type_create(TYPE_VOID,    0, 0, 0); }		
+		| 			TOKEN_INT		{ $$ = type_create(TYPE_INTEGER, 0, 0, 0); }
+		| 			TOKEN_BOOL		{ $$ = type_create(TYPE_BOOLEAN, 0, 0, 0); }
+		| 			TOKEN_CHAR		{ $$ = type_create(TYPE_CHAR, 	 0, 0, 0); }
+		| 			TOKEN_STR		{ $$ = type_create(TYPE_STRING,  0, 0, 0); }
+		| 			TOKEN_FUNC return_types { $$ = type_create(TYPE_FUNCTION, $2, 0, 0); }
 		;
 
 	expr_epsilon:	expr_list 	{ $$ = $1;	}
 		|			/*epsilon*/	{ $$ = 0;	}
 		;
 
-	expr_list:		expr TOKEN_COMMA expr_list	{ $$ = $1;  }
+	expr_list:		expr TOKEN_COMMA expr_list	{ $$ = $1; $1->right = $3; }
 		|			expr		{ $$ = $1; }
 		;
 
@@ -253,7 +254,7 @@ extern FILE *yyin;
 
 	pre_atomic:		name TOKEN_PARL arg_epsilon TOKEN_PARR /*function call*/			  { $$ = expr_create(EXPR_FUNCTION_CALL, expr_create_name($1), $3);}
 		|			name TOKEN_BRACKL inside_arr TOKEN_BRACKR array_end	/*subscript*/ { $$ = expr_create(EXPR_SUBSCRIPT, expr_create_name($1), $5); }
-		|			TOKEN_PARL expr TOKEN_PARR		{ $$ = $2; }				/*grouping */
+		|			TOKEN_PARL expr TOKEN_PARR		{ $$ = expr_create(EXPR_GROUP, $2, 0); }				/*grouping */
 		| 			atomic							{ $$ = $1; }	
 		;
 
@@ -266,7 +267,7 @@ extern FILE *yyin;
 
 	atomic: 		TOKEN_NUMBER		{ $$ = expr_create_integer_literal(atoi(yytext));  		}	
 		|			TOKEN_STRLIT		{ $$ = expr_create_string_literal(strdup(yytext));		}
-		|			TOKEN_CHARLIT		{ $$ = expr_create_char_literal(*yytext);		}
+		|			TOKEN_CHARLIT		{ $$ = expr_create_char_literal(*(yytext + 1)); 				}
 		|			TOKEN_TRUE			{ $$ = expr_create_boolean_literal(1);		}
 		|			TOKEN_FALSE			{ $$ = expr_create_boolean_literal(0);		} /*REVIEW*/
 		|			name			{ $$ = expr_create_name($1);				}
@@ -307,18 +308,7 @@ extern FILE *yyin;
 int yyerror( char *str )
 {
 	printf("parse error: %s\n",str);
-	return 0
-	;
+	return 0;
 }
 
 
-
-static struct decl * AST(char * file_contents)
-{
-	yyin = file_contents;
-
-	if(yyparse() != 0){
-		return parser_result;
-	}
-	yyerror(file_contents);
-}

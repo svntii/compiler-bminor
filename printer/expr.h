@@ -53,5 +53,4 @@ struct expr *expr_create_boolean_literal(int b);		  // true/false
 struct expr *expr_create_char_literal(char c);			  //	'a'
 struct expr *expr_create_string_literal(const char *str); // "Notre Dame"
 struct expr *expr_create_name(const char *name);
-void expr_print(struct expr *e);
-
+void expr_print(struct expr *e, int tab);

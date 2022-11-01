@@ -35,4 +35,4 @@ struct stmt *stmt_create_print(struct expr *expr);
 struct stmt *stmt_create_return(struct expr *expr);
 struct stmt *stmt_create_while(struct expr *expr, struct stmt *body);
 struct stmt *stmt_create_block(struct stmt *body);
-void *stmt_print(struct stmt *s);
+void *stmt_print(struct stmt *s, int tab);

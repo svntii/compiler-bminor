@@ -11,12 +11,12 @@
 #include "decl.h"
 #include "token.h"
 
-
-
 extern int yyparse();
 extern FILE *yyin;
 extern int yydebug;
 extern int yywrap();
+extern struct decl * parser_result;
+
 
 int main(int argc, char *argv[])
 {
@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
 	{
 		if (argv[i][0] == '-')
 		{
-			printf("%s\n",flag);
+			printf("%s\n", flag);
 			strcpy(flag, argv[i]);
 			if (strcmp(flag, "-h") == 0)
 			{
@@ -45,22 +45,24 @@ int main(int argc, char *argv[])
 			else if (strcmp(flag, "-scan") == 0)
 			{
 				yyin = fopen(argv[i + 1], "r");
-				if(!yyin) return usage(4);
+				if (!yyin)
+					return usage(4);
 			}
 			else if (strcmp(flag, "-parse") == 0)
 			{
 				yyin = fopen(argv[i + 1], "r");
-				if(!yyin) return usage(4);
+				if (!yyin)
+					return usage(4);
 			}
-			else if (strcmp(flag, "-l") == 0)
+			else if (strcmp(flag, "-i") == 0)
 			{
 				yyin = stdin;
 			}
-			else if(strcmp(flag, "-debug") == 0)
+			else if (strcmp(flag, "-debug") == 0)
 			{
 				yydebug = 1;
 			}
-			else if(strcmp(flag, "-print") == 0)
+			else if (strcmp(flag, "-print") == 0)
 			{
 				print_flag = 1;
 			}
@@ -78,7 +80,7 @@ int main(int argc, char *argv[])
 	printf("CSE 40243 B-Minor Parser\n");
 	printf("Enter a valid  B-Minor Code \n\n");
 
-	if ( yywrap() == 1)
+	if (yywrap() == 1)
 	{
 		printf("Scan Successful\n");
 	}
@@ -87,8 +89,6 @@ int main(int argc, char *argv[])
 		printf("Scan Unsuccessful\n");
 		return 1;
 	}
-
-
 	if (yyparse() == 0)
 	{
 		printf("Parse Successful\n");
@@ -97,6 +97,12 @@ int main(int argc, char *argv[])
 	{
 		printf("Parse Unsuccessful\n");
 		return 1;
+	}
+
+	if (print_flag == 1)
+	{
+		// we want to print the output
+		decl_print(parser_result, 0);
 	}
 
 	return 0;
@@ -110,7 +116,7 @@ int usage(int exit_code)
 					\n\t\t-h help\
 					\n\t\t-scan to scan file in the next argument\
 					\n\t\t-parse to parse file in the next argument\
-					\n\t\t-l for interpreter\
+					\n\t\t-i for interpreter\
 					\n\t\t-print to print reformated code\
 					\n\t\t-debug for debugging output\n");
 
