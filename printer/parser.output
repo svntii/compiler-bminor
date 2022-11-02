@@ -158,7 +158,7 @@ Grammar
   110 arg_list_end: "," arg_list
   111             | ε
 
-  112 array_end: "[" inside_arr "]"
+  112 array_end: "[" inside_arr "]" array_end
   113          | ε
 
   114 inside_arr: expr
@@ -342,7 +342,7 @@ Nonterminals, with rules where they appear
         on right: 109
     array_end <expr> (93)
         on left: 112 113
-        on right: 90 94
+        on right: 90 94 112
     inside_arr <expr> (94)
         on left: 114 115
         on right: 16 23 90 94 112
@@ -2064,7 +2064,7 @@ State 134
 
 State 135
 
-  112 array_end: "[" • inside_arr "]"
+  112 array_end: "[" • inside_arr "]" array_end
 
     TOKEN_TRUE     shift, and go to state 29
     TOKEN_FALSE    shift, and go to state 30
@@ -2228,7 +2228,7 @@ State 145
 
 State 146
 
-  112 array_end: "[" inside_arr • "]"
+  112 array_end: "[" inside_arr • "]" array_end
 
     "]"  shift, and go to state 159
 
@@ -2448,9 +2448,13 @@ State 158
 
 State 159
 
-  112 array_end: "[" inside_arr "]" •
+  112 array_end: "[" inside_arr "]" • array_end
 
-    $default  reduce using rule 112 (array_end)
+    "["  shift, and go to state 135
+
+    $default  reduce using rule 113 (array_end)
+
+    array_end  go to state 172
 
 
 State 160
@@ -2465,7 +2469,7 @@ State 160
     TOKEN_INT    shift, and go to state 128
     TOKEN_STR    shift, and go to state 129
 
-    auto_decl_args  go to state 172
+    auto_decl_args  go to state 173
     type_decl_args  go to state 131
 
 
@@ -2487,8 +2491,8 @@ State 161
     $default  reduce using rule 49 (for_arg)
 
     name          go to state 38
-    for_arg       go to state 173
-    expr          go to state 174
+    for_arg       go to state 174
+    expr          go to state 175
     or            go to state 40
     and           go to state 41
     comparison    go to state 42
@@ -2519,7 +2523,7 @@ State 162
     TOKEN_NUMBER   shift, and go to state 37
 
     name          go to state 38
-    expr          go to state 175
+    expr          go to state 176
     or            go to state 40
     and           go to state 41
     comparison    go to state 42
@@ -2537,7 +2541,7 @@ State 163
 
    35 statement: TOKEN_PRINT expr_epsilon • ";"
 
-    ";"  shift, and go to state 176
+    ";"  shift, and go to state 177
 
 
 State 164
@@ -2552,7 +2556,7 @@ State 165
    58 expr_list: expr • "," expr_list
    59          | expr •
 
-    ","  shift, and go to state 177
+    ","  shift, and go to state 178
 
     $default  reduce using rule 59 (expr_list)
 
@@ -2561,7 +2565,7 @@ State 166
 
    32 statement: TOKEN_RETURN expr • ";"
 
-    ";"  shift, and go to state 178
+    ";"  shift, and go to state 179
 
 
 State 167
@@ -2588,7 +2592,7 @@ State 168
     TOKEN_INT    shift, and go to state 15
     TOKEN_STR    shift, and go to state 16
 
-    auto_decl  go to state 179
+    auto_decl  go to state 180
     type_decl  go to state 18
 
 
@@ -2615,41 +2619,48 @@ State 171
 
 State 172
 
+  112 array_end: "[" inside_arr "]" array_end •
+
+    $default  reduce using rule 112 (array_end)
+
+
+State 173
+
    23 type_decl_args: TOKEN_ARRAY "[" inside_arr "]" auto_decl_args •
 
     $default  reduce using rule 23 (type_decl_args)
 
 
-State 173
+State 174
 
    33 statement: TOKEN_FOR "(" for_arg • ";" for_arg ";" for_arg ")" statement
 
-    ";"  shift, and go to state 180
+    ";"  shift, and go to state 181
 
 
-State 174
+State 175
 
    48 for_arg: expr •
 
     $default  reduce using rule 48 (for_arg)
 
 
-State 175
+State 176
 
    30 statement: TOKEN_IF "(" expr • ")" statement
    31          | TOKEN_IF "(" expr • ")" if_term TOKEN_ELSE statement
 
-    ")"  shift, and go to state 181
+    ")"  shift, and go to state 182
 
 
-State 176
+State 177
 
    35 statement: TOKEN_PRINT expr_epsilon ";" •
 
     $default  reduce using rule 35 (statement)
 
 
-State 177
+State 178
 
    58 expr_list: expr "," • expr_list
 
@@ -2665,7 +2676,7 @@ State 177
     TOKEN_NUMBER   shift, and go to state 37
 
     name          go to state 38
-    expr_list     go to state 182
+    expr_list     go to state 183
     expr          go to state 165
     or            go to state 40
     and           go to state 41
@@ -2680,14 +2691,14 @@ State 177
     atomic        go to state 50
 
 
-State 178
+State 179
 
    32 statement: TOKEN_RETURN expr ";" •
 
     $default  reduce using rule 32 (statement)
 
 
-State 179
+State 180
 
    36 statement: name ":" auto_decl • decl_stmnt ";"
 
@@ -2695,10 +2706,10 @@ State 179
 
     $default  reduce using rule 9 (decl_stmnt)
 
-    decl_stmnt  go to state 183
+    decl_stmnt  go to state 184
 
 
-State 180
+State 181
 
    33 statement: TOKEN_FOR "(" for_arg ";" • for_arg ";" for_arg ")" statement
 
@@ -2716,46 +2727,8 @@ State 180
     $default  reduce using rule 49 (for_arg)
 
     name          go to state 38
-    for_arg       go to state 184
-    expr          go to state 174
-    or            go to state 40
-    and           go to state 41
-    comparison    go to state 42
-    term          go to state 43
-    factor        go to state 44
-    exponent      go to state 45
-    unary         go to state 46
-    postfix       go to state 47
-    pre_atomic    go to state 48
-    ident_assign  go to state 49
-    atomic        go to state 50
-
-
-State 181
-
-   30 statement: TOKEN_IF "(" expr ")" • statement
-   31          | TOKEN_IF "(" expr ")" • if_term TOKEN_ELSE statement
-
-    TOKEN_TRUE     shift, and go to state 29
-    TOKEN_FALSE    shift, and go to state 30
-    TOKEN_FOR      shift, and go to state 185
-    TOKEN_IF       shift, and go to state 186
-    TOKEN_PRINT    shift, and go to state 187
-    TOKEN_RETURN   shift, and go to state 188
-    "{"            shift, and go to state 153
-    "("            shift, and go to state 32
-    "-"            shift, and go to state 33
-    "!"            shift, and go to state 34
-    TOKEN_CHARLIT  shift, and go to state 35
-    TOKEN_STRLIT   shift, and go to state 36
-    TOKEN_IDENT    shift, and go to state 1
-    TOKEN_NUMBER   shift, and go to state 37
-
-    name          go to state 189
-    statement     go to state 190
-    body          go to state 191
-    if_term       go to state 192
-    expr          go to state 193
+    for_arg       go to state 185
+    expr          go to state 175
     or            go to state 40
     and           go to state 41
     comparison    go to state 42
@@ -2771,43 +2744,81 @@ State 181
 
 State 182
 
+   30 statement: TOKEN_IF "(" expr ")" • statement
+   31          | TOKEN_IF "(" expr ")" • if_term TOKEN_ELSE statement
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    TOKEN_FOR      shift, and go to state 186
+    TOKEN_IF       shift, and go to state 187
+    TOKEN_PRINT    shift, and go to state 188
+    TOKEN_RETURN   shift, and go to state 189
+    "{"            shift, and go to state 153
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    name          go to state 190
+    statement     go to state 191
+    body          go to state 192
+    if_term       go to state 193
+    expr          go to state 194
+    or            go to state 40
+    and           go to state 41
+    comparison    go to state 42
+    term          go to state 43
+    factor        go to state 44
+    exponent      go to state 45
+    unary         go to state 46
+    postfix       go to state 47
+    pre_atomic    go to state 48
+    ident_assign  go to state 49
+    atomic        go to state 50
+
+
+State 183
+
    58 expr_list: expr "," expr_list •
 
     $default  reduce using rule 58 (expr_list)
 
 
-State 183
-
-   36 statement: name ":" auto_decl decl_stmnt • ";"
-
-    ";"  shift, and go to state 194
-
-
 State 184
 
-   33 statement: TOKEN_FOR "(" for_arg ";" for_arg • ";" for_arg ")" statement
+   36 statement: name ":" auto_decl decl_stmnt • ";"
 
     ";"  shift, and go to state 195
 
 
 State 185
 
-   33 statement: TOKEN_FOR • "(" for_arg ";" for_arg ";" for_arg ")" statement
-   43 if_term: TOKEN_FOR • "(" for_arg ";" for_arg ";" for_arg ")" if_term
+   33 statement: TOKEN_FOR "(" for_arg ";" for_arg • ";" for_arg ")" statement
 
-    "("  shift, and go to state 196
+    ";"  shift, and go to state 196
 
 
 State 186
 
-   30 statement: TOKEN_IF • "(" expr ")" statement
-   31          | TOKEN_IF • "(" expr ")" if_term TOKEN_ELSE statement
-   41 if_term: TOKEN_IF • "(" expr ")" if_term TOKEN_ELSE if_term
+   33 statement: TOKEN_FOR • "(" for_arg ";" for_arg ";" for_arg ")" statement
+   43 if_term: TOKEN_FOR • "(" for_arg ";" for_arg ";" for_arg ")" if_term
 
     "("  shift, and go to state 197
 
 
 State 187
+
+   30 statement: TOKEN_IF • "(" expr ")" statement
+   31          | TOKEN_IF • "(" expr ")" if_term TOKEN_ELSE statement
+   41 if_term: TOKEN_IF • "(" expr ")" if_term TOKEN_ELSE if_term
+
+    "("  shift, and go to state 198
+
+
+State 188
 
    35 statement: TOKEN_PRINT • expr_epsilon ";"
    45 if_term: TOKEN_PRINT • expr_epsilon ";"
@@ -2826,7 +2837,7 @@ State 187
     $default  reduce using rule 57 (expr_epsilon)
 
     name          go to state 38
-    expr_epsilon  go to state 198
+    expr_epsilon  go to state 199
     expr_list     go to state 164
     expr          go to state 165
     or            go to state 40
@@ -2842,7 +2853,7 @@ State 187
     atomic        go to state 50
 
 
-State 188
+State 189
 
    32 statement: TOKEN_RETURN • expr ";"
    42 if_term: TOKEN_RETURN • expr ";"
@@ -2859,7 +2870,7 @@ State 188
     TOKEN_NUMBER   shift, and go to state 37
 
     name          go to state 38
-    expr          go to state 199
+    expr          go to state 200
     or            go to state 40
     and           go to state 41
     comparison    go to state 42
@@ -2873,7 +2884,7 @@ State 188
     atomic        go to state 50
 
 
-State 189
+State 190
 
    36 statement: name • ":" auto_decl decl_stmnt ";"
    46 if_term: name • ":" auto_decl decl_stmnt ";"
@@ -2883,7 +2894,7 @@ State 189
    94             | name • "[" inside_arr "]" array_end
   100 atomic: name •
 
-    ":"  shift, and go to state 200
+    ":"  shift, and go to state 201
     "["  shift, and go to state 64
     "("  shift, and go to state 65
 
@@ -2891,14 +2902,14 @@ State 189
     $default  reduce using rule 100 (atomic)
 
 
-State 190
+State 191
 
    30 statement: TOKEN_IF "(" expr ")" statement •
 
     $default  reduce using rule 30 (statement)
 
 
-State 191
+State 192
 
    34 statement: body •
    44 if_term: body •
@@ -2907,29 +2918,29 @@ State 191
     $default    reduce using rule 34 (statement)
 
 
-State 192
+State 193
 
    31 statement: TOKEN_IF "(" expr ")" if_term • TOKEN_ELSE statement
 
-    TOKEN_ELSE  shift, and go to state 201
+    TOKEN_ELSE  shift, and go to state 202
 
 
-State 193
+State 194
 
    37 statement: expr • ";"
    47 if_term: expr • ";"
 
-    ";"  shift, and go to state 202
+    ";"  shift, and go to state 203
 
 
-State 194
+State 195
 
    36 statement: name ":" auto_decl decl_stmnt ";" •
 
     $default  reduce using rule 36 (statement)
 
 
-State 195
+State 196
 
    33 statement: TOKEN_FOR "(" for_arg ";" for_arg ";" • for_arg ")" statement
 
@@ -2947,8 +2958,8 @@ State 195
     $default  reduce using rule 49 (for_arg)
 
     name          go to state 38
-    for_arg       go to state 203
-    expr          go to state 174
+    for_arg       go to state 204
+    expr          go to state 175
     or            go to state 40
     and           go to state 41
     comparison    go to state 42
@@ -2962,7 +2973,7 @@ State 195
     atomic        go to state 50
 
 
-State 196
+State 197
 
    33 statement: TOKEN_FOR "(" • for_arg ";" for_arg ";" for_arg ")" statement
    43 if_term: TOKEN_FOR "(" • for_arg ";" for_arg ";" for_arg ")" if_term
@@ -2981,8 +2992,8 @@ State 196
     $default  reduce using rule 49 (for_arg)
 
     name          go to state 38
-    for_arg       go to state 204
-    expr          go to state 174
+    for_arg       go to state 205
+    expr          go to state 175
     or            go to state 40
     and           go to state 41
     comparison    go to state 42
@@ -2996,7 +3007,7 @@ State 196
     atomic        go to state 50
 
 
-State 197
+State 198
 
    30 statement: TOKEN_IF "(" • expr ")" statement
    31          | TOKEN_IF "(" • expr ")" if_term TOKEN_ELSE statement
@@ -3014,7 +3025,7 @@ State 197
     TOKEN_NUMBER   shift, and go to state 37
 
     name          go to state 38
-    expr          go to state 205
+    expr          go to state 206
     or            go to state 40
     and           go to state 41
     comparison    go to state 42
@@ -3028,23 +3039,23 @@ State 197
     atomic        go to state 50
 
 
-State 198
+State 199
 
    35 statement: TOKEN_PRINT expr_epsilon • ";"
    45 if_term: TOKEN_PRINT expr_epsilon • ";"
-
-    ";"  shift, and go to state 206
-
-
-State 199
-
-   32 statement: TOKEN_RETURN expr • ";"
-   42 if_term: TOKEN_RETURN expr • ";"
 
     ";"  shift, and go to state 207
 
 
 State 200
+
+   32 statement: TOKEN_RETURN expr • ";"
+   42 if_term: TOKEN_RETURN expr • ";"
+
+    ";"  shift, and go to state 208
+
+
+State 201
 
    36 statement: name ":" • auto_decl decl_stmnt ";"
    46 if_term: name ":" • auto_decl decl_stmnt ";"
@@ -3056,11 +3067,11 @@ State 200
     TOKEN_INT    shift, and go to state 15
     TOKEN_STR    shift, and go to state 16
 
-    auto_decl  go to state 208
+    auto_decl  go to state 209
     type_decl  go to state 18
 
 
-State 201
+State 202
 
    31 statement: TOKEN_IF "(" expr ")" if_term TOKEN_ELSE • statement
 
@@ -3080,7 +3091,7 @@ State 201
     TOKEN_NUMBER   shift, and go to state 37
 
     name          go to state 154
-    statement     go to state 209
+    statement     go to state 210
     body          go to state 157
     expr          go to state 158
     or            go to state 40
@@ -3096,7 +3107,7 @@ State 201
     atomic        go to state 50
 
 
-State 202
+State 203
 
    37 statement: expr ";" •
    47 if_term: expr ";" •
@@ -3105,31 +3116,31 @@ State 202
     $default    reduce using rule 37 (statement)
 
 
-State 203
+State 204
 
    33 statement: TOKEN_FOR "(" for_arg ";" for_arg ";" for_arg • ")" statement
 
-    ")"  shift, and go to state 210
+    ")"  shift, and go to state 211
 
 
-State 204
+State 205
 
    33 statement: TOKEN_FOR "(" for_arg • ";" for_arg ";" for_arg ")" statement
    43 if_term: TOKEN_FOR "(" for_arg • ";" for_arg ";" for_arg ")" if_term
 
-    ";"  shift, and go to state 211
+    ";"  shift, and go to state 212
 
 
-State 205
+State 206
 
    30 statement: TOKEN_IF "(" expr • ")" statement
    31          | TOKEN_IF "(" expr • ")" if_term TOKEN_ELSE statement
    41 if_term: TOKEN_IF "(" expr • ")" if_term TOKEN_ELSE if_term
 
-    ")"  shift, and go to state 212
+    ")"  shift, and go to state 213
 
 
-State 206
+State 207
 
    35 statement: TOKEN_PRINT expr_epsilon ";" •
    45 if_term: TOKEN_PRINT expr_epsilon ";" •
@@ -3138,7 +3149,7 @@ State 206
     $default    reduce using rule 35 (statement)
 
 
-State 207
+State 208
 
    32 statement: TOKEN_RETURN expr ";" •
    42 if_term: TOKEN_RETURN expr ";" •
@@ -3147,7 +3158,7 @@ State 207
     $default    reduce using rule 32 (statement)
 
 
-State 208
+State 209
 
    36 statement: name ":" auto_decl • decl_stmnt ";"
    46 if_term: name ":" auto_decl • decl_stmnt ";"
@@ -3156,17 +3167,17 @@ State 208
 
     $default  reduce using rule 9 (decl_stmnt)
 
-    decl_stmnt  go to state 213
+    decl_stmnt  go to state 214
 
 
-State 209
+State 210
 
    31 statement: TOKEN_IF "(" expr ")" if_term TOKEN_ELSE statement •
 
     $default  reduce using rule 31 (statement)
 
 
-State 210
+State 211
 
    33 statement: TOKEN_FOR "(" for_arg ";" for_arg ";" for_arg ")" • statement
 
@@ -3186,7 +3197,7 @@ State 210
     TOKEN_NUMBER   shift, and go to state 37
 
     name          go to state 154
-    statement     go to state 214
+    statement     go to state 215
     body          go to state 157
     expr          go to state 158
     or            go to state 40
@@ -3202,7 +3213,7 @@ State 210
     atomic        go to state 50
 
 
-State 211
+State 212
 
    33 statement: TOKEN_FOR "(" for_arg ";" • for_arg ";" for_arg ")" statement
    43 if_term: TOKEN_FOR "(" for_arg ";" • for_arg ";" for_arg ")" if_term
@@ -3221,47 +3232,8 @@ State 211
     $default  reduce using rule 49 (for_arg)
 
     name          go to state 38
-    for_arg       go to state 215
-    expr          go to state 174
-    or            go to state 40
-    and           go to state 41
-    comparison    go to state 42
-    term          go to state 43
-    factor        go to state 44
-    exponent      go to state 45
-    unary         go to state 46
-    postfix       go to state 47
-    pre_atomic    go to state 48
-    ident_assign  go to state 49
-    atomic        go to state 50
-
-
-State 212
-
-   30 statement: TOKEN_IF "(" expr ")" • statement
-   31          | TOKEN_IF "(" expr ")" • if_term TOKEN_ELSE statement
-   41 if_term: TOKEN_IF "(" expr ")" • if_term TOKEN_ELSE if_term
-
-    TOKEN_TRUE     shift, and go to state 29
-    TOKEN_FALSE    shift, and go to state 30
-    TOKEN_FOR      shift, and go to state 185
-    TOKEN_IF       shift, and go to state 186
-    TOKEN_PRINT    shift, and go to state 187
-    TOKEN_RETURN   shift, and go to state 188
-    "{"            shift, and go to state 153
-    "("            shift, and go to state 32
-    "-"            shift, and go to state 33
-    "!"            shift, and go to state 34
-    TOKEN_CHARLIT  shift, and go to state 35
-    TOKEN_STRLIT   shift, and go to state 36
-    TOKEN_IDENT    shift, and go to state 1
-    TOKEN_NUMBER   shift, and go to state 37
-
-    name          go to state 189
-    statement     go to state 190
-    body          go to state 191
-    if_term       go to state 216
-    expr          go to state 193
+    for_arg       go to state 216
+    expr          go to state 175
     or            go to state 40
     and           go to state 41
     comparison    go to state 42
@@ -3277,36 +3249,75 @@ State 212
 
 State 213
 
-   36 statement: name ":" auto_decl decl_stmnt • ";"
-   46 if_term: name ":" auto_decl decl_stmnt • ";"
+   30 statement: TOKEN_IF "(" expr ")" • statement
+   31          | TOKEN_IF "(" expr ")" • if_term TOKEN_ELSE statement
+   41 if_term: TOKEN_IF "(" expr ")" • if_term TOKEN_ELSE if_term
 
-    ";"  shift, and go to state 217
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    TOKEN_FOR      shift, and go to state 186
+    TOKEN_IF       shift, and go to state 187
+    TOKEN_PRINT    shift, and go to state 188
+    TOKEN_RETURN   shift, and go to state 189
+    "{"            shift, and go to state 153
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    name          go to state 190
+    statement     go to state 191
+    body          go to state 192
+    if_term       go to state 217
+    expr          go to state 194
+    or            go to state 40
+    and           go to state 41
+    comparison    go to state 42
+    term          go to state 43
+    factor        go to state 44
+    exponent      go to state 45
+    unary         go to state 46
+    postfix       go to state 47
+    pre_atomic    go to state 48
+    ident_assign  go to state 49
+    atomic        go to state 50
 
 
 State 214
+
+   36 statement: name ":" auto_decl decl_stmnt • ";"
+   46 if_term: name ":" auto_decl decl_stmnt • ";"
+
+    ";"  shift, and go to state 218
+
+
+State 215
 
    33 statement: TOKEN_FOR "(" for_arg ";" for_arg ";" for_arg ")" statement •
 
     $default  reduce using rule 33 (statement)
 
 
-State 215
+State 216
 
    33 statement: TOKEN_FOR "(" for_arg ";" for_arg • ";" for_arg ")" statement
    43 if_term: TOKEN_FOR "(" for_arg ";" for_arg • ";" for_arg ")" if_term
 
-    ";"  shift, and go to state 218
+    ";"  shift, and go to state 219
 
 
-State 216
+State 217
 
    31 statement: TOKEN_IF "(" expr ")" if_term • TOKEN_ELSE statement
    41 if_term: TOKEN_IF "(" expr ")" if_term • TOKEN_ELSE if_term
 
-    TOKEN_ELSE  shift, and go to state 219
+    TOKEN_ELSE  shift, and go to state 220
 
 
-State 217
+State 218
 
    36 statement: name ":" auto_decl decl_stmnt ";" •
    46 if_term: name ":" auto_decl decl_stmnt ";" •
@@ -3315,7 +3326,7 @@ State 217
     $default    reduce using rule 36 (statement)
 
 
-State 218
+State 219
 
    33 statement: TOKEN_FOR "(" for_arg ";" for_arg ";" • for_arg ")" statement
    43 if_term: TOKEN_FOR "(" for_arg ";" for_arg ";" • for_arg ")" if_term
@@ -3334,46 +3345,8 @@ State 218
     $default  reduce using rule 49 (for_arg)
 
     name          go to state 38
-    for_arg       go to state 220
-    expr          go to state 174
-    or            go to state 40
-    and           go to state 41
-    comparison    go to state 42
-    term          go to state 43
-    factor        go to state 44
-    exponent      go to state 45
-    unary         go to state 46
-    postfix       go to state 47
-    pre_atomic    go to state 48
-    ident_assign  go to state 49
-    atomic        go to state 50
-
-
-State 219
-
-   31 statement: TOKEN_IF "(" expr ")" if_term TOKEN_ELSE • statement
-   41 if_term: TOKEN_IF "(" expr ")" if_term TOKEN_ELSE • if_term
-
-    TOKEN_TRUE     shift, and go to state 29
-    TOKEN_FALSE    shift, and go to state 30
-    TOKEN_FOR      shift, and go to state 185
-    TOKEN_IF       shift, and go to state 186
-    TOKEN_PRINT    shift, and go to state 187
-    TOKEN_RETURN   shift, and go to state 188
-    "{"            shift, and go to state 153
-    "("            shift, and go to state 32
-    "-"            shift, and go to state 33
-    "!"            shift, and go to state 34
-    TOKEN_CHARLIT  shift, and go to state 35
-    TOKEN_STRLIT   shift, and go to state 36
-    TOKEN_IDENT    shift, and go to state 1
-    TOKEN_NUMBER   shift, and go to state 37
-
-    name          go to state 189
-    statement     go to state 209
-    body          go to state 191
-    if_term       go to state 221
-    expr          go to state 193
+    for_arg       go to state 221
+    expr          go to state 175
     or            go to state 40
     and           go to state 41
     comparison    go to state 42
@@ -3389,30 +3362,15 @@ State 219
 
 State 220
 
-   33 statement: TOKEN_FOR "(" for_arg ";" for_arg ";" for_arg • ")" statement
-   43 if_term: TOKEN_FOR "(" for_arg ";" for_arg ";" for_arg • ")" if_term
-
-    ")"  shift, and go to state 222
-
-
-State 221
-
-   41 if_term: TOKEN_IF "(" expr ")" if_term TOKEN_ELSE if_term •
-
-    $default  reduce using rule 41 (if_term)
-
-
-State 222
-
-   33 statement: TOKEN_FOR "(" for_arg ";" for_arg ";" for_arg ")" • statement
-   43 if_term: TOKEN_FOR "(" for_arg ";" for_arg ";" for_arg ")" • if_term
+   31 statement: TOKEN_IF "(" expr ")" if_term TOKEN_ELSE • statement
+   41 if_term: TOKEN_IF "(" expr ")" if_term TOKEN_ELSE • if_term
 
     TOKEN_TRUE     shift, and go to state 29
     TOKEN_FALSE    shift, and go to state 30
-    TOKEN_FOR      shift, and go to state 185
-    TOKEN_IF       shift, and go to state 186
-    TOKEN_PRINT    shift, and go to state 187
-    TOKEN_RETURN   shift, and go to state 188
+    TOKEN_FOR      shift, and go to state 186
+    TOKEN_IF       shift, and go to state 187
+    TOKEN_PRINT    shift, and go to state 188
+    TOKEN_RETURN   shift, and go to state 189
     "{"            shift, and go to state 153
     "("            shift, and go to state 32
     "-"            shift, and go to state 33
@@ -3422,11 +3380,11 @@ State 222
     TOKEN_IDENT    shift, and go to state 1
     TOKEN_NUMBER   shift, and go to state 37
 
-    name          go to state 189
-    statement     go to state 214
-    body          go to state 191
-    if_term       go to state 223
-    expr          go to state 193
+    name          go to state 190
+    statement     go to state 210
+    body          go to state 192
+    if_term       go to state 222
+    expr          go to state 194
     or            go to state 40
     and           go to state 41
     comparison    go to state 42
@@ -3440,7 +3398,60 @@ State 222
     atomic        go to state 50
 
 
+State 221
+
+   33 statement: TOKEN_FOR "(" for_arg ";" for_arg ";" for_arg • ")" statement
+   43 if_term: TOKEN_FOR "(" for_arg ";" for_arg ";" for_arg • ")" if_term
+
+    ")"  shift, and go to state 223
+
+
+State 222
+
+   41 if_term: TOKEN_IF "(" expr ")" if_term TOKEN_ELSE if_term •
+
+    $default  reduce using rule 41 (if_term)
+
+
 State 223
+
+   33 statement: TOKEN_FOR "(" for_arg ";" for_arg ";" for_arg ")" • statement
+   43 if_term: TOKEN_FOR "(" for_arg ";" for_arg ";" for_arg ")" • if_term
+
+    TOKEN_TRUE     shift, and go to state 29
+    TOKEN_FALSE    shift, and go to state 30
+    TOKEN_FOR      shift, and go to state 186
+    TOKEN_IF       shift, and go to state 187
+    TOKEN_PRINT    shift, and go to state 188
+    TOKEN_RETURN   shift, and go to state 189
+    "{"            shift, and go to state 153
+    "("            shift, and go to state 32
+    "-"            shift, and go to state 33
+    "!"            shift, and go to state 34
+    TOKEN_CHARLIT  shift, and go to state 35
+    TOKEN_STRLIT   shift, and go to state 36
+    TOKEN_IDENT    shift, and go to state 1
+    TOKEN_NUMBER   shift, and go to state 37
+
+    name          go to state 190
+    statement     go to state 215
+    body          go to state 192
+    if_term       go to state 224
+    expr          go to state 194
+    or            go to state 40
+    and           go to state 41
+    comparison    go to state 42
+    term          go to state 43
+    factor        go to state 44
+    exponent      go to state 45
+    unary         go to state 46
+    postfix       go to state 47
+    pre_atomic    go to state 48
+    ident_assign  go to state 49
+    atomic        go to state 50
+
+
+State 224
 
    43 if_term: TOKEN_FOR "(" for_arg ";" for_arg ";" for_arg ")" if_term •
 

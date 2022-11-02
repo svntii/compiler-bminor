@@ -2,7 +2,7 @@
 #include "param_list.h"
 #include "special.h"
 
-struct type *type_create(type_t kind, struct type *subtype, struct param_list *params, struct expr *inside_array)
+struct type *type_create(type_t kind, struct type *subtype, struct param_list *params, struct expr *inside_array, int return_type)
 {
     struct type *t = special_xmalloc(sizeof(struct type));
     t->kind = kind;
@@ -41,12 +41,12 @@ void type_print(struct type *t, int tab)
     case TYPE_FUNCTION:
         printf(" function");
         type_print(t->subtype, tab);
-        if (t->subtype->kind != TYPE_FUNCTION)
+        if (t->subtype->kind != TYPE_FUNCTION && t->return_type == 0)
         {
             printf("(");
         }
         param_print(t->params, tab);
-        if (t->subtype->kind != TYPE_FUNCTION)
+        if (t->subtype->kind != TYPE_FUNCTION && t->return_type == 0)
         {
             printf(") ");
         }

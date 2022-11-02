@@ -28,7 +28,7 @@ void decl_print(struct decl *d, int tab)
             printf(" = ");
         }
         expr_print(d->value, tab);
-        if (d->type->kind == TYPE_FUNCTION)
+        if (d->type->kind == TYPE_FUNCTION && d->code)
         {
             printf(" = ");
         }
@@ -38,6 +38,7 @@ void decl_print(struct decl *d, int tab)
             printf(";");
         }
         printf("\n");
+        special_tabprinter(tab);
         decl_print(d->next, tab);
     }
 }

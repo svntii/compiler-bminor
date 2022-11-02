@@ -5,6 +5,7 @@
         "type.h": "c",
         "stmt.h": "c",
         "param_list.h": "c",
-        "decl.h": "c"
+        "decl.h": "c",
+        "cmath": "c"
     }
 }

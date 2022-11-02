@@ -112,8 +112,8 @@ extern FILE *yyin;
 		;	
 
 	decl: 			name TOKEN_COLON auto_decl decl_stmnt TOKEN_SEMI /*Variable Declaration*/	{ $$ = decl_create($1, $3, $4, 0, 0);  }
-		|			name TOKEN_COLON TOKEN_FUNC return_types	TOKEN_PARL decl_args_epsilon TOKEN_PARR	TOKEN_SEMI /*function prototype */ { $$ = decl_create($1, type_create(TYPE_FUNCTION, $4, $6, 0), 0, 0, 0);  }
-		|			name TOKEN_COLON TOKEN_FUNC return_types	TOKEN_PARL decl_args_epsilon TOKEN_PARR TOKEN_ASSIGN body { $$ = decl_create($1, type_create(TYPE_FUNCTION, $4, $6, 0), 0, $9, 0); }
+		|			name TOKEN_COLON TOKEN_FUNC return_types	TOKEN_PARL decl_args_epsilon TOKEN_PARR	TOKEN_SEMI /*function prototype */ { $$ = decl_create($1, type_create(TYPE_FUNCTION, $4, $6, 0,0), 0, 0, 0);  }
+		|			name TOKEN_COLON TOKEN_FUNC return_types	TOKEN_PARL decl_args_epsilon TOKEN_PARR TOKEN_ASSIGN body { $$ = decl_create($1, type_create(TYPE_FUNCTION, $4, $6, 0,0), 0, $9, 0); }
 		;
 
 	name:	TOKEN_IDENT 				{ $$ = strdup(yytext); }	
@@ -122,27 +122,27 @@ extern FILE *yyin;
 		|								{ $$ = 0; 	}
 		;
 	
-	auto_decl: 	TOKEN_AUTO				{ $$ = type_create(TYPE_AUTO, 0, 0, 0); 	}
+	auto_decl: 	TOKEN_AUTO				{ $$ = type_create(TYPE_AUTO, 0, 0, 0, 0); 	}
 		| 		type_decl				{ $$ = $1;	}
 		;
 	
-	type_decl:	TOKEN_INT 				{ $$ = type_create(TYPE_INTEGER, 0, 0, 0);	}
-		|		TOKEN_BOOL 				{ $$ = type_create(TYPE_BOOLEAN, 0, 0, 0);	}
-		|		TOKEN_CHAR				{ $$ = type_create(TYPE_CHAR,	 0, 0, 0); }
-		|		TOKEN_STR				{ $$ = type_create(TYPE_STRING,  0, 0, 0);	}
-		|		TOKEN_ARRAY TOKEN_BRACKL inside_arr TOKEN_BRACKR auto_decl { $$ = type_create( TYPE_ARRAY,$5, 0, 0);  }
+	type_decl:	TOKEN_INT 				{ $$ = type_create(TYPE_INTEGER, 0, 0, 0,0);	}
+		|		TOKEN_BOOL 				{ $$ = type_create(TYPE_BOOLEAN, 0, 0, 0, 0);	}
+		|		TOKEN_CHAR				{ $$ = type_create(TYPE_CHAR,	 0, 0, 0, 0); }
+		|		TOKEN_STR				{ $$ = type_create(TYPE_STRING,  0, 0, 0, 0);	}
+		|		TOKEN_ARRAY TOKEN_BRACKL inside_arr TOKEN_BRACKR auto_decl { $$ = type_create( TYPE_ARRAY,$5, 0, 0, 0);  }
 
 	
-	auto_decl_args: TOKEN_AUTO 		{ $$ = type_create(TYPE_AUTO, 0, 0, 0);	}
+	auto_decl_args: TOKEN_AUTO 		{ $$ = type_create(TYPE_AUTO, 0, 0, 0,0);	}
 		|			type_decl_args	{ $$ = $1;							}
 		;
 	
-	type_decl_args:	TOKEN_INT 		{ $$ = type_create(TYPE_INTEGER, 0, 0, 0);	}
-		|			TOKEN_BOOL		{ $$ = type_create(TYPE_BOOLEAN, 0, 0, 0);	}
-		|			TOKEN_CHAR		{ $$ = type_create(TYPE_CHAR,    0, 0, 0); }
-		|			TOKEN_STR		{ $$ = type_create(TYPE_STRING,  0, 0, 0); }	
-		|			TOKEN_ARRAY TOKEN_BRACKL inside_arr TOKEN_BRACKR auto_decl_args	{ $$ = type_create(TYPE_ARRAY, $5, 0, $3);  }
-		|			TOKEN_FUNC return_types	{ $$ = type_create(TYPE_FUNCTION, $2, 0, 0); } 
+	type_decl_args:	TOKEN_INT 		{ $$ = type_create(TYPE_INTEGER, 0, 0, 0, 0);	}
+		|			TOKEN_BOOL		{ $$ = type_create(TYPE_BOOLEAN, 0, 0, 0, 0);	}
+		|			TOKEN_CHAR		{ $$ = type_create(TYPE_CHAR,    0, 0, 0, 0); }
+		|			TOKEN_STR		{ $$ = type_create(TYPE_STRING,  0, 0, 0, 0); }	
+		|			TOKEN_ARRAY TOKEN_BRACKL inside_arr TOKEN_BRACKR auto_decl_args	{ $$ = type_create(TYPE_ARRAY, $5, 0, $3, 0);  }
+		|			TOKEN_FUNC return_types	{ $$ = type_create(TYPE_FUNCTION, $2, 0, 0, 0); } 
 		;
 
 	decl_args_epsilon: decl_args  { $$ = $1; }
@@ -160,7 +160,7 @@ extern FILE *yyin;
 		|		TOKEN_RETURN expr TOKEN_SEMI										{ $$ = stmt_create_return($2);			}
 		|		TOKEN_FOR 	TOKEN_PARL for_arg TOKEN_SEMI for_arg TOKEN_SEMI for_arg TOKEN_PARR statement{ $$ = stmt_create_for($3, $5, $7, $9);}
 		|		body																{ $$ = $1; }
-		|		TOKEN_PRINT	expr_epsilon TOKEN_SEMI						/*print*/	{ $$ = stmt_create_print($2);			}	
+		|		TOKEN_PRINT	expr_epsilon TOKEN_SEMI				 /*print*/			{ $$ = stmt_create_print($2);			}	
 		|		name TOKEN_COLON auto_decl decl_stmnt TOKEN_SEMI /*decl*/			{ $$ = stmt_create_decl( decl_create($1, $3, $4, 0, 0) );	}
 		|		expr TOKEN_SEMI														{ $$ = stmt_create_expr($1);			}
 		;
@@ -189,12 +189,12 @@ extern FILE *yyin;
 		|				{$$ = 0	;	}
 		;
 
-	return_types: 	TOKEN_VOID 		{ $$ = type_create(TYPE_VOID,    0, 0, 0); }		
-		| 			TOKEN_INT		{ $$ = type_create(TYPE_INTEGER, 0, 0, 0); }
-		| 			TOKEN_BOOL		{ $$ = type_create(TYPE_BOOLEAN, 0, 0, 0); }
-		| 			TOKEN_CHAR		{ $$ = type_create(TYPE_CHAR, 	 0, 0, 0); }
-		| 			TOKEN_STR		{ $$ = type_create(TYPE_STRING,  0, 0, 0); }
-		| 			TOKEN_FUNC return_types { $$ = type_create(TYPE_FUNCTION, $2, 0, 0); }
+	return_types: 	TOKEN_VOID 		{ $$ = type_create(TYPE_VOID,    0, 0, 0, 1); }		
+		| 			TOKEN_INT		{ $$ = type_create(TYPE_INTEGER, 0, 0, 0, 1); }
+		| 			TOKEN_BOOL		{ $$ = type_create(TYPE_BOOLEAN, 0, 0, 0, 1); }
+		| 			TOKEN_CHAR		{ $$ = type_create(TYPE_CHAR, 	 0, 0, 0, 1); }
+		| 			TOKEN_STR		{ $$ = type_create(TYPE_STRING,  0, 0, 0, 1); }
+		| 			TOKEN_FUNC return_types { $$ = type_create(TYPE_FUNCTION, $2, 0, 0, 1); }
 		;
 
 	expr_epsilon:	expr_list 	{ $$ = $1;	}
@@ -252,25 +252,25 @@ extern FILE *yyin;
 		|			pre_atomic						{ $$ = $1;		}
 		;
 
-	pre_atomic:		name TOKEN_PARL arg_epsilon TOKEN_PARR /*function call*/			  { $$ = expr_create(EXPR_FUNCTION_CALL, expr_create_name($1), $3);}
-		|			name TOKEN_BRACKL inside_arr TOKEN_BRACKR array_end	/*subscript*/ { $$ = expr_create(EXPR_SUBSCRIPT, expr_create_name($1), $5); }
+	pre_atomic:		name TOKEN_PARL arg_epsilon TOKEN_PARR /*function call*/	{ $$ = expr_create(EXPR_FUNCTION_CALL, expr_create_name($1), $3);}
+		|			name TOKEN_BRACKL inside_arr TOKEN_BRACKR array_end	/*subscript*/ { $$ = expr_create(EXPR_SUBSCRIPT, expr_create_name($1), 0); $$->right = expr_create(EXPR_SUBSCRIPT_SUB, $3, $5);  }
 		|			TOKEN_PARL expr TOKEN_PARR		{ $$ = expr_create(EXPR_GROUP, $2, 0); }				/*grouping */
 		| 			atomic							{ $$ = $1; }	
 		;
 
 
 	ident_assign:	name						{ $$ = expr_create_name($1);  		}  /*REVIEW*/
-		|			name TOKEN_BRACKL inside_arr TOKEN_BRACKR array_end { $$ = expr_create(EXPR_SUBSCRIPT, $3, $5); 		}
+		|			name TOKEN_BRACKL inside_arr TOKEN_BRACKR array_end {$$ = expr_create(EXPR_SUBSCRIPT, expr_create_name($1), 0); $$->right = expr_create(EXPR_SUBSCRIPT_SUB, $3, $5); }
 		;
 
 
 
 	atomic: 		TOKEN_NUMBER		{ $$ = expr_create_integer_literal(atoi(yytext));  		}	
 		|			TOKEN_STRLIT		{ $$ = expr_create_string_literal(strdup(yytext));		}
-		|			TOKEN_CHARLIT		{ $$ = expr_create_char_literal(*(yytext + 1)); 				}
+		|			TOKEN_CHARLIT		{ $$ = expr_create_char_literal(*(yytext + 1)); 		}
 		|			TOKEN_TRUE			{ $$ = expr_create_boolean_literal(1);		}
 		|			TOKEN_FALSE			{ $$ = expr_create_boolean_literal(0);		} /*REVIEW*/
-		|			name			{ $$ = expr_create_name($1);				}
+		|			name				{ $$ = expr_create_name($1);				}
 		|			TOKEN_CRLL atomic_array_epsilon TOKEN_CRLR { $$ = expr_create(EXPR_ARRAY_LITERAL, $2, 0);	}/*array declaration REVIEW*/
 		;		
 
@@ -278,7 +278,7 @@ extern FILE *yyin;
 		|											{ $$ = 0;  }
 		;
 
-	atomic_array: 	atomic atomic_array_end 		{ $$ = $1;	$1->right = $2;	}
+	atomic_array: 	atomic atomic_array_end 		{ $$ = expr_create(EXPR_ARG, $1, $2);	}
 		;
 
 	atomic_array_end: TOKEN_COMMA atomic_array 		{ $$ = $2;	}
@@ -288,16 +288,16 @@ extern FILE *yyin;
 		|			/*epsilon*/ 					{ $$ = 0; }
 		;
 	
-	arg_list:		expr arg_list_end				{ $$ = $1; $1->right = $2;		}
+	arg_list:		expr arg_list_end				{ $$ = expr_create(EXPR_ARG, $1, $2);		}
 		;
 
-	arg_list_end:	TOKEN_COMMA arg_list 			{   		}
+	arg_list_end:	TOKEN_COMMA arg_list 			{ $$ = $2; }
 		| 											{ $$ = 0;  }
 		;
 
 	
-	array_end: 		TOKEN_BRACKL inside_arr TOKEN_BRACKR	{			}
-		|												 	{ $$ = 0; 	}
+	array_end: 		TOKEN_BRACKL inside_arr TOKEN_BRACKR array_end 	{ $$ = expr_create(EXPR_SUBSCRIPT_SUB, $2, $4);	}
+		|												 			{ $$ = 0; 	}
 		;
 
 	inside_arr: 	expr							{ $$ = $1; }

@@ -15,8 +15,7 @@ extern int yyparse();
 extern FILE *yyin;
 extern int yydebug;
 extern int yywrap();
-extern struct decl * parser_result;
-
+extern struct decl *parser_result;
 
 int main(int argc, char *argv[])
 {
@@ -36,7 +35,6 @@ int main(int argc, char *argv[])
 	{
 		if (argv[i][0] == '-')
 		{
-			printf("%s\n", flag);
 			strcpy(flag, argv[i]);
 			if (strcmp(flag, "-h") == 0)
 			{
@@ -77,12 +75,12 @@ int main(int argc, char *argv[])
 		}
 		i++;
 	}
-	printf("CSE 40243 B-Minor Parser\n");
-	printf("Enter a valid  B-Minor Code \n\n");
+	printf("//	CSE 40243 B-Minor Parser\n");
+	printf("//	Enter a valid  B-Minor Code \n\n");
 
 	if (yywrap() == 1)
 	{
-		printf("Scan Successful\n");
+		printf("//	Scan Successful\n");
 	}
 	else
 	{
@@ -91,7 +89,7 @@ int main(int argc, char *argv[])
 	}
 	if (yyparse() == 0)
 	{
-		printf("Parse Successful\n");
+		printf("//	Parse Successful\n");
 	}
 	else
 	{

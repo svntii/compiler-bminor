@@ -21,52 +21,65 @@ void *stmt_print(struct stmt *s, int tab)
 {
     if (s)
     {
-        special_tabprinter(tab);
         switch (s->kind)
         {
         case STMT_DECL:
             decl_print(s->decl, tab);
+            printf("\n");
+            special_tabprinter(tab);
             break;
         case STMT_EXPR:
             expr_print(s->expr, tab);
+            printf(";");
+            printf("\n");
+            special_tabprinter(tab);
             break;
         case STMT_IF_ELSE:
             printf("if (");
             expr_print(s->expr, tab);
-            printf(")");
-            printf("\n");
+            printf(")\n");
+            special_tabprinter(tab + 1);
             stmt_print(s->body, tab + 1);
             printf("\n");
             special_tabprinter(tab);
-            printf("else\n");
+            printf("else");
+            printf("\n");
+            special_tabprinter(tab + 1);
             stmt_print(s->else_body, tab + 1);
             break;
         case STMT_IF:
             printf("if (");
             expr_print(s->expr, tab);
-            printf(" )");
-            stmt_print(s->body, tab);
+            printf(")\n");
+            special_tabprinter(tab + 1);
+            stmt_print(s->body, tab + 1);
             break;
         case STMT_FOR:
             printf("for (");
             expr_print(s->init_expr, tab);
-            printf(" ;");
+            printf("; ");
             expr_print(s->expr, tab);
-            printf(" ;");
+            printf("; ");
             expr_print(s->next_expr, tab);
-            printf(" )\n{");
+            printf(" )");
+            printf("\n");
+            special_tabprinter(tab + 1);
             stmt_print(s->body, tab + 1);
-            printf("\n}");
+
             break;
         case STMT_PRINT:
             printf("print ");
             expr_print(s->expr, tab);
             printf(";");
+            printf("\n");
+            special_tabprinter(tab);
             break;
         case STMT_RETURN:
             printf("return ");
             expr_print(s->expr, tab);
             printf(";");
+            printf("\n");
+            special_tabprinter(tab);
             break;
         case STMT_WHILE:
             break;
@@ -74,17 +87,18 @@ void *stmt_print(struct stmt *s, int tab)
             printf("\n");
             special_tabprinter(tab);
             printf("{\n");
+            special_tabprinter(tab + 1);
             stmt_print(s->body, tab + 1);
             printf("\n");
             special_tabprinter(tab);
             printf("}\n");
-
+            special_tabprinter(tab);
             break;
 
         default:
             break;
         }
-        printf("\n");
+
         stmt_print(s->next, tab);
     }
 }

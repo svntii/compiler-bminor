@@ -1,6 +1,19 @@
+//	CSE 40243 B-Minor Parser
+//	Enter a valid  B-Minor Code 
 
-CSE 40243 B-Minor Parser
-Enter a valid  B-Minor Code 
+//	Scan Successful
+//	Parse Successful
+x: function void(x: function void() )  = 
+{
+    i: integer  = 0;
+    
+    for (; ;  )
+        
+        {
+            print i;
+            
+        }
+        x();
+    
+}
 
-Scan Successful
-Parse Successful
