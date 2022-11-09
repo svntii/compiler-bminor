@@ -1,0 +1,38 @@
+//	CSE 40243 B-Minor Parser
+//	Enter a valid  B-Minor Code 
+
+//	Scan Successful
+//	Parse Successful
+x: integer  = 5;
+c: char  = 'A';
+str: string  = "hello";
+main: function void()  = 
+{
+    x: integer  = 5;
+    
+    y: integer  = 4;
+    
+    if (!( ( 4 * x^5 + 4 ) - 4 >= 1 ))
+        
+        {
+            x = 6;
+            
+        }
+        
+}
+
+x: function void()  = 
+{
+    x: integer  = 5;
+    
+    y: integer  = 4;
+    
+    if (!( ( 4 * x^5 + 4 ) - 4 >= 1 ))
+        
+        {
+            x = 6;
+            
+        }
+        
+}
+

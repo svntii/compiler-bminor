@@ -1,0 +1,36 @@
+//	CSE 40243 B-Minor Parser
+//	Enter a valid  B-Minor Code 
+
+//	Scan Successful
+//	Parse Successful
+x: integer  = 65;
+s: string  = "hello";
+b: boolean  = false;
+min: function integer (a: integer , b: integer )  = 
+{
+    if (a < b)
+        return a;
+        
+    else
+        return b;
+        
+}
+
+testfunc: function void(z: integer )  = 
+{
+    y: integer  = x * ( x * 10 + 55 % 6 + z / 10 );
+    
+    print "y: ";
+    c: boolean  = ( x < 100 && y > 200 ) || !( b = true );
+    
+    print "c: ";
+    d: boolean  = ( s == "goodbye" );
+    
+    print "d: ";
+    z = y = x;
+    a: array [] integer ;
+    
+    y = min(a[10], a[20]);
+    
+}
+
