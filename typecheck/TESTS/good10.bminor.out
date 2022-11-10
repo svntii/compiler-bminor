@@ -1,0 +1,21 @@
+//	CSE 40243 B-Minor Parser
+//	Enter a valid  B-Minor Code 
+
+//	Scan Successful
+//	Parse Successful
+x: integer;
+y: integer;
+z: integer;
+arr: array[] array[] integer;
+str: string = "hello world";
+fxn: function integer()  = 
+{
+    arr[3][2] = 5;
+    x = arr[2][3];
+    x++;
+    return z;
+    c: char = str[0];
+    
+    
+}
+

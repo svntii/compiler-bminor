@@ -1,0 +1,7 @@
+x:function void(x:function void) = {
+    i:integer = 0;
+    for(;;){
+        print i;
+    }
+    x();
+}

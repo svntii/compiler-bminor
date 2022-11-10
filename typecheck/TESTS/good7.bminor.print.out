@@ -1,0 +1,28 @@
+//	CSE 40243 B-Minor Parser
+//	Enter a valid  B-Minor Code 
+
+//	Scan Successful
+//	Parse Successful
+main: function void()  = 
+{
+    if (10 < 20)
+        print "hi";
+        
+    else
+        print "hello";
+        if (10 < 20)
+        
+        {
+            print "hi";
+            
+        }
+        
+    else
+        
+        {
+            print "hello";
+            
+        }
+        
+}
+

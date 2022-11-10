@@ -1,0 +1,17 @@
+//	CSE 40243 B-Minor Parser
+//	Enter a valid  B-Minor Code 
+
+//	Scan Successful
+//	Parse Successful
+str: string = "this is a string";
+str2: string;
+x: integer;
+main: function void()  = 
+{
+    print ;
+    print "\n \r \t \0";
+    print x;
+    print str;
+    
+}
+

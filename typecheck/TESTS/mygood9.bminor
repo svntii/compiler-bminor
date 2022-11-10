@@ -1,0 +1,6 @@
+// print something
+
+
+x:function integer(i:function integer) = {
+    return x;
+}
