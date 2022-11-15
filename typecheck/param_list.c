@@ -1,11 +1,11 @@
-#include "type.h"
 #include "param_list.h"
-#include "special.h"
+#include "type.h"
 #include "scope.h"
+#include "decl.h"
+#include "stmt.h"
 #include "symbol.h"
-
-#include <stdio.h>
-
+#include "special.h"
+extern int MAIN_RESOLVEERROR_COUNT;
 struct param_list *param_list_create(char *name, struct type *type, struct symbol *symbol, struct param_list *next)
 {
     struct param_list *p = special_xmalloc(sizeof(struct param_list));
@@ -55,8 +55,22 @@ void param_list_resolve(struct param_list *p)
 {
     if (!p)
         return;
-    p->symbol = symbol_create(scope_level() ? SYMBOL_LOCAL : SYMBOL_GLOBAL, p->type, p->name, 0);
+    p->symbol = symbol_create(scope_level() ? SYMBOL_LOCAL : SYMBOL_GLOBAL, p->type, p->name, 0, 0);
+
+    struct symbol *s = scope_lookup_current(p->name);
+
+    if (s)
+    {
+        MAIN_RESOLVEERROR_COUNT++;
+        printf("resolve error: %s is already defined (param)\n", p->name);
+    }
+    else
+    {
+        printf("%s resolves to (param)\n", p->name);
+    }
+
     scope_bind(p->name, p->symbol);
+
     param_list_resolve(p->next);
 }
 

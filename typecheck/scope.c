@@ -1,7 +1,10 @@
-#include "special.h"
 #include "scope.h"
 #include "hash_table.h"
-#include "symbol.h"
+#include "expr.h"
+#include "stmt.h"
+#include "type.h"
+#include "decl.h"
+#include "special.h"
 
 struct scope_stack *HEAD;
 int LEVEL = 0;
@@ -15,13 +18,14 @@ struct scope_stack *scope_create(struct hash_table *h)
 
 void scope_enter()
 {
+    LEVEL = LEVEL + 1;
     struct scope_stack *s = scope_create(hash_table_create(0, 0));
     s->prev = HEAD;
     HEAD = s;
-    LEVEL++;
 }
 void scope_exit()
 {
+    LEVEL = LEVEL - 1;
     struct scope_stack *delete = HEAD;
     HEAD = HEAD->prev;
     hash_table_delete(delete->curr);
@@ -49,7 +53,7 @@ struct symbol *scope_lookup(const char *name)
         }
         lookup = lookup->prev;
     }
-    return 0;
+    return NULL;
 }
 struct symbol *scope_lookup_current(const char *name)
 {

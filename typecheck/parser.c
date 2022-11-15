@@ -1691,7 +1691,7 @@ yyreduce:
 
   case 61: /* expr: or "?" expr ":" expr  */
 #line 208 "parser.bison"
-                                                                                { (yyval.expr) = expr_create(EXPR_TERN, (yyvsp[-4].expr), expr_create(EXPR_TERN, (yyvsp[-2].expr), (yyvsp[0].expr))); }
+                                                                                { (yyval.expr) = expr_create(EXPR_TERN, (yyvsp[-4].expr), expr_create(EXPR_TERN_BODY, (yyvsp[-2].expr), (yyvsp[0].expr))); }
 #line 1696 "parser.c"
     break;
 
@@ -1823,13 +1823,13 @@ yyreduce:
 
   case 83: /* unary: "-" unary  */
 #line 244 "parser.bison"
-                                                                                { (yyval.expr) = expr_create(EXPR_NEGATE,(yyvsp[0].expr),0);}
+                                                                                { (yyval.expr) = expr_create(EXPR_NEGATE,0,(yyvsp[0].expr));}
 #line 1828 "parser.c"
     break;
 
   case 84: /* unary: "!" unary  */
 #line 245 "parser.bison"
-                                                                                        { (yyval.expr) = expr_create(EXPR_NOT   ,(yyvsp[0].expr),0);}
+                                                                                        { (yyval.expr) = expr_create(EXPR_NOT,0,(yyvsp[0].expr));}
 #line 1834 "parser.c"
     break;
 
@@ -1871,7 +1871,7 @@ yyreduce:
 
   case 91: /* pre_atomic: "(" expr ")"  */
 #line 256 "parser.bison"
-                                                                                { (yyval.expr) = expr_create(EXPR_GROUP, (yyvsp[-1].expr), 0); }
+                                                                                { (yyval.expr) = expr_create(EXPR_GROUP, 0,(yyvsp[-1].expr)); }
 #line 1876 "parser.c"
     break;
 

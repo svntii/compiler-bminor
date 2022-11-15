@@ -205,7 +205,7 @@ extern FILE *yyin;
 		;
 
 	expr: 			ident_assign TOKEN_ASSIGN expr		{ $$ = expr_create(EXPR_ASSIGNMENT, $1, $3); }
-		|			or TOKEN_TERN expr TOKEN_COLON expr	{ $$ = expr_create(EXPR_TERN, $1, expr_create(EXPR_TERN, $3, $5)); }				
+		|			or TOKEN_TERN expr TOKEN_COLON expr	{ $$ = expr_create(EXPR_TERN, $1, expr_create(EXPR_TERN_BODY, $3, $5)); }				
 		|			or									{ $$ = $1;		}
 		;
 
@@ -241,8 +241,8 @@ extern FILE *yyin;
 		|			unary							{ $$ = $1;		}
 		;
 
-	unary:			TOKEN_SUB unary					{ $$ = expr_create(EXPR_NEGATE,$2,0);}	
-		|			TOKEN_NOT unary					{ $$ = expr_create(EXPR_NOT   ,$2,0);}
+	unary:			TOKEN_SUB unary					{ $$ = expr_create(EXPR_NEGATE,0,$2);}	
+		|			TOKEN_NOT unary					{ $$ = expr_create(EXPR_NOT,0,$2);}
 		|			postfix							{ $$ = $1;		}
 		;
 	
@@ -253,7 +253,7 @@ extern FILE *yyin;
 
 	pre_atomic:		name TOKEN_PARL arg_epsilon TOKEN_PARR /*function call*/	{ $$ = expr_create(EXPR_FUNCTION_CALL, expr_create_name($1), $3);}
 		|			name TOKEN_BRACKL inside_arr TOKEN_BRACKR array_end	/*subscript*/ { $$ = expr_create(EXPR_SUBSCRIPT, expr_create_name($1), 0); $$->right = expr_create(EXPR_SUBSCRIPT_SUB, $3, $5);  }
-		|			TOKEN_PARL expr TOKEN_PARR		{ $$ = expr_create(EXPR_GROUP, $2, 0); }				/*grouping */
+		|			TOKEN_PARL expr TOKEN_PARR		{ $$ = expr_create(EXPR_GROUP, 0,$2); }				/*grouping */
 		| 			atomic							{ $$ = $1; }	
 		;
 

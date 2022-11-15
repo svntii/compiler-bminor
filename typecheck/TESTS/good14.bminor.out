@@ -1,8 +1,6 @@
-//	CSE 40243 B-Minor Parser
-//	Enter a valid  B-Minor Code 
-
-//	Scan Successful
-//	Parse Successful
+	Scan Successful
+	Parse Successful
+	Reformatted Code
 func1: function integer(x: integer, y: char)  = 
 {
     print x;
@@ -40,3 +38,26 @@ main: function void()  =
     
 }
 
+
+*****RESOLVING*******
+
+x resolves to (param)
+y resolves to (param)
+x is bound to (L3) x
+y resolves to (param)
+resolve error: x is not defined
+x resolves to (param)
+y resolves to (param)
+z resolves to (param)
+z is bound to (L3) z
+func2 is bound to (global) func2
+func2 is bound to (global) func2
+y is bound to (L3) y
+func1 is bound to (global) func1
+y is bound to (L3) y
+func1 is bound to (global) func1
+x is bound to (L3) x
+func3 is bound to (global) func3
+y is bound to (L3) y
+z is bound to (L3) z
+	Code Resolved

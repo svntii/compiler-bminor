@@ -1,43 +1,43 @@
 
 bminor: main.o scanner.o parser.o decl.o stmt.o type.o expr.o param_list.o special.o symbol.o scope.o hash_table.o
-	gcc hash_table.o scope.o symbol.o special.o param_list.o expr.o type.o stmt.o decl.o parser.o main.o scanner.o -o ./bminor;
+	gcc hash_table.o scope.o symbol.o special.o param_list.o expr.o type.o stmt.o decl.o parser.o main.o scanner.o -g -o ./bminor;
 	cp ./bminor ./TESTS/bminor
 
 main.o: main.c token.h
-	gcc -c main.c -o main.o
+	gcc -c main.c -g -o main.o
 
 parser.o: parser.c 
-	gcc -c parser.c -o parser.o
+	gcc -c parser.c -g -o parser.o
 
 decl.o: decl.c decl.h
-	gcc -c decl.c -o decl.o
+	gcc -c decl.c -g -o decl.o
 
 stmt.o: stmt.c stmt.h
-	gcc -c stmt.c -o stmt.o
+	gcc -c stmt.c -g -o stmt.o
 
 type.o: type.h type.c
-	gcc -c type.c -o type.o
+	gcc -c type.c -g -o type.o
 
 expr.o: expr.c expr.h
-	gcc -c expr.c -o expr.o
+	gcc -c expr.c -g -o expr.o
 
 special.o: special.c special.h
-	gcc -c special.c -o special.o
+	gcc -c special.c -g -o special.o
 
 symbol.o: symbol.c symbol.h
-	gcc -c symbol.c -o symbol.o
+	gcc -c symbol.c -g -o symbol.o
 
 scope.o: scope.c scope.h
-	gcc -c scope.c -o scope.o
+	gcc -c scope.c -g -o scope.o
 
 param_list.o: param_list.c param_list.h
-	gcc -c param_list.c -o param_list.o
+	gcc -c param_list.c -g -o param_list.o
 
 scan.o: scanner.c token.h
-	gcc -c scanner.c -o scanner.o
+	gcc -c scanner.c -g -o scanner.o
 
 hash_table.o: hash_table.c hash_table.h
-	gcc -c hash_table.c -o hash_table.o
+	gcc -c hash_table.c -g -o hash_table.o
 
 scanner.c: scanner.flex
 	flex -o scanner.c scanner.flex

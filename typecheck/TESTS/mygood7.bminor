@@ -1,7 +1,7 @@
 //comment i dont know how to fix the dangling else
 
 a:function void() = {
-
+    x:integer = 10;
     if(x>1)
     {
         print "1";

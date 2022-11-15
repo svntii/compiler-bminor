@@ -1,8 +1,6 @@
-//	CSE 40243 B-Minor Parser
-//	Enter a valid  B-Minor Code 
-
-//	Scan Successful
-//	Parse Successful
+	Scan Successful
+	Parse Successful
+	Reformatted Code
 x: integer;
 x: integer = 0;
 a: boolean = true;
@@ -12,3 +10,11 @@ main: function void()  =
     
 }
 
+
+*****RESOLVING*******
+
+	Code Resolved
+
+*****TYPECHECKING*******
+
+	Code Typecheck

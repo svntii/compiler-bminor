@@ -1,6 +1,9 @@
 {
     "files.associations": {
         "type.h": "c",
-        "hash_table.h": "c"
+        "hash_table.h": "c",
+        "expr.h": "c",
+        "special.h": "c",
+        "typeinfo": "c"
     }
 }

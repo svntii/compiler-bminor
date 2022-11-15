@@ -1,8 +1,6 @@
-//	CSE 40243 B-Minor Parser
-//	Enter a valid  B-Minor Code 
-
-//	Scan Successful
-//	Parse Successful
+	Scan Successful
+	Parse Successful
+	Reformatted Code
 main: function void()  = 
 {
     x: integer = 5;
@@ -18,3 +16,12 @@ main: function void()  =
         
 }
 
+
+*****RESOLVING*******
+
+x is bound to (L4) x
+	Code Resolved
+
+*****TYPECHECKING*******
+
+	Code Typecheck

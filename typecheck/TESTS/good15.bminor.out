@@ -1,8 +1,6 @@
-//	CSE 40243 B-Minor Parser
-//	Enter a valid  B-Minor Code 
-
-//	Scan Successful
-//	Parse Successful
+	Scan Successful
+	Parse Successful
+	Reformatted Code
 gfx_open: function void(width: integer, height: integer, title: string) ;
 gfx_point: function void(x: integer, y: integer) ;
 gfx_line: function void(x1: integer, y1: integer, x2: integer, y2: integer) ;
@@ -94,3 +92,58 @@ main: function integer()  =
         
 }
 
+
+*****RESOLVING*******
+
+x resolves to (param)
+y resolves to (param)
+size resolves to (param)
+gfx_color is bound to (global) gfx_color
+gfx_line is bound to (global) gfx_line
+x is bound to (L3) x
+y is bound to (L3) y
+x is bound to (L3) x
+size is bound to (L3) size
+y is bound to (L3) y
+gfx_line is bound to (global) gfx_line
+x is bound to (L3) x
+size is bound to (L3) size
+y is bound to (L3) y
+x is bound to (L3) x
+size is bound to (L3) size
+y is bound to (L3) y
+size is bound to (L3) size
+gfx_line is bound to (global) gfx_line
+x is bound to (L3) x
+size is bound to (L3) size
+y is bound to (L3) y
+size is bound to (L3) size
+x is bound to (L3) x
+y is bound to (L3) y
+size is bound to (L3) size
+gfx_line is bound to (global) gfx_line
+x is bound to (L3) x
+y is bound to (L3) y
+size is bound to (L3) size
+x is bound to (L3) x
+y is bound to (L3) y
+precision is bound to (L3) precision
+xsize is bound to (L3) xsize
+precision is bound to (L3) precision
+ysize is bound to (L3) ysize
+precision is bound to (L3) precision
+precision is bound to (L3) precision
+gfx_open is bound to (global) gfx_open
+xsize is bound to (L3) xsize
+ysize is bound to (L3) ysize
+vy is bound to (L4) vy
+vx is bound to (L4) vx
+y is bound to (L4) y
+x is bound to (L4) x
+gfx_event_waiting is bound to (global) gfx_event_waiting
+c is bound to (L5) c
+gfx_wait is bound to (global) gfx_wait
+c is bound to (L5) c
+x is bound to (L5) x
+gfx_xpos is bound to (global) gfx_xpos
+precision is bound to (L5) precision

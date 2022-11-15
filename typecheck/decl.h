@@ -1,5 +1,3 @@
-
-
 struct decl
 {
 	char *name;

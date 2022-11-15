@@ -1,10 +1,12 @@
 #include "expr.h"
-#include "scope.h"
 #include "type.h"
 #include "symbol.h"
-#include "special.h"
 #include "param_list.h"
-
+#include "scope.h"
+#include "stmt.h"
+#include "decl.h"
+#include "special.h"
+extern int MAIN_RESOLVEERROR_COUNT;
 struct expr *expr_create(expr_t kind, struct expr *left, struct expr *right)
 {
     struct expr *e = special_xmalloc(sizeof(struct expr)); // we have declared a pointer called e and allocated appropriate memory to that pointer
@@ -127,11 +129,11 @@ void expr_print(struct expr *e, int tab)
             break;
         case EXPR_NEGATE:
             printf("-");
-            expr_print(e->left, tab);
+            expr_print(e->right, tab);
             break;
         case EXPR_NOT:
             printf("!");
-            expr_print(e->left, tab);
+            expr_print(e->right, tab);
             break;
         case EXPR_POSIN:
             expr_print(e->right, tab);
@@ -175,7 +177,11 @@ void expr_print(struct expr *e, int tab)
             expr_print(e->right, tab);
             break;
         case EXPR_TERN:
+            expr_print(e->left, tab);
             printf(" ? ");
+            expr_print(e->right, tab);
+            break;
+        case EXPR_TERN_BODY:
             expr_print(e->left, tab);
             printf(" : ");
             expr_print(e->right, tab);
@@ -224,14 +230,26 @@ void expr_resolve(struct expr *e)
 {
     if (!e)
         return;
+    // post-order resolve. Must look at children;
+    expr_resolve(e->left);
+    expr_resolve(e->right);
+
     if (e->kind == EXPR_NAME)
     {
-        e->symbol = scope_lookup_current(e->name); // # TODO confirm
-    }
-    else
-    {
-        expr_resolve(e->left);
-        expr_resolve(e->right);
+        struct symbol *global = scope_lookup(e->name);
+        // global = scope_lookup(e->name); // # TODO confirm
+
+        if (!global)
+        {
+            MAIN_RESOLVEERROR_COUNT++;
+            printf("resolve error: %s is not defined\n", e->name);
+        }
+        else
+        {
+            e->symbol = global;
+            printf("%s is bound to ", e->name);
+            symbol_print(e->symbol);
+        }
     }
 }
 
@@ -270,21 +288,23 @@ struct type *expr_typecheck(struct expr *e)
         else
         {
             // error message
+            special_expr_error_handler(e, lt, rt);
         }
         break;
     case EXPR_NAME:
         result = type_copy(e->symbol->type);
         break;
-    case EXPR_EXP: // 2 ^ 4
-    case EXPR_MOD: // 2 % 2
-    case EXPR_ADD: // 1 + 1
-    case EXPR_SUB: // 3 - 2
-    case EXPR_MULT:
-    case EXPR_DIV:
+    case EXPR_EXP:  // 2 ^ 4
+    case EXPR_MOD:  // 2 % 2
+    case EXPR_ADD:  // 1 + 1
+    case EXPR_SUB:  // 3 - 2
+    case EXPR_MULT: // 3 * 2
+    case EXPR_DIV:  // 1 / 2
 
         if (lt->kind != TYPE_INTEGER || rt->kind != TYPE_INTEGER)
         {
             // error message
+            special_expr_error_handler(e, lt, rt);
         }
         result = type_create(TYPE_INTEGER, 0, 0, 0, 0);
         break;
@@ -293,6 +313,7 @@ struct type *expr_typecheck(struct expr *e)
     case EXPR_AND:
         if (lt->kind != TYPE_BOOLEAN || rt->kind != TYPE_BOOLEAN)
         {
+            special_expr_error_handler(e, lt, rt);
         }
         result = type_create(TYPE_BOOLEAN, 0, 0, 0, 0);
         break;
@@ -303,7 +324,7 @@ struct type *expr_typecheck(struct expr *e)
     case EXPR_GTE:
         if (lt->kind != TYPE_INTEGER || rt->kind != TYPE_INTEGER)
         {
-            special_error_handler();
+            special_expr_error_handler(e, lt, rt);
         }
         result = type_create(TYPE_BOOLEAN, 0, 0, 0, 0);
         break;
@@ -313,13 +334,14 @@ struct type *expr_typecheck(struct expr *e)
 
         if (!type_compare(lt, rt))
         {
-            // print error
+            special_expr_error_handler(e, lt, rt);
         }
         if (lt->kind == TYPE_VOID ||
             lt->kind == TYPE_ARRAY ||
             lt->kind == TYPE_FUNCTION)
         {
             /* display an error */
+            special_expr_error_handler(e, lt, rt);
         }
         result = type_create(TYPE_BOOLEAN, 0, 0, 0, 0);
         break;
@@ -332,6 +354,7 @@ struct type *expr_typecheck(struct expr *e)
         else
         {
             // print error
+            special_expr_error_handler(e, lt, rt);
         }
         break;
     case EXPR_NEGATE:
@@ -342,6 +365,7 @@ struct type *expr_typecheck(struct expr *e)
         else
         {
             // print error
+            special_expr_error_handler(e, lt, rt);
         }
         break;
     case EXPR_NOT:
@@ -349,12 +373,15 @@ struct type *expr_typecheck(struct expr *e)
         {
             result = type_create(TYPE_BOOLEAN, 0, 0, 0, 0);
         }
+        else
         {
             // print error
+            special_expr_error_handler(e, lt, rt);
         }
 
     case EXPR_GROUP:
         // think about
+        result = type_copy(rt);
         break;
     case EXPR_SUBSCRIPT:
         if (lt->kind == TYPE_ARRAY)
@@ -362,6 +389,7 @@ struct type *expr_typecheck(struct expr *e)
             if (rt->kind != TYPE_INTEGER)
             {
                 /* error: index not an integer */
+                special_expr_error_handler(e, lt, rt);
             }
             result = type_copy(lt->subtype);
         }
@@ -369,15 +397,18 @@ struct type *expr_typecheck(struct expr *e)
         {
             /* error: not an array */
             /* but we need to return a valid type */
+            special_expr_error_handler(e, lt, rt);
             result = type_copy(lt);
         }
         break;
     case EXPR_SUBSCRIPT_SUB:
-        if (lt->kind == TYPE_ARRAY)
+        if (lt->kind == TYPE_INTEGER)
         {
             if (rt->kind != TYPE_INTEGER)
             {
                 /* error: index not an integer */
+                special_expr_error_handler(e, lt, rt);
+                result = type_create(TYPE_INTEGER, 0, 0, 0, 0);
             }
             result = type_copy(lt->subtype);
         }
@@ -385,10 +416,11 @@ struct type *expr_typecheck(struct expr *e)
         {
             /* error: not an array */
             /* but we need to return a valid type */
-            result = type_copy(lt);
+            special_expr_error_handler(e, lt, rt);
+            result = type_create(TYPE_INTEGER, 0, 0, 0, 0);
         }
         break;
-        break;
+
     case EXPR_FUNCTION_CALL:
         if (lt->kind == TYPE_FUNCTION && type_compare(lt->params->type, rt))
         {
@@ -397,6 +429,7 @@ struct type *expr_typecheck(struct expr *e)
         else
         {
             // error message
+            special_expr_error_handler(e, lt, rt);
         }
 
         break;
@@ -412,6 +445,7 @@ struct type *expr_typecheck(struct expr *e)
         else
         {
             // print error
+            special_expr_error_handler(e, lt, rt);
         }
 
         break;
@@ -423,8 +457,19 @@ struct type *expr_typecheck(struct expr *e)
         else
         {
             // error message
+            special_expr_error_handler(e, lt, rt);
         }
         break;
+    case EXPR_TERN_BODY:
+        // work on this
+        if (!type_compare(lt, rt))
+        {
+            special_expr_error_handler(e, lt, rt);
+        }
+
+        result = type_copy(lt);
+        break;
+
     default:
         break;
     }

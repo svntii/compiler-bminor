@@ -1,5 +1,8 @@
 #include "type.h"
 #include "param_list.h"
+#include "expr.h"
+#include "stmt.h"
+#include "decl.h"
 #include "special.h"
 
 struct type *type_create(type_t kind, struct type *subtype, struct param_list *params, struct expr *inside_array, int return_type)
@@ -89,10 +92,10 @@ int type_compare(struct type *a, struct type *b)
 {
     if (!a && !b) // both null
         return 1;
-    
-    if (!a || !b) // one is null 
+
+    if (!a || !b) // one is null
         return 0;
-    
+
     if (a->kind == b->kind)
     {
         if (a->kind == TYPE_BOOLEAN || a->kind == TYPE_CHAR || a->kind == TYPE_INTEGER || a->kind == TYPE_STRING)
@@ -111,5 +114,9 @@ int type_compare(struct type *a, struct type *b)
         {
             return 0;
         }
+    }
+    else
+    {
+        return 0;
     }
 }

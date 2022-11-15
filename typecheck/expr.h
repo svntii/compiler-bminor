@@ -27,6 +27,7 @@ typedef enum
 	EXPR_ARG,
 	EXPR_ASSIGNMENT,
 	EXPR_TERN,
+	EXPR_TERN_BODY,
 	EXPR_INTEGER_LITERAL,
 	EXPR_BOOLEAN_LITERAL,
 	EXPR_CHAR_LITERAL,
@@ -57,5 +58,5 @@ struct expr *expr_create_string_literal(const char *str); // "Notre Dame"
 struct expr *expr_create_name(const char *name);
 void expr_print(struct expr *e, int tab);
 struct type *expr_typecheck(struct expr *e);
-void expr_resolve(struct expr * e);
-struct expr *expr_copy(struct expr * e);
+void expr_resolve(struct expr *e);
+struct expr *expr_copy(struct expr *e);
