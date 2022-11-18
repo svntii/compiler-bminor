@@ -147,3 +147,52 @@ c is bound to (L5) c
 x is bound to (L5) x
 gfx_xpos is bound to (global) gfx_xpos
 precision is bound to (L5) precision
+y is bound to (L5) y
+gfx_ypos is bound to (global) gfx_ypos
+precision is bound to (L5) precision
+vx is bound to (L5) vx
+precision is bound to (L5) precision
+vy is bound to (L4) vy
+vy is bound to (L4) vy
+precision is bound to (L4) precision
+x is bound to (L4) x
+vx is bound to (L4) vx
+vx is bound to (L5) vx
+vx is bound to (L5) vx
+x is bound to (L4) x
+xsize is bound to (L4) xsize
+precision is bound to (L4) precision
+vx is bound to (L4) vx
+vx is bound to (L5) vx
+vx is bound to (L5) vx
+y is bound to (L4) y
+ysize is bound to (L4) ysize
+precision is bound to (L4) precision
+vy is bound to (L4) vy
+vy is bound to (L5) vy
+vy is bound to (L5) vy
+x is bound to (L4) x
+x is bound to (L4) x
+vx is bound to (L4) vx
+deltat is bound to (L4) deltat
+precision is bound to (L4) precision
+y is bound to (L4) y
+y is bound to (L4) y
+vy is bound to (L4) vy
+deltat is bound to (L4) deltat
+precision is bound to (L4) precision
+gfx_clear is bound to (global) gfx_clear
+draw_box is bound to (global) draw_box
+x is bound to (L4) x
+precision is bound to (L4) precision
+y is bound to (L4) y
+precision is bound to (L4) precision
+gfx_flush is bound to (global) gfx_flush
+usleep is bound to (global) usleep
+deltat is bound to (L4) deltat
+precision is bound to (L4) precision
+	Code Resolved
+
+*****TYPECHECKING*******
+
+	Code Typecheck

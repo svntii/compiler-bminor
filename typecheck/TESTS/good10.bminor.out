@@ -1,0 +1,33 @@
+	Scan Successful
+	Parse Successful
+	Reformatted Code
+x: integer;
+y: integer;
+z: integer;
+arr: array[] array[] integer;
+str: string = "hello world";
+fxn: function integer()  = 
+{
+    arr[3][2] = 5;
+    x = arr[2][3];
+    x++;
+    return z;
+    c: char = str[0];
+    
+    
+}
+
+
+*****RESOLVING*******
+
+arr is bound to (global) arr
+x is bound to (global) x
+arr is bound to (global) arr
+x is bound to (global) x
+z is bound to (global) z
+str is bound to (global) str
+	Code Resolved
+
+*****TYPECHECKING*******
+
+	Code Typecheck

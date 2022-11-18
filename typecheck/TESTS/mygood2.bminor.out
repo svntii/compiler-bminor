@@ -1,0 +1,13 @@
+	Scan Successful
+	Parse Successful
+	Reformatted Code
+a: auto = 10;
+a: array[] array[] integer = { { 1, 2, 3, 4, 5 }, { 1, 2, 3, 4, 5 }, { 1, 2, 3, 4, 5 }, { 1, 2, 3, 4, 5 }, { 1, 2, 3, 4, 5 } };
+
+*****RESOLVING*******
+
+	Code Resolved
+
+*****TYPECHECKING*******
+
+	Code Typecheck

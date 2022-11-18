@@ -95,8 +95,17 @@ void decl_typecheck(struct decl *d)
         if (d->symbol->type->kind == TYPE_AUTO)
         {
             d->symbol->type = type_copy(t);
+            d->type = d->symbol->type;
         }
-        if (!type_compare(t, d->symbol->type))
+        if (d->symbol->type->kind == TYPE_ARRAY)
+        {
+            /* code typechecking arrays */
+            if (!type_compare(t, d->symbol->type->subtype))
+            {
+                special_decl_error_handler(d, t);
+            }
+        }
+        else if (!type_compare(t, d->symbol->type))
         {
             special_decl_error_handler(d, t);
         }
@@ -104,11 +113,45 @@ void decl_typecheck(struct decl *d)
     if (d->code)
     {
         struct type *r = NULL;
+
         stmt_typecheck(d->code, r);
-        if (r && !type_compare(r, d->type))
+        if (d->type->kind == TYPE_AUTO)
         {
-            special_decl_error_handler(d, r);
+            if (r)
+            {
+                d->symbol->type = type_copy(r);
+                d->type = d->symbol->type;
+            }
+            else
+            {
+
+                special_decl_error_handler(d, r);
+            }
         }
+        else
+        {
+            if (d->symbol->type->kind == TYPE_FUNCTION)
+            {
+                /* code typechecking function */
+                if (d->type->subtype->kind == TYPE_VOID)
+                {
+                    if (r)
+                    {
+                        // interesting return from a void
+                    }
+                }
+                else if (!type_compare(r, d->symbol->type->subtype))
+                {
+                    special_decl_error_handler(d, r);
+                }
+            }
+
+            if (r && !type_compare(r, d->type)) // if auto change it where it lies --> symbol struct  + decl structure
+            {
+                // auto the first time u discover the tru type set it-> if inconsistent then error
+                special_decl_error_handler(d, r);
+            }
+        }
+        decl_typecheck(d->next);
     }
-    decl_typecheck(d->next);
 }
