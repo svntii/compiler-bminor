@@ -1,0 +1,47 @@
+	Scan Successful
+	Parse Successful
+	Reformatted Code
+fxn: function integer(x: integer)  = 
+{
+    return x++;
+    
+}
+
+fxn2: function char(x: integer, y: char, z: boolean)  = 
+{
+    if (y == 'z')
+        return 'Z';
+        
+    else
+        return 'z';
+        
+}
+
+fxn3: function char(x: array[] integer, y: char, z: array[] array[] boolean)  = 
+{
+    if (y == 'z')
+        return 'Z';
+        
+    else
+        return 'z';
+        
+}
+
+
+*****RESOLVING*******
+
+x resolves to (param)
+x is bound to (L3) x
+x resolves to (param)
+y resolves to (param)
+z resolves to (param)
+y is bound to (L3) y
+x resolves to (param)
+y resolves to (param)
+z resolves to (param)
+y is bound to (L3) y
+	Code Resolved
+
+*****TYPECHECKING*******
+
+type error: Dearest programmer, you cannot return ain a function(fxn) that returns function integer(x: integer) type error: Dearest programmer, you cannot return ain a function(fxn2) that returns function char(x: integer, y: char, z: boolean) type error: Dearest programmer, you cannot return ain a function(fxn3) that returns function char(x: array[] integer, y: char, z: array[] array[] boolean) 	Code Typecheck

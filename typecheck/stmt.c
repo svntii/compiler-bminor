@@ -251,25 +251,29 @@ void stmt_typecheck(struct stmt *s, struct type *r)
         break;
     case STMT_FOR:
         t = expr_typecheck(s->init_expr);
-        if (!t || t->kind != TYPE_INTEGER)
+        if (t)
         {
-            special_stmt_error_handler(s, t);
+            type_delete(t);
         }
-        type_delete(t);
+
         t = expr_typecheck(s->expr);
-        if (!t || t->kind != TYPE_BOOLEAN)
+        if (t)
         {
-            special_stmt_error_handler(s, t);
+            if (!t || t->kind != TYPE_BOOLEAN)
+            {
+                special_stmt_error_handler(s, t);
+            }
+
             type_delete(t);
         }
 
         t = expr_typecheck(s->next_expr);
-        if (!t || t->kind != TYPE_INTEGER)
+        if (t)
         {
-            special_stmt_error_handler(s, t);
+            type_delete(t);
         }
+
         stmt_typecheck(s->body, r);
-        type_delete(t);
     case STMT_PRINT:
         expr_typecheck(s->expr);
         break;

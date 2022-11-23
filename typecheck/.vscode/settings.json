@@ -4,6 +4,8 @@
         "hash_table.h": "c",
         "expr.h": "c",
         "special.h": "c",
-        "typeinfo": "c"
+        "typeinfo": "c",
+        "stmt.h": "c",
+        "decl.h": "c"
     }
 }

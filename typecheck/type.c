@@ -81,8 +81,10 @@ void type_delete(struct type *t)
 {
     if (!t)
         return;
-    type_delete(t->subtype);
-    param_list_delete(t->params);
+    if (t->subtype)
+        type_delete(t->subtype);
+    if (t->params)
+        param_list_delete(t->params);
 
     free(t);
     return;

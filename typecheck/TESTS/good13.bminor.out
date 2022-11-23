@@ -1,0 +1,22 @@
+	Scan Successful
+	Parse Successful
+	Reformatted Code
+x: integer = 5;
+c: char = 'A';
+str: string = "hello";
+iarr: array[] integer = { 1, 2, 3, 4 };
+carr: array[] char = { 'a', 'b', 'c', 'd' };
+barr: array[] boolean = { true, false, true, true };
+iaar: array[] array[] integer = { iarr, iarr, iarr, iarr };
+
+*****RESOLVING*******
+
+iarr is bound to (global) iarr
+iarr is bound to (global) iarr
+iarr is bound to (global) iarr
+iarr is bound to (global) iarr
+	Code Resolved
+
+*****TYPECHECKING*******
+
+	Code Typecheck

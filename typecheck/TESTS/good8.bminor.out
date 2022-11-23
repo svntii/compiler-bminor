@@ -1,0 +1,32 @@
+	Scan Successful
+	Parse Successful
+	Reformatted Code
+main: function void()  = 
+{
+    x: integer = 5;
+    
+    if (4 < 5)
+        if (10 < 20)
+            for (x = 0; x < 5; x++ )
+                if (4 < 5)
+                    print "helloo\n";
+                    
+                else
+                    print "hello\n";
+                    
+        else
+            print "goodbye";
+            
+}
+
+
+*****RESOLVING*******
+
+x is bound to (L3) x
+x is bound to (L3) x
+x is bound to (L3) x
+	Code Resolved
+
+*****TYPECHECKING*******
+
+	Code Typecheck

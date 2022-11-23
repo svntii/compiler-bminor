@@ -268,5 +268,6 @@ void special_decl_error_handler(struct decl *d, struct type *t)
 
         printf("in a function(%s) that returns", d->name);
         type_print(d->type, 0);
+        printf("\n");
     }
 }

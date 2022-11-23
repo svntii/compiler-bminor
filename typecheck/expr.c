@@ -257,7 +257,7 @@ struct type *expr_typecheck(struct expr *e)
 {
     // recursive, post-order traversal of the expression tree
     if (!e)
-        return 0;
+        return NULL;
 
     struct type *lt = expr_typecheck(e->left);
     struct type *rt = expr_typecheck(e->right);
@@ -280,8 +280,18 @@ struct type *expr_typecheck(struct expr *e)
         break;
     case EXPR_ARRAY_LITERAL:
         // { 1 , 2, 3 }
+        result = type_copy(lt);
+        break;
+    case EXPR_ARG:
         if (type_compare(lt, rt)) // lookback
-
+        {
+            result = type_copy(lt);
+        }
+        else if (lt == NULL)
+        {
+            result = type_copy(rt);
+        }
+        else if (rt == NULL)
         {
             result = type_copy(lt);
         }
@@ -289,7 +299,9 @@ struct type *expr_typecheck(struct expr *e)
         {
             // error message
             special_expr_error_handler(e, lt, rt);
+            result = type_create(TYPE_INTEGER, 0, 0, 0, 0);
         }
+
         break;
     case EXPR_NAME:
         result = type_copy(e->symbol->type);
@@ -347,15 +359,12 @@ struct type *expr_typecheck(struct expr *e)
         break;
     case EXPR_POSIN:
     case EXPR_POSDEC:
-        if (lt->kind == TYPE_INTEGER)
-        {
-            result = type_create(TYPE_INTEGER, 0, 0, 0, 0);
-        }
-        else
+        if (!rt || rt->kind != TYPE_INTEGER)
         {
             // print error
             special_expr_error_handler(e, lt, rt);
         }
+        result = type_create(TYPE_INTEGER, 0, 0, 0, 0);
         break;
     case EXPR_NEGATE:
         if (rt->kind == TYPE_INTEGER)
@@ -431,9 +440,6 @@ struct type *expr_typecheck(struct expr *e)
             // error message
             special_expr_error_handler(e, lt, rt);
         }
-
-        break;
-    case EXPR_ARG:
 
         break;
     case EXPR_ASSIGNMENT:
