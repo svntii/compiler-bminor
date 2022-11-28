@@ -1,25 +1,40 @@
 	Scan Successful
 	Parse Successful
 	Reformatted Code
+x: integer = 5;
+y: integer = 10;
 main: function void()  = 
 {
     x: integer = 5;
     
-    y: integer = 4;
+    y: integer = 10;
     
-    if (true || false && true)
+    
+    {
+        x: integer = 5;
+        
+        y: integer = 10;
+        
         
         {
-            x = 6;
+            x: char = 'a';
+            
+            y: integer = 10;
+            
             
         }
+        y = x + y;
         
+    }
+    
 }
 
 
 *****RESOLVING*******
 
+y is bound to (L4) y
 x is bound to (L4) x
+y is bound to (L4) y
 	Code Resolved
 
 *****TYPECHECKING*******

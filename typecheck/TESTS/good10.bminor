@@ -1,14 +1,14 @@
-	//some variable usages
-	x:integer;
-	y:integer;
-	z:integer;
-	arr:array[5] array[5] integer;
-	str: string = "hello world";
-	fxn : function  integer () =
+/* Test array of array assignments. */
+
+x: array [5] integer = {1,2,3,4,5};
+y: array [5] array [5] integer;
+
+main: function void () =
+{
+	y[1] = x;
+	count: integer;
+	for(count = 0; count < 5; count++)
 	{
-		arr[3][2] = 5;
-		x = arr[2][3];
-		x++;
-		return z;
-		c:char = str[0];
-	} 
+		y[count] = x;
+	} 	
+}

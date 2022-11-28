@@ -1,11 +1,21 @@
-// produces correct precedence of operations
+/* Test name resolution at multiple scope levels. */
 
-main: function void () = {
-	x:integer = 5;
-	y:integer = 4;
-	if(true || false && true)
+x: integer = 5;
+y: integer = 10;
+
+main: function void () =
+{
+	x: integer = 5;
+	y: integer = 10;
 	{
-		x = 6;
-		
+		x: integer = 5;
+		y: integer = 10;
+		{
+			x: char = 'a';
+			y: integer = 10;
+		}
+		y = x + y;
 	}
 }
+	
+

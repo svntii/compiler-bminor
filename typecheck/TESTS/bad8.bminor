@@ -1,5 +1,8 @@
-//checking param lists
-main:function void("hello", x:integer) =
+/* Cannot assign a scalar value to an array. */
+
+x:array [5] integer = {1,2,3,4,5};
+
+main:function void () =
 {
-	print x;
+	x = 4;
 }

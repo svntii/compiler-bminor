@@ -1,3 +1,13 @@
 	Scan Successful
-parse error: syntax error
-Parse Unsuccessful
+	Parse Successful
+	Reformatted Code
+x: integer = 'c';
+
+*****RESOLVING*******
+
+	Code Resolved
+
+*****TYPECHECKING*******
+
+type error: Dearest programmer, you cannot assign char ('c') to integer (x) 
+	Code Typecheck

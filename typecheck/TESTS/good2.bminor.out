@@ -2,26 +2,24 @@
 	Parse Successful
 	Reformatted Code
 x: integer = 5;
-y: integer;
-z: char = 'A';
-fxn: function void()  = 
+y: integer = 10;
+test: function integer() ;
+main: function void()  = 
 {
-    x: integer;
+    x: integer = y * 10 + 15 - test();
     
-    y: integer = 16;
     
-    w: boolean = true;
-    
-    q: boolean;
-    
+}
+
+test: function integer()  = 
+{
+    return 5;
     
 }
 
 
 *****RESOLVING*******
 
-	Code Resolved
-
-*****TYPECHECKING*******
-
-	Code Typecheck
+y is bound to (global) y
+test is bound to (global) test
+resolve error: test is already defined	Code Resolved

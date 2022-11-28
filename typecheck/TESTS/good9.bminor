@@ -1,22 +1,15 @@
-//tests param lists
-fxn: function integer (x:integer)=
-{
-	return x++;
-}
+/* Update array with values from function calls. */
 
-fxn2: function char (x:integer, y:char, z:boolean)=
-{
-	if(y=='z')
-		return 'Z';
-	else
-		return 'z';
-}
+x: array [5] integer = {1,2,3,4,5};
+intFxn: function integer ();
 
-fxn3: function char (x: array [] integer, y:char, z: array [] array [] boolean)=
+main: function void () =
 {
-	if(y=='z')
-		return 'Z';
-	else
-		return 'z';
+	x[4] = intFxn();
+	x[intFxn()] = 4;
+	
 }
-
+intFxn: function integer () =
+{
+	return 3;
+}

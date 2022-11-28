@@ -1,33 +1,26 @@
-// test block creations
-x:integer;
-main:function void() = {
-	for(;;)
-	{
-		x:integer = 5;
-		{
-			x:integer = 6;
-			print x;
-		}
-	}
+/* Test function declarations without prototypes. */
 
-	if(x > 5)
-	{
-		x++;
+test1: function integer (a:integer, b:integer)=
+{
+	return a + b;
+}
+
+test2: function boolean (a:integer, b:integer)=
+{
+	return a < b;
+}
+
+test3: function char (a:integer)=
+{
+	if (a > 5) {
+		return 'x';
+	} else {
+		return 'y';
 	}
 }
-funct2: function void() = {
-	{
-		print "hello";
-	}
-	if(x > 5)
-		if(x < 5)
-		{
-			x++;
-		}
-	else
-	{
-		x++;
-		x--;
-	}		
-	
+
+main:function void ()=
+{
+	print test1(10,20), test2(30,40), test3(10), "\n";
 }
+

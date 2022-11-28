@@ -1,3 +1,19 @@
 	Scan Successful
-parse error: syntax error
-Parse Unsuccessful
+	Parse Successful
+	Reformatted Code
+x: array[] integer = { 1, 2, 3, 4, 5 };
+main: function void()  = 
+{
+    x = 4;
+    
+}
+
+
+*****RESOLVING*******
+
+x is bound to (global) x
+	Code Resolved
+
+*****TYPECHECKING*******
+
+	Code Typecheck

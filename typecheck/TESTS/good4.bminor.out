@@ -1,16 +1,37 @@
 	Scan Successful
 	Parse Successful
 	Reformatted Code
-main: function void()  = 
+charFxn: function char(x: char)  = 
 {
-    x: integer = 5;
-    
-    y: integer = 4;
-    
-    if (!( ( 4 * x^5 + 4 ) - 4 >= 1 ))
+    if (x == 'a')
         
         {
-            x = 6;
+            return 'z';
+            
+        }
+        
+}
+
+main: function void()  = 
+{
+    c: char;
+    
+    if ('a' == charFxn('c'))
+        
+        {
+            print "unreachable";
+            
+        }
+        if ('a' != 'a')
+        
+        {
+            print "unreachable";
+            
+        }
+        if (c == 'a')
+        
+        {
+            print "unreachable";
             
         }
         
@@ -19,10 +40,13 @@ main: function void()  =
 
 *****RESOLVING*******
 
+x resolves to (param)
 x is bound to (L3) x
-x is bound to (L4) x
+charFxn is bound to (global) charFxn
+c is bound to (L3) c
 	Code Resolved
 
 *****TYPECHECKING*******
 
+type error: Dearest programmer, you cannot return ain a function(charFxn) that returns function char(x: char) 
 	Code Typecheck

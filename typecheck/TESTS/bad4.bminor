@@ -1,7 +1,6 @@
-// for loop without correct # of args
-main:function void()=
+/* Type of return statement must match return type of function. */
+
+main: function integer ()=
 {
-	for(i=0; i++) {
-		print i;
-	}
+	return 'c';
 }

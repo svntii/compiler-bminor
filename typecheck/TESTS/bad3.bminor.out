@@ -1,3 +1,33 @@
 	Scan Successful
-parse error: syntax error
-Parse Unsuccessful
+	Parse Successful
+	Reformatted Code
+y: integer = 10;
+main: function void()  = 
+{
+    y: integer = 10;
+    
+    
+    {
+        y: integer = 10;
+        
+        
+        {
+            x: integer = 5;
+            
+            y: integer = 10;
+            
+            
+        }
+        y = x + y;
+        
+    }
+    
+}
+
+
+*****RESOLVING*******
+
+y is bound to (L4) y
+resolve error: x is not defined
+y is bound to (L4) y
+	Code Resolved

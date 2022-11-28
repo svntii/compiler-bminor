@@ -1,3 +1,0 @@
-f : function void () = print "example";
-
-//functions need to be surrondend by braces

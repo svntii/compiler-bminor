@@ -1,7 +1,16 @@
-// if must be matched
-x:integer = 5;
-main:function void()=
+/* Function arguments must match formal parameter types. */
+
+test1:function integer (a:integer, b:integer);
+test2:function boolean (a:integer, b:integer);
+
+main: function void () =
 {
-	x++;
-	if(x > 5)
+	x:integer = test2(5, 6);
+	test2(5,6);
+	print test2(11);
+}
+
+test2: function boolean (a:integer, b:integer) =
+{
+	return a==b;
 }

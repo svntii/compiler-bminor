@@ -1,6 +1,13 @@
-//print not seperated by ,'s
-x:intger = 5;
-main:function void()
+/* Check for invalid type inside of boolean expression. */
+
+y:integer = 10;
+
+main: function void () =
 {
-	print x x "hello";
+	if(y > 5 && 'a' || true)
+	{
+		print "ok";
+	}
 }
+	
+

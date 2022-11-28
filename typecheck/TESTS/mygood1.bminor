@@ -1,9 +1,0 @@
-//simple declarations
-
-x:integer;
-x:integer = 0;
-a:boolean = true;
-main:function void () = {
-    return 0;
-}
-
