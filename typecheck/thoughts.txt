@@ -1,0 +1,5 @@
+
+fix array subscripting
+global resolving vs local resolving
+
+

@@ -44,4 +44,7 @@ y is bound to (L3) y
 
 *****TYPECHECKING*******
 
-type error: Dearest programmer, you cannot return ain a function(fxn) that returns function integer(x: integer) type error: Dearest programmer, you cannot return ain a function(fxn2) that returns function char(x: integer, y: char, z: boolean) type error: Dearest programmer, you cannot return ain a function(fxn3) that returns function char(x: array[] integer, y: char, z: array[] array[] boolean) 	Code Typecheck
+type error: Dearest programmer, you cannot return ain a function(fxn) that returns function integer(x: integer) 
+type error: Dearest programmer, you cannot return ain a function(fxn2) that returns function char(x: integer, y: char, z: boolean) 
+type error: Dearest programmer, you cannot return ain a function(fxn3) that returns function char(x: array[] integer, y: char, z: array[] array[] boolean) 
+	Code Typecheck

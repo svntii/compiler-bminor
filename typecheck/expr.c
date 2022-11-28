@@ -171,6 +171,12 @@ void expr_print(struct expr *e, int tab)
                 printf(", ");
             expr_print(e->right, tab);
             break;
+        case EXPR_PRINT_BODY:
+            expr_print(e->left, tab);
+            if (e->right)
+                printf(", ");
+            expr_print(e->right, tab);
+            break;
         case EXPR_ASSIGNMENT:
             expr_print(e->left, tab);
             printf(" = ");
@@ -302,6 +308,9 @@ struct type *expr_typecheck(struct expr *e)
             result = type_create(TYPE_INTEGER, 0, 0, 0, 0);
         }
 
+        break;
+    case EXPR_PRINT_BODY:
+        result = type_copy(lt);
         break;
     case EXPR_NAME:
         result = type_copy(e->symbol->type);
