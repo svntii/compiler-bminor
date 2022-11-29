@@ -42,14 +42,18 @@ test3: function string(a: integer)  =
 test1 is bound to (global) test1
 test2 is bound to (global) test2
 test3 is bound to (global) test3
-resolve error: test1 is already defineda resolves to (param)
+a resolves to (param)
 b resolves to (param)
 a is bound to (L3) a
 b is bound to (L3) b
-resolve error: test2 is already defineda resolves to (param)
+a resolves to (param)
 b resolves to (param)
 a is bound to (L3) a
 b is bound to (L3) b
-resolve error: test3 is already defineda resolves to (param)
+a resolves to (param)
 test1 is bound to (global) test1
 	Code Resolved
+
+*****TYPECHECKING*******
+
+	Code Typecheck

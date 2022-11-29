@@ -23,4 +23,8 @@ x is bound to (global) x
 intFxn is bound to (global) intFxn
 x is bound to (global) x
 intFxn is bound to (global) intFxn
-resolve error: intFxn is already defined	Code Resolved
+	Code Resolved
+
+*****TYPECHECKING*******
+
+	Code Typecheck

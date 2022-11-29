@@ -38,4 +38,4 @@ struct stmt *stmt_create_block(struct stmt *body);
 void *stmt_print(struct stmt *s, int tab);
 
 void stmt_resolve(struct stmt *s);
-void stmt_typecheck(struct stmt *s, struct type *r);
+void stmt_typecheck(struct stmt *s, struct symbol *r);

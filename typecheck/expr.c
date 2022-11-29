@@ -404,11 +404,7 @@ struct type *expr_typecheck(struct expr *e)
     case EXPR_SUBSCRIPT:
         if (lt->kind == TYPE_ARRAY)
         {
-            if (rt->kind != TYPE_INTEGER)
-            {
-                /* error: index not an integer */
-                special_expr_error_handler(e, lt, rt);
-            }
+
             result = type_copy(lt->subtype);
         }
         else
@@ -422,12 +418,6 @@ struct type *expr_typecheck(struct expr *e)
     case EXPR_SUBSCRIPT_SUB:
         if (lt->kind == TYPE_INTEGER)
         {
-            if (rt->kind != TYPE_INTEGER)
-            {
-                /* error: index not an integer */
-                special_expr_error_handler(e, lt, rt);
-                result = type_create(TYPE_INTEGER, 0, 0, 0, 0);
-            }
             result = type_copy(lt->subtype);
         }
         else
@@ -440,7 +430,8 @@ struct type *expr_typecheck(struct expr *e)
         break;
 
     case EXPR_FUNCTION_CALL:
-        if (lt->kind == TYPE_FUNCTION && type_compare(lt->params->type, rt))
+
+        if (lt->kind == TYPE_FUNCTION)
         {
             result = type_copy(lt->subtype);
         }
@@ -448,6 +439,7 @@ struct type *expr_typecheck(struct expr *e)
         {
             // error message
             special_expr_error_handler(e, lt, rt);
+            result = type_create(TYPE_VOID, 0, 0, 0, 0);
         }
 
         break;
@@ -461,6 +453,7 @@ struct type *expr_typecheck(struct expr *e)
         {
             // print error
             special_expr_error_handler(e, lt, rt);
+            result = type_create(TYPE_INTEGER, 0, 0, 0, 0);
         }
 
         break;

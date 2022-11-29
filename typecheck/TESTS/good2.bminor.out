@@ -22,4 +22,8 @@ test: function integer()  =
 
 y is bound to (global) y
 test is bound to (global) test
-resolve error: test is already defined	Code Resolved
+	Code Resolved
+
+*****TYPECHECKING*******
+
+	Code Typecheck

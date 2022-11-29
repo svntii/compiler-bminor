@@ -21,4 +21,7 @@ y is bound to (global) y
 
 *****TYPECHECKING*******
 
+error: Dearest programmer, you cannot && a  boolean (y > 5 ) to a  char ('a' )
+ || a  boolean (y > 5 ) to a  char ('a' )
+ compare a  boolean (y > 5 ) to a  char ('a' )
 	Code Typecheck

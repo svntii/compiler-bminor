@@ -24,8 +24,13 @@ test2: function boolean(a: integer, b: integer)  =
 test2 is bound to (global) test2
 test2 is bound to (global) test2
 test2 is bound to (global) test2
-resolve error: test2 is already defineda resolves to (param)
+a resolves to (param)
 b resolves to (param)
 a is bound to (L3) a
 b is bound to (L3) b
 	Code Resolved
+
+*****TYPECHECKING*******
+
+type error: Dearest programmer, you cannot assign boolean (test2(5, 6)) to integer (x) 
+	Code Typecheck

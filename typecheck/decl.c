@@ -60,7 +60,7 @@ void decl_resolve(struct decl *d)
     // x:integer; or y:integer = 10;
     struct symbol *s = scope_lookup_current(d->name);
 
-    if (s && type_compare(s->type, d->type) && s->prototype)
+    if (s && type_compare(s->type, d->type) && !s->prototype)
     {
         // check if it is a prototype and the types match
         MAIN_RESOLVEERROR_COUNT++;
@@ -110,48 +110,10 @@ void decl_typecheck(struct decl *d)
             special_decl_error_handler(d, t);
         }
     }
+
     if (d->code)
     {
-        struct type *r = NULL;
-
-        stmt_typecheck(d->code, r);
-        if (d->type->kind == TYPE_AUTO)
-        {
-            if (r)
-            {
-                d->symbol->type = type_copy(r);
-                d->type = d->symbol->type;
-            }
-            else
-            {
-
-                special_decl_error_handler(d, r);
-            }
-        }
-        else
-        {
-            if (d->symbol->type->kind == TYPE_FUNCTION)
-            {
-                /* code typechecking function */
-                if (d->type->subtype->kind == TYPE_VOID)
-                {
-                    if (r)
-                    {
-                        // interesting return from a void
-                    }
-                }
-                else if (!type_compare(r, d->symbol->type->subtype))
-                {
-                    special_decl_error_handler(d, r);
-                }
-            }
-
-            if (r && !type_compare(r, d->type)) // if auto change it where it lies --> symbol struct  + decl structure
-            {
-                // auto the first time u discover the tru type set it-> if inconsistent then error
-                special_decl_error_handler(d, r);
-            }
-        }
-        decl_typecheck(d->next);
+        stmt_typecheck(d->code, d->symbol);
     }
+    decl_typecheck(d->next);
 }

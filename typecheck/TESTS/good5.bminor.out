@@ -66,6 +66,10 @@ c is bound to (L3) c
 c is bound to (L3) c
 intFxn is bound to (global) intFxn
 glob is bound to (global) glob
-resolve error: intFxn is already definedc resolves to (param)
+c resolves to (param)
 c is bound to (L3) c
 	Code Resolved
+
+*****TYPECHECKING*******
+
+	Code Typecheck

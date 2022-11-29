@@ -1,4 +1,5 @@
 #include "type.h"
+#include "symbol.h"
 #include "stmt.h"
 #include "expr.h"
 #include "decl.h"
@@ -215,7 +216,7 @@ void stmt_resolve(struct stmt *s)
     stmt_resolve(s->next);
 }
 
-void stmt_typecheck(struct stmt *s, struct type *r)
+void stmt_typecheck(struct stmt *s, struct symbol *return_type)
 {
     if (!s)
         return;
@@ -237,8 +238,8 @@ void stmt_typecheck(struct stmt *s, struct type *r)
             special_stmt_error_handler(s, t);
         }
         type_delete(t);
-        stmt_typecheck(s->body, r);
-        stmt_typecheck(s->else_body, r);
+        stmt_typecheck(s->body, return_type);
+        stmt_typecheck(s->else_body, return_type);
         break;
     case STMT_IF:
         t = expr_typecheck(s->expr);
@@ -247,7 +248,7 @@ void stmt_typecheck(struct stmt *s, struct type *r)
             special_stmt_error_handler(s, t);
         }
         type_delete(t);
-        stmt_typecheck(s->body, r);
+        stmt_typecheck(s->body, return_type);
         break;
     case STMT_FOR:
         t = expr_typecheck(s->init_expr);
@@ -273,18 +274,40 @@ void stmt_typecheck(struct stmt *s, struct type *r)
             type_delete(t);
         }
 
-        stmt_typecheck(s->body, r);
+        stmt_typecheck(s->body, return_type);
     case STMT_PRINT:
         expr_typecheck(s->expr);
         break;
     case STMT_BLOCK:
-        stmt_typecheck(s->body, r);
+        stmt_typecheck(s->body, return_type);
         break;
     case STMT_RETURN:
-        r = type_copy(expr_typecheck(s->expr));
+        struct type *r = NULL;
+
+        if (s->expr)
+        {
+            r = type_copy(expr_typecheck(s->expr));
+        }
+        else
+        {
+            // if not an expression type create void
+            r = type_create(TYPE_VOID, 0, 0, 0, 1);
+        }
+
+        if (return_type->type->subtype->kind == TYPE_AUTO)
+        {
+            return_type->type = type_copy(r);
+        }
+        else if (!type_compare(r, return_type->type->subtype))
+        {
+
+            special_stmt_error_handler(s, r);
+            type_print(return_type->type, 0);
+        }
+
         break;
     default:
         break;
     }
-    stmt_typecheck(s->next, r);
+    stmt_typecheck(s->next, return_type);
 }

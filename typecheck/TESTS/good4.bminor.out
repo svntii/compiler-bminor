@@ -48,5 +48,4 @@ c is bound to (L3) c
 
 *****TYPECHECKING*******
 
-type error: Dearest programmer, you cannot return ain a function(charFxn) that returns function char(x: char) 
 	Code Typecheck

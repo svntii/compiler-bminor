@@ -14,5 +14,5 @@ main: function integer()  =
 
 *****TYPECHECKING*******
 
-type error: Dearest programmer, you cannot return ain a function(main) that returns function integer() 
-	Code Typecheck
+type error: Dearest programmer, you  cannot return a  charin a function  that returns
+ function integer() 	Code Typecheck

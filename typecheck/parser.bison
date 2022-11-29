@@ -145,8 +145,8 @@ extern FILE *yyin;
 		|			TOKEN_FUNC return_types	{ $$ = type_create(TYPE_FUNCTION, $2, 0, 0, 1); $$->return_type = 1; } 
 		;
 
-	decl_args_epsilon: decl_args  { $$ = $1; }
-		|						  { $$ = 0;  }
+	decl_args_epsilon: decl_args  { $$ = $1; 	}
+		|						  { $$ = 0; 	}//param_list_create(0, type_create(TYPE_VOID, 0,0,0,0), 0, 0);  }
 		;
 	decl_args: 		name TOKEN_COLON auto_decl_args decl_args_end 	{ $$ = param_list_create($1, $3, 0 ,$4) ;   } /*What is symbol in param_list*/
 		;

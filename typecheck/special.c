@@ -24,6 +24,8 @@ void special_tabprinter(int tab)
 
 void special_expr_error_handler(struct expr *e, struct type *lt, struct type *rt)
 {
+    MAIN_TYPEERROR_COUNT++;
+
     printf("error: Dearest programmer, you cannot");
 
     switch (e->kind)
@@ -239,6 +241,11 @@ void special_stmt_error_handler(struct stmt *s, struct type *t)
     case STMT_PRINT:
         break;
     case STMT_RETURN:
+        printf(" cannot return a ");
+        type_print(t, 0);
+        printf("in a function  that returns");
+
+        printf("\n");
         break;
     default:
         break;
@@ -263,10 +270,9 @@ void special_decl_error_handler(struct decl *d, struct type *t)
     }
     else
     {
-        printf(" return a");
+        printf(" return a ");
         type_print(t, 0);
-
-        printf("in a function(%s) that returns", d->name);
+        printf("in a function (%s) that returns", d->name);
         type_print(d->type, 0);
         printf("\n");
     }

@@ -5,6 +5,7 @@ y: integer = 10;
 
 test: function integer();
 
+	
 main: function void ()=
 {
 	x:integer = y * 10 + 15 - test();
@@ -14,5 +15,5 @@ test: function integer () =
 {
 	return 5;
 }
-	
+
 

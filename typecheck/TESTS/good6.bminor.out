@@ -57,7 +57,4 @@ test3 is bound to (global) test3
 
 *****TYPECHECKING*******
 
-type error: Dearest programmer, you cannot return ain a function(test1) that returns function integer(a: integer, b: integer) 
-type error: Dearest programmer, you cannot return ain a function(test2) that returns function boolean(a: integer, b: integer) 
-type error: Dearest programmer, you cannot return ain a function(test3) that returns function char(a: integer) 
 	Code Typecheck

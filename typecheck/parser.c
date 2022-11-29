@@ -1481,13 +1481,13 @@ yyreduce:
 
   case 26: /* decl_args_epsilon: decl_args  */
 #line 148 "parser.bison"
-                                      { (yyval.param_list) = (yyvsp[0].param_list); }
+                                      { (yyval.param_list) = (yyvsp[0].param_list); 	}
 #line 1486 "parser.c"
     break;
 
   case 27: /* decl_args_epsilon: %empty  */
 #line 149 "parser.bison"
-                                                                  { (yyval.param_list) = 0;  }
+                                                                  { (yyval.param_list) = 0; 	}
 #line 1492 "parser.c"
     break;
 
