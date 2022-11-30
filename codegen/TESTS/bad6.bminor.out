@@ -1,0 +1,36 @@
+	Scan Successful
+	Parse Successful
+	Reformatted Code
+test1: function integer(a: integer, b: integer) ;
+test2: function boolean(a: integer, b: integer) ;
+test3: function string(a: integer) ;
+main: function void()  = 
+{
+    str: string = "hi";
+    
+    
+}
+
+test3: function string(a: boolean)  = 
+{
+    return "hello!";
+    
+}
+
+test2: function integer(a: integer, b: integer)  = 
+{
+    return a + b;
+    
+}
+
+
+*****RESOLVING*******
+
+resolve error: the defintion of test3 does not match its prototype, please double check the types
+a resolves to (param)
+resolve error: the defintion of test2 does not match its prototype, please double check the types
+a resolves to (param)
+b resolves to (param)
+a is bound to (L3) a
+b is bound to (L3) b
+	Code Resolved

@@ -1,0 +1,36 @@
+	Scan Successful
+	Parse Successful
+	Reformatted Code
+test1: function integer(a: integer, b: integer) ;
+test2: function boolean(a: integer, b: integer) ;
+main: function void()  = 
+{
+    x: integer = test2(5, 6);
+    
+    test2(5, 6);
+    print test2(11);
+    
+}
+
+test2: function boolean(a: integer, b: integer)  = 
+{
+    return a == b;
+    
+}
+
+
+*****RESOLVING*******
+
+test2 is bound to (global) test2
+test2 is bound to (global) test2
+test2 is bound to (global) test2
+a resolves to (param)
+b resolves to (param)
+a is bound to (L3) a
+b is bound to (L3) b
+	Code Resolved
+
+*****TYPECHECKING*******
+
+type error: Dearest programmer, you cannot assign boolean (test2(5, 6)) to integer (x) 
+	Code Typecheck

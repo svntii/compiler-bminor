@@ -1,0 +1,21 @@
+	Scan Successful
+	Parse Successful
+	Reformatted Code
+x: integer = 5;
+y: integer = 10;
+main: function void()  = 
+{
+    x: integer = y * 10 + 15 - 4;
+    
+    
+}
+
+
+*****RESOLVING*******
+
+y is bound to (global) y
+	Code Resolved
+
+*****TYPECHECKING*******
+
+	Code Typecheck

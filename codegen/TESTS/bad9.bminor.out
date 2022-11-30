@@ -1,0 +1,22 @@
+	Scan Successful
+	Parse Successful
+	Reformatted Code
+x: array[] integer = { 1, 2, 3, 4, 5 };
+main: function void()  = 
+{
+    x[true] = intFxn();
+    
+}
+
+intFxn: function integer()  = 
+{
+    return 3;
+    
+}
+
+
+*****RESOLVING*******
+
+x is bound to (global) x
+resolve error: intFxn is not defined
+	Code Resolved

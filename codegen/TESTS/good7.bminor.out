@@ -1,0 +1,59 @@
+	Scan Successful
+	Parse Successful
+	Reformatted Code
+test1: function integer(a: integer, b: integer) ;
+test2: function boolean(a: integer, b: integer) ;
+test3: function string(a: integer) ;
+main: function void()  = 
+{
+    x: integer = test1(5, 6);
+    
+    test2(5, 6);
+    print test3(7);
+    
+}
+
+test1: function integer(a: integer, b: integer)  = 
+{
+    return a + b;
+    
+}
+
+test2: function boolean(a: integer, b: integer)  = 
+{
+    return a == b;
+    
+}
+
+test3: function string(a: integer)  = 
+{
+    if (test1(1, 5) > 6)
+        
+        {
+            return "hello world";
+            
+        }
+        
+}
+
+
+*****RESOLVING*******
+
+test1 is bound to (global) test1
+test2 is bound to (global) test2
+test3 is bound to (global) test3
+a resolves to (param)
+b resolves to (param)
+a is bound to (L3) a
+b is bound to (L3) b
+a resolves to (param)
+b resolves to (param)
+a is bound to (L3) a
+b is bound to (L3) b
+a resolves to (param)
+test1 is bound to (global) test1
+	Code Resolved
+
+*****TYPECHECKING*******
+
+	Code Typecheck

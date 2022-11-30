@@ -1,0 +1,30 @@
+	Scan Successful
+	Parse Successful
+	Reformatted Code
+x: array[] integer = { 1, 2, 3, 4, 5 };
+intFxn: function integer() ;
+main: function void()  = 
+{
+    x[4] = intFxn();
+    x[intFxn()] = 4;
+    
+}
+
+intFxn: function integer()  = 
+{
+    return 3;
+    
+}
+
+
+*****RESOLVING*******
+
+x is bound to (global) x
+intFxn is bound to (global) intFxn
+x is bound to (global) x
+intFxn is bound to (global) intFxn
+	Code Resolved
+
+*****TYPECHECKING*******
+
+	Code Typecheck

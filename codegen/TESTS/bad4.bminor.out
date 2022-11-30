@@ -1,0 +1,18 @@
+	Scan Successful
+	Parse Successful
+	Reformatted Code
+main: function integer()  = 
+{
+    return 'c';
+    
+}
+
+
+*****RESOLVING*******
+
+	Code Resolved
+
+*****TYPECHECKING*******
+
+type error: Dearest programmer, you  cannot return a  charin a function  that returns
+ function integer() 	Code Typecheck

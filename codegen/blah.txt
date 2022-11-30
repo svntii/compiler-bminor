@@ -1,0 +1,835 @@
+In file included from parser.bison:82:
+expr.c: In function ‘expr_create’:
+expr.c:17:22: warning: implicit declaration of function ‘xmalloc’; did you mean ‘malloc’? [-Wimplicit-function-declaration]
+   17 |     struct expr *e = xmalloc(sizeof(struct expr)); // we have declared a pointer called e and allocated appropriate memory to that pointer
+      |                      ^~~~~~~
+      |                      malloc
+expr.c:17:22: warning: initialization of ‘struct expr *’ from ‘int’ makes pointer from integer without a cast [-Wint-conversion]
+In file included from stmt.c:1,
+                 from parser.bison:83:
+expr.h: At top level:
+expr.h:5:9: error: redeclaration of enumerator ‘EXPR_ADD’
+    5 |         EXPR_ADD,
+      |         ^~~~~~~~
+In file included from expr.c:1,
+                 from parser.bison:82:
+expr.h:5:9: note: previous definition of ‘EXPR_ADD’ with type ‘enum <anonymous>’
+    5 |         EXPR_ADD,
+      |         ^~~~~~~~
+In file included from stmt.c:1,
+                 from parser.bison:83:
+expr.h:6:9: error: redeclaration of enumerator ‘EXPR_SUB’
+    6 |         EXPR_SUB,
+      |         ^~~~~~~~
+In file included from expr.c:1,
+                 from parser.bison:82:
+expr.h:6:9: note: previous definition of ‘EXPR_SUB’ with type ‘enum <anonymous>’
+    6 |         EXPR_SUB,
+      |         ^~~~~~~~
+In file included from stmt.c:1,
+                 from parser.bison:83:
+expr.h:7:9: error: redeclaration of enumerator ‘EXPR_MULT’
+    7 |         EXPR_MULT,
+      |         ^~~~~~~~~
+In file included from expr.c:1,
+                 from parser.bison:82:
+expr.h:7:9: note: previous definition of ‘EXPR_MULT’ with type ‘enum <anonymous>’
+    7 |         EXPR_MULT,
+      |         ^~~~~~~~~
+In file included from stmt.c:1,
+                 from parser.bison:83:
+expr.h:8:9: error: redeclaration of enumerator ‘EXPR_DIV’
+    8 |         EXPR_DIV,
+      |         ^~~~~~~~
+In file included from expr.c:1,
+                 from parser.bison:82:
+expr.h:8:9: note: previous definition of ‘EXPR_DIV’ with type ‘enum <anonymous>’
+    8 |         EXPR_DIV,
+      |         ^~~~~~~~
+In file included from stmt.c:1,
+                 from parser.bison:83:
+expr.h:9:9: error: redeclaration of enumerator ‘EXPR_OR’
+    9 |         EXPR_OR,
+      |         ^~~~~~~
+In file included from expr.c:1,
+                 from parser.bison:82:
+expr.h:9:9: note: previous definition of ‘EXPR_OR’ with type ‘enum <anonymous>’
+    9 |         EXPR_OR,
+      |         ^~~~~~~
+In file included from stmt.c:1,
+                 from parser.bison:83:
+expr.h:10:9: error: redeclaration of enumerator ‘EXPR_AND’
+   10 |         EXPR_AND,
+      |         ^~~~~~~~
+In file included from expr.c:1,
+                 from parser.bison:82:
+expr.h:10:9: note: previous definition of ‘EXPR_AND’ with type ‘enum <anonymous>’
+   10 |         EXPR_AND,
+      |         ^~~~~~~~
+In file included from stmt.c:1,
+                 from parser.bison:83:
+expr.h:11:9: error: redeclaration of enumerator ‘EXPR_LT’
+   11 |         EXPR_LT,
+      |         ^~~~~~~
+In file included from expr.c:1,
+                 from parser.bison:82:
+expr.h:11:9: note: previous definition of ‘EXPR_LT’ with type ‘enum <anonymous>’
+   11 |         EXPR_LT,
+      |         ^~~~~~~
+In file included from stmt.c:1,
+                 from parser.bison:83:
+expr.h:12:9: error: redeclaration of enumerator ‘EXPR_LTE’
+   12 |         EXPR_LTE,
+      |         ^~~~~~~~
+In file included from expr.c:1,
+                 from parser.bison:82:
+expr.h:12:9: note: previous definition of ‘EXPR_LTE’ with type ‘enum <anonymous>’
+   12 |         EXPR_LTE,
+      |         ^~~~~~~~
+In file included from stmt.c:1,
+                 from parser.bison:83:
+expr.h:13:9: error: redeclaration of enumerator ‘EXPR_GT’
+   13 |         EXPR_GT,
+      |         ^~~~~~~
+In file included from expr.c:1,
+                 from parser.bison:82:
+expr.h:13:9: note: previous definition of ‘EXPR_GT’ with type ‘enum <anonymous>’
+   13 |         EXPR_GT,
+      |         ^~~~~~~
+In file included from stmt.c:1,
+                 from parser.bison:83:
+expr.h:14:9: error: redeclaration of enumerator ‘EXPR_GTE’
+   14 |         EXPR_GTE,
+      |         ^~~~~~~~
+In file included from expr.c:1,
+                 from parser.bison:82:
+expr.h:14:9: note: previous definition of ‘EXPR_GTE’ with type ‘enum <anonymous>’
+   14 |         EXPR_GTE,
+      |         ^~~~~~~~
+In file included from stmt.c:1,
+                 from parser.bison:83:
+expr.h:15:9: error: redeclaration of enumerator ‘EXPR_EQ’
+   15 |         EXPR_EQ,
+      |         ^~~~~~~
+In file included from expr.c:1,
+                 from parser.bison:82:
+expr.h:15:9: note: previous definition of ‘EXPR_EQ’ with type ‘enum <anonymous>’
+   15 |         EXPR_EQ,
+      |         ^~~~~~~
+In file included from stmt.c:1,
+                 from parser.bison:83:
+expr.h:16:9: error: redeclaration of enumerator ‘EXPR_NEQ’
+   16 |         EXPR_NEQ,
+      |         ^~~~~~~~
+In file included from expr.c:1,
+                 from parser.bison:82:
+expr.h:16:9: note: previous definition of ‘EXPR_NEQ’ with type ‘enum <anonymous>’
+   16 |         EXPR_NEQ,
+      |         ^~~~~~~~
+In file included from stmt.c:1,
+                 from parser.bison:83:
+expr.h:17:9: error: redeclaration of enumerator ‘EXPR_MOD’
+   17 |         EXPR_MOD,
+      |         ^~~~~~~~
+In file included from expr.c:1,
+                 from parser.bison:82:
+expr.h:17:9: note: previous definition of ‘EXPR_MOD’ with type ‘enum <anonymous>’
+   17 |         EXPR_MOD,
+      |         ^~~~~~~~
+In file included from stmt.c:1,
+                 from parser.bison:83:
+expr.h:18:9: error: redeclaration of enumerator ‘EXPR_EXP’
+   18 |         EXPR_EXP,
+      |         ^~~~~~~~
+In file included from expr.c:1,
+                 from parser.bison:82:
+expr.h:18:9: note: previous definition of ‘EXPR_EXP’ with type ‘enum <anonymous>’
+   18 |         EXPR_EXP,
+      |         ^~~~~~~~
+In file included from stmt.c:1,
+                 from parser.bison:83:
+expr.h:19:9: error: redeclaration of enumerator ‘EXPR_NEGATE’
+   19 |         EXPR_NEGATE,
+      |         ^~~~~~~~~~~
+In file included from expr.c:1,
+                 from parser.bison:82:
+expr.h:19:9: note: previous definition of ‘EXPR_NEGATE’ with type ‘enum <anonymous>’
+   19 |         EXPR_NEGATE,
+      |         ^~~~~~~~~~~
+In file included from stmt.c:1,
+                 from parser.bison:83:
+expr.h:20:9: error: redeclaration of enumerator ‘EXPR_NOT’
+   20 |         EXPR_NOT,
+      |         ^~~~~~~~
+In file included from expr.c:1,
+                 from parser.bison:82:
+expr.h:20:9: note: previous definition of ‘EXPR_NOT’ with type ‘enum <anonymous>’
+   20 |         EXPR_NOT,
+      |         ^~~~~~~~
+In file included from stmt.c:1,
+                 from parser.bison:83:
+expr.h:21:9: error: redeclaration of enumerator ‘EXPR_POSIN’
+   21 |         EXPR_POSIN,
+      |         ^~~~~~~~~~
+In file included from expr.c:1,
+                 from parser.bison:82:
+expr.h:21:9: note: previous definition of ‘EXPR_POSIN’ with type ‘enum <anonymous>’
+   21 |         EXPR_POSIN,
+      |         ^~~~~~~~~~
+In file included from stmt.c:1,
+                 from parser.bison:83:
+expr.h:22:9: error: redeclaration of enumerator ‘EXPR_POSDEC’
+   22 |         EXPR_POSDEC,
+      |         ^~~~~~~~~~~
+In file included from expr.c:1,
+                 from parser.bison:82:
+expr.h:22:9: note: previous definition of ‘EXPR_POSDEC’ with type ‘enum <anonymous>’
+   22 |         EXPR_POSDEC,
+      |         ^~~~~~~~~~~
+In file included from stmt.c:1,
+                 from parser.bison:83:
+expr.h:23:9: error: redeclaration of enumerator ‘EXPR_GROUP’
+   23 |         EXPR_GROUP,
+      |         ^~~~~~~~~~
+In file included from expr.c:1,
+                 from parser.bison:82:
+expr.h:23:9: note: previous definition of ‘EXPR_GROUP’ with type ‘enum <anonymous>’
+   23 |         EXPR_GROUP,
+      |         ^~~~~~~~~~
+In file included from stmt.c:1,
+                 from parser.bison:83:
+expr.h:24:9: error: redeclaration of enumerator ‘EXPR_SUBSCRIPT’
+   24 |         EXPR_SUBSCRIPT,
+      |         ^~~~~~~~~~~~~~
+In file included from expr.c:1,
+                 from parser.bison:82:
+expr.h:24:9: note: previous definition of ‘EXPR_SUBSCRIPT’ with type ‘enum <anonymous>’
+   24 |         EXPR_SUBSCRIPT,
+      |         ^~~~~~~~~~~~~~
+In file included from stmt.c:1,
+                 from parser.bison:83:
+expr.h:25:9: error: redeclaration of enumerator ‘EXPR_FUNCTION_CALL’
+   25 |         EXPR_FUNCTION_CALL,
+      |         ^~~~~~~~~~~~~~~~~~
+In file included from expr.c:1,
+                 from parser.bison:82:
+expr.h:25:9: note: previous definition of ‘EXPR_FUNCTION_CALL’ with type ‘enum <anonymous>’
+   25 |         EXPR_FUNCTION_CALL,
+      |         ^~~~~~~~~~~~~~~~~~
+In file included from stmt.c:1,
+                 from parser.bison:83:
+expr.h:26:9: error: redeclaration of enumerator ‘EXPR_ASSIGNMENT’
+   26 |         EXPR_ASSIGNMENT,
+      |         ^~~~~~~~~~~~~~~
+In file included from expr.c:1,
+                 from parser.bison:82:
+expr.h:26:9: note: previous definition of ‘EXPR_ASSIGNMENT’ with type ‘enum <anonymous>’
+   26 |         EXPR_ASSIGNMENT,
+      |         ^~~~~~~~~~~~~~~
+In file included from stmt.c:1,
+                 from parser.bison:83:
+expr.h:27:9: error: redeclaration of enumerator ‘EXPR_TERN’
+   27 |         EXPR_TERN,
+      |         ^~~~~~~~~
+In file included from expr.c:1,
+                 from parser.bison:82:
+expr.h:27:9: note: previous definition of ‘EXPR_TERN’ with type ‘enum <anonymous>’
+   27 |         EXPR_TERN,
+      |         ^~~~~~~~~
+In file included from stmt.c:1,
+                 from parser.bison:83:
+expr.h:28:9: error: redeclaration of enumerator ‘EXPR_INTEGER_LITERAL’
+   28 |         EXPR_INTEGER_LITERAL,
+      |         ^~~~~~~~~~~~~~~~~~~~
+In file included from expr.c:1,
+                 from parser.bison:82:
+expr.h:28:9: note: previous definition of ‘EXPR_INTEGER_LITERAL’ with type ‘enum <anonymous>’
+   28 |         EXPR_INTEGER_LITERAL,
+      |         ^~~~~~~~~~~~~~~~~~~~
+In file included from stmt.c:1,
+                 from parser.bison:83:
+expr.h:29:9: error: redeclaration of enumerator ‘EXPR_BOOLEAN_LITERAL’
+   29 |         EXPR_BOOLEAN_LITERAL,
+      |         ^~~~~~~~~~~~~~~~~~~~
+In file included from expr.c:1,
+                 from parser.bison:82:
+expr.h:29:9: note: previous definition of ‘EXPR_BOOLEAN_LITERAL’ with type ‘enum <anonymous>’
+   29 |         EXPR_BOOLEAN_LITERAL,
+      |         ^~~~~~~~~~~~~~~~~~~~
+In file included from stmt.c:1,
+                 from parser.bison:83:
+expr.h:30:9: error: redeclaration of enumerator ‘EXPR_CHAR_LITERAL’
+   30 |         EXPR_CHAR_LITERAL,
+      |         ^~~~~~~~~~~~~~~~~
+In file included from expr.c:1,
+                 from parser.bison:82:
+expr.h:30:9: note: previous definition of ‘EXPR_CHAR_LITERAL’ with type ‘enum <anonymous>’
+   30 |         EXPR_CHAR_LITERAL,
+      |         ^~~~~~~~~~~~~~~~~
+In file included from stmt.c:1,
+                 from parser.bison:83:
+expr.h:31:9: error: redeclaration of enumerator ‘EXPR_STRING_LITERAL’
+   31 |         EXPR_STRING_LITERAL,
+      |         ^~~~~~~~~~~~~~~~~~~
+In file included from expr.c:1,
+                 from parser.bison:82:
+expr.h:31:9: note: previous definition of ‘EXPR_STRING_LITERAL’ with type ‘enum <anonymous>’
+   31 |         EXPR_STRING_LITERAL,
+      |         ^~~~~~~~~~~~~~~~~~~
+In file included from stmt.c:1,
+                 from parser.bison:83:
+expr.h:32:9: error: redeclaration of enumerator ‘EXPR_ARRAY_LITERAL’
+   32 |         EXPR_ARRAY_LITERAL,
+      |         ^~~~~~~~~~~~~~~~~~
+In file included from expr.c:1,
+                 from parser.bison:82:
+expr.h:32:9: note: previous definition of ‘EXPR_ARRAY_LITERAL’ with type ‘enum <anonymous>’
+   32 |         EXPR_ARRAY_LITERAL,
+      |         ^~~~~~~~~~~~~~~~~~
+In file included from stmt.c:1,
+                 from parser.bison:83:
+expr.h:33:9: error: redeclaration of enumerator ‘EXPR_NAME’
+   33 |         EXPR_NAME
+      |         ^~~~~~~~~
+In file included from expr.c:1,
+                 from parser.bison:82:
+expr.h:33:9: note: previous definition of ‘EXPR_NAME’ with type ‘enum <anonymous>’
+   33 |         EXPR_NAME
+      |         ^~~~~~~~~
+In file included from stmt.c:1,
+                 from parser.bison:83:
+expr.h:34:3: error: conflicting types for ‘expr_t’; have ‘enum <anonymous>’
+   34 | } expr_t;
+      |   ^~~~~~
+In file included from expr.c:1,
+                 from parser.bison:82:
+expr.h:34:3: note: previous declaration of ‘expr_t’ with type ‘expr_t’
+   34 | } expr_t;
+      |   ^~~~~~
+In file included from stmt.c:1,
+                 from parser.bison:83:
+expr.h:36:8: error: redefinition of ‘struct expr’
+   36 | struct expr
+      |        ^~~~
+In file included from expr.c:1,
+                 from parser.bison:82:
+expr.h:36:8: note: originally defined here
+   36 | struct expr
+      |        ^~~~
+In file included from stmt.c:1,
+                 from parser.bison:83:
+expr.h:47:14: error: conflicting types for ‘expr_create’; have ‘struct expr *(expr_t,  struct expr *, struct expr *)’
+   47 | struct expr *expr_create(expr_t kind, struct expr *left, struct expr *right);
+      |              ^~~~~~~~~~~
+In file included from parser.bison:82:
+expr.c:15:14: note: previous definition of ‘expr_create’ with type ‘struct expr *(expr_t,  struct expr *, struct expr *)’
+   15 | struct expr *expr_create(expr_t kind, struct expr *left, struct expr *right)
+      |              ^~~~~~~~~~~
+In file included from stmt.c:1,
+                 from parser.bison:83:
+expr.h:51:14: error: conflicting types for ‘expr_create_integer_literal’; have ‘struct expr *(int)’
+   51 | struct expr *expr_create_integer_literal(int i);                  // an actual number
+      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from parser.bison:82:
+expr.c:35:14: note: previous definition of ‘expr_create_integer_literal’ with type ‘struct expr *(int)’
+   35 | struct expr *expr_create_integer_literal(int i)
+      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from stmt.c:1,
+                 from parser.bison:83:
+expr.h:52:14: error: conflicting types for ‘expr_create_boolean_literal’; have ‘struct expr *(int)’
+   52 | struct expr *expr_create_boolean_literal(int b);                  // true/false
+      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from parser.bison:82:
+expr.c:42:14: note: previous definition of ‘expr_create_boolean_literal’ with type ‘struct expr *(int)’
+   42 | struct expr *expr_create_boolean_literal(int b)
+      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from stmt.c:1,
+                 from parser.bison:83:
+expr.h:53:14: error: conflicting types for ‘expr_create_char_literal’; have ‘struct expr *(char)’
+   53 | struct expr *expr_create_char_literal(char c);                    //    'a'
+      |              ^~~~~~~~~~~~~~~~~~~~~~~~
+In file included from parser.bison:82:
+expr.c:49:14: note: previous definition of ‘expr_create_char_literal’ with type ‘struct expr *(char)’
+   49 | struct expr *expr_create_char_literal(char c)
+      |              ^~~~~~~~~~~~~~~~~~~~~~~~
+In file included from stmt.c:1,
+                 from parser.bison:83:
+expr.h:54:14: error: conflicting types for ‘expr_create_string_literal’; have ‘struct expr *(const char *)’
+   54 | struct expr *expr_create_string_literal(const char *str); // "Notre Dame"
+      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from parser.bison:82:
+expr.c:56:14: note: previous definition of ‘expr_create_string_literal’ with type ‘struct expr *(const char *)’
+   56 | struct expr *expr_create_string_literal(const char *str)
+      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from stmt.c:1,
+                 from parser.bison:83:
+expr.h:55:14: error: conflicting types for ‘expr_create_name’; have ‘struct expr *(const char *)’
+   55 | struct expr *expr_create_name(const char *name);
+      |              ^~~~~~~~~~~~~~~~
+In file included from parser.bison:82:
+expr.c:28:14: note: previous definition of ‘expr_create_name’ with type ‘struct expr *(const char *)’
+   28 | struct expr *expr_create_name(const char *name)
+      |              ^~~~~~~~~~~~~~~~
+In file included from stmt.c:2,
+                 from parser.bison:83:
+stmt.h:5:9: error: redeclaration of enumerator ‘STMT_DECL’
+    5 |         STMT_DECL,
+      |         ^~~~~~~~~
+In file included from expr.c:2,
+                 from parser.bison:82:
+stmt.h:5:9: note: previous definition of ‘STMT_DECL’ with type ‘enum <anonymous>’
+    5 |         STMT_DECL,
+      |         ^~~~~~~~~
+In file included from stmt.c:2,
+                 from parser.bison:83:
+stmt.h:6:9: error: redeclaration of enumerator ‘STMT_EXPR’
+    6 |         STMT_EXPR,
+      |         ^~~~~~~~~
+In file included from expr.c:2,
+                 from parser.bison:82:
+stmt.h:6:9: note: previous definition of ‘STMT_EXPR’ with type ‘enum <anonymous>’
+    6 |         STMT_EXPR,
+      |         ^~~~~~~~~
+In file included from stmt.c:2,
+                 from parser.bison:83:
+stmt.h:7:9: error: redeclaration of enumerator ‘STMT_IF_ELSE’
+    7 |         STMT_IF_ELSE,
+      |         ^~~~~~~~~~~~
+In file included from expr.c:2,
+                 from parser.bison:82:
+stmt.h:7:9: note: previous definition of ‘STMT_IF_ELSE’ with type ‘enum <anonymous>’
+    7 |         STMT_IF_ELSE,
+      |         ^~~~~~~~~~~~
+In file included from stmt.c:2,
+                 from parser.bison:83:
+stmt.h:8:9: error: redeclaration of enumerator ‘STMT_IF’
+    8 |         STMT_IF,
+      |         ^~~~~~~
+In file included from expr.c:2,
+                 from parser.bison:82:
+stmt.h:8:9: note: previous definition of ‘STMT_IF’ with type ‘enum <anonymous>’
+    8 |         STMT_IF,
+      |         ^~~~~~~
+In file included from stmt.c:2,
+                 from parser.bison:83:
+stmt.h:9:9: error: redeclaration of enumerator ‘STMT_FOR’
+    9 |         STMT_FOR,
+      |         ^~~~~~~~
+In file included from expr.c:2,
+                 from parser.bison:82:
+stmt.h:9:9: note: previous definition of ‘STMT_FOR’ with type ‘enum <anonymous>’
+    9 |         STMT_FOR,
+      |         ^~~~~~~~
+In file included from stmt.c:2,
+                 from parser.bison:83:
+stmt.h:10:9: error: redeclaration of enumerator ‘STMT_PRINT’
+   10 |         STMT_PRINT,
+      |         ^~~~~~~~~~
+In file included from expr.c:2,
+                 from parser.bison:82:
+stmt.h:10:9: note: previous definition of ‘STMT_PRINT’ with type ‘enum <anonymous>’
+   10 |         STMT_PRINT,
+      |         ^~~~~~~~~~
+In file included from stmt.c:2,
+                 from parser.bison:83:
+stmt.h:11:9: error: redeclaration of enumerator ‘STMT_RETURN’
+   11 |         STMT_RETURN,
+      |         ^~~~~~~~~~~
+In file included from expr.c:2,
+                 from parser.bison:82:
+stmt.h:11:9: note: previous definition of ‘STMT_RETURN’ with type ‘enum <anonymous>’
+   11 |         STMT_RETURN,
+      |         ^~~~~~~~~~~
+In file included from stmt.c:2,
+                 from parser.bison:83:
+stmt.h:12:9: error: redeclaration of enumerator ‘STMT_WHILE’
+   12 |         STMT_WHILE,
+      |         ^~~~~~~~~~
+In file included from expr.c:2,
+                 from parser.bison:82:
+stmt.h:12:9: note: previous definition of ‘STMT_WHILE’ with type ‘enum <anonymous>’
+   12 |         STMT_WHILE,
+      |         ^~~~~~~~~~
+In file included from stmt.c:2,
+                 from parser.bison:83:
+stmt.h:13:9: error: redeclaration of enumerator ‘STMT_BLOCK’
+   13 |         STMT_BLOCK
+      |         ^~~~~~~~~~
+In file included from expr.c:2,
+                 from parser.bison:82:
+stmt.h:13:9: note: previous definition of ‘STMT_BLOCK’ with type ‘enum <anonymous>’
+   13 |         STMT_BLOCK
+      |         ^~~~~~~~~~
+In file included from stmt.c:2,
+                 from parser.bison:83:
+stmt.h:14:3: error: conflicting types for ‘stmt_t’; have ‘enum <anonymous>’
+   14 | } stmt_t;
+      |   ^~~~~~
+In file included from expr.c:2,
+                 from parser.bison:82:
+stmt.h:14:3: note: previous declaration of ‘stmt_t’ with type ‘stmt_t’
+   14 | } stmt_t;
+      |   ^~~~~~
+In file included from stmt.c:2,
+                 from parser.bison:83:
+stmt.h:16:8: error: redefinition of ‘struct stmt’
+   16 | struct stmt
+      |        ^~~~
+In file included from expr.c:2,
+                 from parser.bison:82:
+stmt.h:16:8: note: originally defined here
+   16 | struct stmt
+      |        ^~~~
+In file included from stmt.c:2,
+                 from parser.bison:83:
+stmt.h:28:14: error: conflicting types for ‘stmt_create’; have ‘struct stmt *(stmt_t,  struct decl *, struct expr *, struct expr *, struct expr *, struct stmt *, struct stmt *, struct stmt *)’
+   28 | struct stmt *stmt_create(stmt_t kind, struct decl *decl, struct expr *init_expr, struct expr *expr, struct expr *next_expr, struct stmt *body, struct stmt *else_body, struct stmt *next);
+      |              ^~~~~~~~~~~
+In file included from expr.c:2,
+                 from parser.bison:82:
+stmt.h:28:14: note: previous declaration of ‘stmt_create’ with type ‘struct stmt *(stmt_t,  struct decl *, struct expr *, struct expr *, struct expr *, struct stmt *, struct stmt *, struct stmt *)’
+   28 | struct stmt *stmt_create(stmt_t kind, struct decl *decl, struct expr *init_expr, struct expr *expr, struct expr *next_expr, struct stmt *body, struct stmt *else_body, struct stmt *next);
+      |              ^~~~~~~~~~~
+In file included from stmt.c:2,
+                 from parser.bison:83:
+stmt.h:29:14: error: conflicting types for ‘stmt_create_decl’; have ‘struct stmt *(struct decl *)’
+   29 | struct stmt *stmt_create_decl(struct decl *decl);
+      |              ^~~~~~~~~~~~~~~~
+In file included from expr.c:2,
+                 from parser.bison:82:
+stmt.h:29:14: note: previous declaration of ‘stmt_create_decl’ with type ‘struct stmt *(struct decl *)’
+   29 | struct stmt *stmt_create_decl(struct decl *decl);
+      |              ^~~~~~~~~~~~~~~~
+In file included from stmt.c:2,
+                 from parser.bison:83:
+stmt.h:30:14: error: conflicting types for ‘stmt_create_expr’; have ‘struct stmt *(struct expr *)’
+   30 | struct stmt *stmt_create_expr(struct expr *expr);
+      |              ^~~~~~~~~~~~~~~~
+In file included from expr.c:2,
+                 from parser.bison:82:
+stmt.h:30:14: note: previous declaration of ‘stmt_create_expr’ with type ‘struct stmt *(struct expr *)’
+   30 | struct stmt *stmt_create_expr(struct expr *expr);
+      |              ^~~~~~~~~~~~~~~~
+In file included from stmt.c:2,
+                 from parser.bison:83:
+stmt.h:31:14: error: conflicting types for ‘stmt_create_if_else’; have ‘struct stmt *(struct expr *, struct stmt *, struct stmt *)’
+   31 | struct stmt *stmt_create_if_else(struct expr *expr, struct stmt *body, struct stmt *else_body);
+      |              ^~~~~~~~~~~~~~~~~~~
+In file included from expr.c:2,
+                 from parser.bison:82:
+stmt.h:31:14: note: previous declaration of ‘stmt_create_if_else’ with type ‘struct stmt *(struct expr *, struct stmt *, struct stmt *)’
+   31 | struct stmt *stmt_create_if_else(struct expr *expr, struct stmt *body, struct stmt *else_body);
+      |              ^~~~~~~~~~~~~~~~~~~
+In file included from stmt.c:2,
+                 from parser.bison:83:
+stmt.h:32:14: error: conflicting types for ‘stmt_create_if’; have ‘struct stmt *(struct expr *, struct stmt *)’
+   32 | struct stmt *stmt_create_if(struct expr *expr, struct stmt *body);
+      |              ^~~~~~~~~~~~~~
+In file included from expr.c:2,
+                 from parser.bison:82:
+stmt.h:32:14: note: previous declaration of ‘stmt_create_if’ with type ‘struct stmt *(struct expr *, struct stmt *)’
+   32 | struct stmt *stmt_create_if(struct expr *expr, struct stmt *body);
+      |              ^~~~~~~~~~~~~~
+In file included from stmt.c:2,
+                 from parser.bison:83:
+stmt.h:33:14: error: conflicting types for ‘stmt_create_for’; have ‘struct stmt *(struct expr *, struct expr *, struct expr *, struct stmt *)’
+   33 | struct stmt *stmt_create_for(struct expr *init_expr, struct expr *expr, struct expr *next_expr, struct stmt *body);
+      |              ^~~~~~~~~~~~~~~
+In file included from expr.c:2,
+                 from parser.bison:82:
+stmt.h:33:14: note: previous declaration of ‘stmt_create_for’ with type ‘struct stmt *(struct expr *, struct expr *, struct expr *, struct stmt *)’
+   33 | struct stmt *stmt_create_for(struct expr *init_expr, struct expr *expr, struct expr *next_expr, struct stmt *body);
+      |              ^~~~~~~~~~~~~~~
+In file included from stmt.c:2,
+                 from parser.bison:83:
+stmt.h:34:14: error: conflicting types for ‘stmt_create_print’; have ‘struct stmt *(struct expr *)’
+   34 | struct stmt *stmt_create_print(struct expr *expr);
+      |              ^~~~~~~~~~~~~~~~~
+In file included from expr.c:2,
+                 from parser.bison:82:
+stmt.h:34:14: note: previous declaration of ‘stmt_create_print’ with type ‘struct stmt *(struct expr *)’
+   34 | struct stmt *stmt_create_print(struct expr *expr);
+      |              ^~~~~~~~~~~~~~~~~
+In file included from stmt.c:2,
+                 from parser.bison:83:
+stmt.h:35:14: error: conflicting types for ‘stmt_create_return’; have ‘struct stmt *(struct expr *)’
+   35 | struct stmt *stmt_create_return(struct expr *expr);
+      |              ^~~~~~~~~~~~~~~~~~
+In file included from expr.c:2,
+                 from parser.bison:82:
+stmt.h:35:14: note: previous declaration of ‘stmt_create_return’ with type ‘struct stmt *(struct expr *)’
+   35 | struct stmt *stmt_create_return(struct expr *expr);
+      |              ^~~~~~~~~~~~~~~~~~
+In file included from stmt.c:2,
+                 from parser.bison:83:
+stmt.h:36:14: error: conflicting types for ‘stmt_create_while’; have ‘struct stmt *(struct expr *, struct stmt *)’
+   36 | struct stmt *stmt_create_while(struct expr *expr, struct stmt *body);
+      |              ^~~~~~~~~~~~~~~~~
+In file included from expr.c:2,
+                 from parser.bison:82:
+stmt.h:36:14: note: previous declaration of ‘stmt_create_while’ with type ‘struct stmt *(struct expr *, struct stmt *)’
+   36 | struct stmt *stmt_create_while(struct expr *expr, struct stmt *body);
+      |              ^~~~~~~~~~~~~~~~~
+In file included from stmt.c:2,
+                 from parser.bison:83:
+stmt.h:37:14: error: conflicting types for ‘stmt_create_block’; have ‘struct stmt *(struct stmt *)’
+   37 | struct stmt *stmt_create_block(struct stmt *body);
+      |              ^~~~~~~~~~~~~~~~~
+In file included from expr.c:2,
+                 from parser.bison:82:
+stmt.h:37:14: note: previous declaration of ‘stmt_create_block’ with type ‘struct stmt *(struct stmt *)’
+   37 | struct stmt *stmt_create_block(struct stmt *body);
+      |              ^~~~~~~~~~~~~~~~~
+In file included from stmt.c:4,
+                 from parser.bison:83:
+decl.h:3:8: error: redefinition of ‘struct decl’
+    3 | struct decl
+      |        ^~~~
+In file included from expr.c:4,
+                 from parser.bison:82:
+decl.h:3:8: note: originally defined here
+    3 | struct decl
+      |        ^~~~
+In file included from stmt.c:4,
+                 from parser.bison:83:
+decl.h:13:14: error: conflicting types for ‘decl_create’; have ‘struct decl *(char *, struct type *, struct expr *, struct stmt *, struct decl *)’
+   13 | struct decl *decl_create(char *name, struct type *type, struct expr *value, struct stmt *code, struct decl *next);
+      |              ^~~~~~~~~~~
+In file included from expr.c:4,
+                 from parser.bison:82:
+decl.h:13:14: note: previous declaration of ‘decl_create’ with type ‘struct decl *(char *, struct type *, struct expr *, struct stmt *, struct decl *)’
+   13 | struct decl *decl_create(char *name, struct type *type, struct expr *value, struct stmt *code, struct decl *next);
+      |              ^~~~~~~~~~~
+In file included from stmt.c:5,
+                 from parser.bison:83:
+type.h:4:9: error: redeclaration of enumerator ‘TYPE_BOOLEAN’
+    4 |         TYPE_BOOLEAN,
+      |         ^~~~~~~~~~~~
+In file included from expr.c:5,
+                 from parser.bison:82:
+type.h:4:9: note: previous definition of ‘TYPE_BOOLEAN’ with type ‘enum <anonymous>’
+    4 |         TYPE_BOOLEAN,
+      |         ^~~~~~~~~~~~
+In file included from stmt.c:5,
+                 from parser.bison:83:
+type.h:5:9: error: redeclaration of enumerator ‘TYPE_CHAR’
+    5 |         TYPE_CHAR,
+      |         ^~~~~~~~~
+In file included from expr.c:5,
+                 from parser.bison:82:
+type.h:5:9: note: previous definition of ‘TYPE_CHAR’ with type ‘enum <anonymous>’
+    5 |         TYPE_CHAR,
+      |         ^~~~~~~~~
+In file included from stmt.c:5,
+                 from parser.bison:83:
+type.h:6:9: error: redeclaration of enumerator ‘TYPE_INTEGER’
+    6 |         TYPE_INTEGER,
+      |         ^~~~~~~~~~~~
+In file included from expr.c:5,
+                 from parser.bison:82:
+type.h:6:9: note: previous definition of ‘TYPE_INTEGER’ with type ‘enum <anonymous>’
+    6 |         TYPE_INTEGER,
+      |         ^~~~~~~~~~~~
+In file included from stmt.c:5,
+                 from parser.bison:83:
+type.h:7:9: error: redeclaration of enumerator ‘TYPE_STRING’
+    7 |         TYPE_STRING,
+      |         ^~~~~~~~~~~
+In file included from expr.c:5,
+                 from parser.bison:82:
+type.h:7:9: note: previous definition of ‘TYPE_STRING’ with type ‘enum <anonymous>’
+    7 |         TYPE_STRING,
+      |         ^~~~~~~~~~~
+In file included from stmt.c:5,
+                 from parser.bison:83:
+type.h:8:9: error: redeclaration of enumerator ‘TYPE_ARRAY’
+    8 |         TYPE_ARRAY,
+      |         ^~~~~~~~~~
+In file included from expr.c:5,
+                 from parser.bison:82:
+type.h:8:9: note: previous definition of ‘TYPE_ARRAY’ with type ‘enum <anonymous>’
+    8 |         TYPE_ARRAY,
+      |         ^~~~~~~~~~
+In file included from stmt.c:5,
+                 from parser.bison:83:
+type.h:9:9: error: redeclaration of enumerator ‘TYPE_FUNCTION’
+    9 |         TYPE_FUNCTION,
+      |         ^~~~~~~~~~~~~
+In file included from expr.c:5,
+                 from parser.bison:82:
+type.h:9:9: note: previous definition of ‘TYPE_FUNCTION’ with type ‘enum <anonymous>’
+    9 |         TYPE_FUNCTION,
+      |         ^~~~~~~~~~~~~
+In file included from stmt.c:5,
+                 from parser.bison:83:
+type.h:10:9: error: redeclaration of enumerator ‘TYPE_AUTO’
+   10 |         TYPE_AUTO,
+      |         ^~~~~~~~~
+In file included from expr.c:5,
+                 from parser.bison:82:
+type.h:10:9: note: previous definition of ‘TYPE_AUTO’ with type ‘enum <anonymous>’
+   10 |         TYPE_AUTO,
+      |         ^~~~~~~~~
+In file included from stmt.c:5,
+                 from parser.bison:83:
+type.h:11:9: error: redeclaration of enumerator ‘TYPE_VOID’
+   11 |         TYPE_VOID
+      |         ^~~~~~~~~
+In file included from expr.c:5,
+                 from parser.bison:82:
+type.h:11:9: note: previous definition of ‘TYPE_VOID’ with type ‘enum <anonymous>’
+   11 |         TYPE_VOID
+      |         ^~~~~~~~~
+In file included from stmt.c:5,
+                 from parser.bison:83:
+type.h:12:3: error: conflicting types for ‘type_t’; have ‘enum <anonymous>’
+   12 | } type_t;
+      |   ^~~~~~
+In file included from expr.c:5,
+                 from parser.bison:82:
+type.h:12:3: note: previous declaration of ‘type_t’ with type ‘type_t’
+   12 | } type_t;
+      |   ^~~~~~
+In file included from stmt.c:5,
+                 from parser.bison:83:
+type.h:14:8: error: redefinition of ‘struct type’
+   14 | struct type
+      |        ^~~~
+In file included from expr.c:5,
+                 from parser.bison:82:
+type.h:14:8: note: originally defined here
+   14 | struct type
+      |        ^~~~
+In file included from stmt.c:5,
+                 from parser.bison:83:
+type.h:21:14: error: conflicting types for ‘type_create’; have ‘struct type *(type_t,  struct type *, struct param_list *)’
+   21 | struct type *type_create(type_t kind, struct type *subtype, struct param_list *params);
+      |              ^~~~~~~~~~~
+In file included from expr.c:5,
+                 from parser.bison:82:
+type.h:21:14: note: previous declaration of ‘type_create’ with type ‘struct type *(type_t,  struct type *, struct param_list *)’
+   21 | struct type *type_create(type_t kind, struct type *subtype, struct param_list *params);
+      |              ^~~~~~~~~~~
+In file included from stmt.c:6,
+                 from parser.bison:83:
+param_list.h:3:8: error: redefinition of ‘struct param_list’
+    3 | struct param_list
+      |        ^~~~~~~~~~
+In file included from expr.c:6,
+                 from parser.bison:82:
+param_list.h:3:8: note: originally defined here
+    3 | struct param_list
+      |        ^~~~~~~~~~
+In file included from stmt.c:6,
+                 from parser.bison:83:
+param_list.h:11:20: error: conflicting types for ‘param_list_create’; have ‘struct param_list *(char *, struct type *, struct symbol *, struct param_list *)’
+   11 | struct param_list *param_list_create(char *name, struct type *type, struct symbol *symbol, struct param_list *next);
+      |                    ^~~~~~~~~~~~~~~~~
+In file included from expr.c:6,
+                 from parser.bison:82:
+param_list.h:11:20: note: previous declaration of ‘param_list_create’ with type ‘struct param_list *(char *, struct type *, struct symbol *, struct param_list *)’
+   11 | struct param_list *param_list_create(char *name, struct type *type, struct symbol *symbol, struct param_list *next);
+      |                    ^~~~~~~~~~~~~~~~~
+In file included from parser.bison:83:
+stmt.c:15:14: error: conflicting types for ‘stmt_create’; have ‘struct stmt *(stmt_t,  struct decl *, struct expr *, struct expr *, struct expr *, struct stmt *, struct stmt *, struct stmt *)’
+   15 | struct stmt *stmt_create(stmt_t kind, struct decl *decl, struct expr *init_expr, struct expr *expr, struct expr *next_expr, struct stmt *body, struct stmt *else_body, struct stmt *next)
+      |              ^~~~~~~~~~~
+In file included from expr.c:2,
+                 from parser.bison:82:
+stmt.h:28:14: note: previous declaration of ‘stmt_create’ with type ‘struct stmt *(stmt_t,  struct decl *, struct expr *, struct expr *, struct expr *, struct stmt *, struct stmt *, struct stmt *)’
+   28 | struct stmt *stmt_create(stmt_t kind, struct decl *decl, struct expr *init_expr, struct expr *expr, struct expr *next_expr, struct stmt *body, struct stmt *else_body, struct stmt *next);
+      |              ^~~~~~~~~~~
+In file included from parser.bison:83:
+stmt.c: In function ‘stmt_create’:
+stmt.c:17:22: warning: initialization of ‘struct stmt *’ from ‘int’ makes pointer from integer without a cast [-Wint-conversion]
+   17 |     struct stmt *s = xmalloc(sizeof(*s));
+      |                      ^~~~~~~
+stmt.c:19:13: warning: assignment to ‘struct decl *’ from incompatible pointer type ‘struct decl *’ [-Wincompatible-pointer-types]
+   19 |     s->decl = decl;
+      |             ^
+stmt.c: At top level:
+stmt.c:27:14: error: conflicting types for ‘stmt_create_decl’; have ‘struct stmt *(struct decl *)’
+   27 | struct stmt *stmt_create_decl(struct decl *decl)
+      |              ^~~~~~~~~~~~~~~~
+In file included from expr.c:2,
+                 from parser.bison:82:
+stmt.h:29:14: note: previous declaration of ‘stmt_create_decl’ with type ‘struct stmt *(struct decl *)’
+   29 | struct stmt *stmt_create_decl(struct decl *decl);
+      |              ^~~~~~~~~~~~~~~~
+In file included from parser.bison:83:
+stmt.c:32:14: error: conflicting types for ‘stmt_create_expr’; have ‘struct stmt *(struct expr *)’
+   32 | struct stmt *stmt_create_expr(struct expr *expr)
+      |              ^~~~~~~~~~~~~~~~
+In file included from expr.c:2,
+                 from parser.bison:82:
+stmt.h:30:14: note: previous declaration of ‘stmt_create_expr’ with type ‘struct stmt *(struct expr *)’
+   30 | struct stmt *stmt_create_expr(struct expr *expr);
+      |              ^~~~~~~~~~~~~~~~
+In file included from parser.bison:83:
+stmt.c:38:14: error: conflicting types for ‘stmt_create_if_else’; have ‘struct stmt *(struct expr *, struct stmt *, struct stmt *)’
+   38 | struct stmt *stmt_create_if_else(struct expr *expr, struct stmt *body, struct stmt *else_body)
+      |              ^~~~~~~~~~~~~~~~~~~
+In file included from expr.c:2,
+                 from parser.bison:82:
+stmt.h:31:14: note: previous declaration of ‘stmt_create_if_else’ with type ‘struct stmt *(struct expr *, struct stmt *, struct stmt *)’
+   31 | struct stmt *stmt_create_if_else(struct expr *expr, struct stmt *body, struct stmt *else_body);
+      |              ^~~~~~~~~~~~~~~~~~~
+In file included from parser.bison:83:
+stmt.c:44:14: error: conflicting types for ‘stmt_create_if’; have ‘struct stmt *(struct expr *, struct stmt *)’
+   44 | struct stmt *stmt_create_if(struct expr *expr, struct stmt *body)
+      |              ^~~~~~~~~~~~~~
+In file included from expr.c:2,
+                 from parser.bison:82:
+stmt.h:32:14: note: previous declaration of ‘stmt_create_if’ with type ‘struct stmt *(struct expr *, struct stmt *)’
+   32 | struct stmt *stmt_create_if(struct expr *expr, struct stmt *body);
+      |              ^~~~~~~~~~~~~~
+In file included from parser.bison:83:
+stmt.c:50:14: error: conflicting types for ‘stmt_create_for’; have ‘struct stmt *(struct expr *, struct expr *, struct expr *, struct stmt *)’
+   50 | struct stmt *stmt_create_for(struct expr *init_expr, struct expr *expr, struct expr *next_expr, struct stmt *body)
+      |              ^~~~~~~~~~~~~~~
+In file included from expr.c:2,
+                 from parser.bison:82:
+stmt.h:33:14: note: previous declaration of ‘stmt_create_for’ with type ‘struct stmt *(struct expr *, struct expr *, struct expr *, struct stmt *)’
+   33 | struct stmt *stmt_create_for(struct expr *init_expr, struct expr *expr, struct expr *next_expr, struct stmt *body);
+      |              ^~~~~~~~~~~~~~~
+In file included from parser.bison:83:
+stmt.c:56:14: error: conflicting types for ‘stmt_create_print’; have ‘struct stmt *(struct expr *)’
+   56 | struct stmt *stmt_create_print(struct expr *expr)
+      |              ^~~~~~~~~~~~~~~~~
+In file included from expr.c:2,
+                 from parser.bison:82:
+stmt.h:34:14: note: previous declaration of ‘stmt_create_print’ with type ‘struct stmt *(struct expr *)’
+   34 | struct stmt *stmt_create_print(struct expr *expr);
+      |              ^~~~~~~~~~~~~~~~~
+In file included from parser.bison:83:
+stmt.c:61:14: error: conflicting types for ‘stmt_create_return’; have ‘struct stmt *(struct expr *)’
+   61 | struct stmt *stmt_create_return(struct expr *expr)
+      |              ^~~~~~~~~~~~~~~~~~
+In file included from expr.c:2,
+                 from parser.bison:82:
+stmt.h:35:14: note: previous declaration of ‘stmt_create_return’ with type ‘struct stmt *(struct expr *)’
+   35 | struct stmt *stmt_create_return(struct expr *expr);
+      |              ^~~~~~~~~~~~~~~~~~
+In file included from parser.bison:83:
+stmt.c:66:14: error: conflicting types for ‘stmt_create_while’; have ‘struct stmt *(struct expr *, struct stmt *)’
+   66 | struct stmt *stmt_create_while(struct expr *expr, struct stmt *body)
+      |              ^~~~~~~~~~~~~~~~~
+In file included from expr.c:2,
+                 from parser.bison:82:
+stmt.h:36:14: note: previous declaration of ‘stmt_create_while’ with type ‘struct stmt *(struct expr *, struct stmt *)’
+   36 | struct stmt *stmt_create_while(struct expr *expr, struct stmt *body);
+      |              ^~~~~~~~~~~~~~~~~
+In file included from parser.bison:83:
+stmt.c:71:14: error: conflicting types for ‘stmt_create_block’; have ‘struct stmt *(struct stmt *)’
+   71 | struct stmt *stmt_create_block(struct stmt *body)
+      |              ^~~~~~~~~~~~~~~~~
+In file included from expr.c:2,
+                 from parser.bison:82:
+stmt.h:37:14: note: previous declaration of ‘stmt_create_block’ with type ‘struct stmt *(struct stmt *)’
+   37 | struct stmt *stmt_create_block(struct stmt *body);
+      |              ^~~~~~~~~~~~~~~~~
+parser.bison:84:10: fatal error: token.c: No such file or directory
+   84 | #include "token.c"
+      |          ^~~~~~~~~
+compilation terminated.
+make: *** [Makefile:10: parser.o] Error 1

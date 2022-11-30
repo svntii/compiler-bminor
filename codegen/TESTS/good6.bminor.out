@@ -1,0 +1,60 @@
+	Scan Successful
+	Parse Successful
+	Reformatted Code
+test1: function integer(a: integer, b: integer)  = 
+{
+    return a + b;
+    
+}
+
+test2: function boolean(a: integer, b: integer)  = 
+{
+    return a < b;
+    
+}
+
+test3: function char(a: integer)  = 
+{
+    if (a > 5)
+        
+        {
+            return 'x';
+            
+        }
+        
+    else
+        
+        {
+            return 'y';
+            
+        }
+        
+}
+
+main: function void()  = 
+{
+    print test1(10, 20), test2(30, 40), test3(10), "\n";
+    
+}
+
+
+*****RESOLVING*******
+
+a resolves to (param)
+b resolves to (param)
+a is bound to (L3) a
+b is bound to (L3) b
+a resolves to (param)
+b resolves to (param)
+a is bound to (L3) a
+b is bound to (L3) b
+a resolves to (param)
+a is bound to (L3) a
+test1 is bound to (global) test1
+test2 is bound to (global) test2
+test3 is bound to (global) test3
+	Code Resolved
+
+*****TYPECHECKING*******
+
+	Code Typecheck

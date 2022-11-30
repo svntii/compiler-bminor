@@ -1,0 +1,13 @@
+	Scan Successful
+	Parse Successful
+	Reformatted Code
+x: integer = 'c';
+
+*****RESOLVING*******
+
+	Code Resolved
+
+*****TYPECHECKING*******
+
+type error: Dearest programmer, you cannot assign char ('c') to integer (x) 
+	Code Typecheck

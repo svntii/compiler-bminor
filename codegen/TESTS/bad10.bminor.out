@@ -1,0 +1,21 @@
+	Scan Successful
+	Parse Successful
+	Reformatted Code
+x: array[] integer;
+y: array[] array[] integer;
+main: function void()  = 
+{
+    y = x;
+    
+}
+
+
+*****RESOLVING*******
+
+y is bound to (global) y
+x is bound to (global) x
+	Code Resolved
+
+*****TYPECHECKING*******
+
+error: Dearest programmer, you cannot	Code Typecheck
