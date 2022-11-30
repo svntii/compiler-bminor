@@ -50,6 +50,7 @@ void decl_resolve(struct decl *d)
     if (!d)
         return;
     // created a symbol for d
+
     d->symbol = symbol_create(scope_level() > 1 ? SYMBOL_LOCAL : SYMBOL_GLOBAL, d->type, d->name, 0, 0);
 
     if (d->type->kind == TYPE_FUNCTION && !d->code)
@@ -60,11 +61,11 @@ void decl_resolve(struct decl *d)
     // x:integer; or y:integer = 10;
     struct symbol *s = scope_lookup_current(d->name);
 
-    if (s && type_compare(s->type, d->type) && !s->prototype)
+    if (s && !type_compare(s->type, d->type) && s->prototype)
     {
         // check if it is a prototype and the types match
         MAIN_RESOLVEERROR_COUNT++;
-        printf("resolve error: %s is already defined", s->name);
+        printf("resolve error: the defintion of %s does not match its prototype, please double check the types\n", s->name);
     }
 
     expr_resolve(d->value);
@@ -86,6 +87,16 @@ void decl_resolve(struct decl *d)
 
 void decl_typecheck(struct decl *d)
 {
+    /*char *name;           test2
+    struct type *type;      function boolean
+    struct expr *value;     0
+    struct stmt *code;      0
+    struct symbol *symbol;
+    struct decl *next;
+
+
+    */
+
     if (!d)
         return;
 
@@ -113,7 +124,14 @@ void decl_typecheck(struct decl *d)
 
     if (d->code)
     {
+        if (!param_list_compare(d->symbol->type->params, d->type->params))
+        {
+            special_decl_error_handler(d, d->symbol->type);
+        }
         stmt_typecheck(d->code, d->symbol);
+    }
+    else if (d->type->kind == TYPE_FUNCTION)
+    {
     }
     decl_typecheck(d->next);
 }

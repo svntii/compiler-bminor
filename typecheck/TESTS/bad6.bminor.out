@@ -26,13 +26,11 @@ test2: function integer(a: integer, b: integer)  =
 
 *****RESOLVING*******
 
+resolve error: the defintion of test3 does not match its prototype, please double check the types
 a resolves to (param)
+resolve error: the defintion of test2 does not match its prototype, please double check the types
 a resolves to (param)
 b resolves to (param)
 a is bound to (L3) a
 b is bound to (L3) b
 	Code Resolved
-
-*****TYPECHECKING*******
-
-	Code Typecheck
