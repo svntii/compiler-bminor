@@ -1,6 +1,6 @@
 
-bminor: main.o scanner.o parser.o decl.o stmt.o type.o expr.o param_list.o special.o symbol.o scope.o hash_table.o
-	gcc hash_table.o scope.o symbol.o special.o param_list.o expr.o type.o stmt.o decl.o parser.o main.o scanner.o -g -o ./bminor;
+bminor: main.o scanner.o parser.o decl.o stmt.o type.o expr.o param_list.o special.o symbol.o scope.o hash_table.o scratch.o label.o
+	gcc hash_table.o scope.o symbol.o special.o param_list.o expr.o type.o stmt.o decl.o parser.o main.o scanner.o scratch.o label.o -g -o ./bminor;
 	cp ./bminor ./TESTS/bminor
 
 main.o: main.c token.h
@@ -32,6 +32,12 @@ scope.o: scope.c scope.h
 
 param_list.o: param_list.c param_list.h
 	gcc -c param_list.c -g -o param_list.o
+
+label.o: label.c label.o
+	gcc -c label.c -g -o label.o
+
+scratch.o: scratch.c scratch.o
+	gcc -c scratch.c -g -o scratch.o
 
 scan.o: scanner.c token.h
 	gcc -c scanner.c -g -o scanner.o

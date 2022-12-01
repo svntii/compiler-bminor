@@ -1,4 +1,5 @@
 #include "scratch.h"
+#include <stdlib.h>
 int scratch_alloc(void)
 {
     for (int i = 0; i < 7; i++)
@@ -9,7 +10,7 @@ int scratch_alloc(void)
         }
     }
     // print error
-    exit(); // exit program
+    exit(-1); // exit program
 }
 void scratch_free(int r)
 {
