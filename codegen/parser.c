@@ -1361,13 +1361,13 @@ yyreduce:
 
   case 6: /* decl: name ":" TOKEN_FUNC return_types "(" decl_args_epsilon ")" ";"  */
 #line 115 "parser.bison"
-                                                                                                                                                                   { (yyval.decl) = decl_create((yyvsp[-7].name), type_create(TYPE_FUNCTION, (yyvsp[-4].type), (yyvsp[-2].param_list), 0,0), 0, 0, 0);  }
+                                                                                                                                                                   { (yyval.decl) = decl_create((yyvsp[-7].name), type_create(TYPE_FUNCTION, (yyvsp[-4].type), (yyvsp[-2].param_list), 0,0,0), 0, 0, 0);  }
 #line 1366 "parser.c"
     break;
 
   case 7: /* decl: name ":" TOKEN_FUNC return_types "(" decl_args_epsilon ")" "=" body  */
 #line 116 "parser.bison"
-                                                                                                                                                  { (yyval.decl) = decl_create((yyvsp[-8].name), type_create(TYPE_FUNCTION, (yyvsp[-5].type), (yyvsp[-3].param_list), 0,0), 0, (yyvsp[0].stmt), 0); }
+                                                                                                                                                  { (yyval.decl) = decl_create((yyvsp[-8].name), type_create(TYPE_FUNCTION, (yyvsp[-5].type), (yyvsp[-3].param_list), 0,0,0), 0, (yyvsp[0].stmt), 0); }
 #line 1372 "parser.c"
     break;
 
@@ -1391,7 +1391,7 @@ yyreduce:
 
   case 11: /* auto_decl: TOKEN_AUTO  */
 #line 125 "parser.bison"
-                                                                { (yyval.type) = type_create(TYPE_AUTO, 0, 0, 0, 0); 	}
+                                                                { (yyval.type) = type_create(TYPE_AUTO, 0, 0, 0, 0,0); 	}
 #line 1396 "parser.c"
     break;
 
@@ -1403,37 +1403,37 @@ yyreduce:
 
   case 13: /* type_decl: TOKEN_INT  */
 #line 129 "parser.bison"
-                                                                { (yyval.type) = type_create(TYPE_INTEGER, 0, 0, 0,0);	}
+                                                                { (yyval.type) = type_create(TYPE_INTEGER, 0, 0, 0,0,0);	}
 #line 1408 "parser.c"
     break;
 
   case 14: /* type_decl: TOKEN_BOOL  */
 #line 130 "parser.bison"
-                                                                        { (yyval.type) = type_create(TYPE_BOOLEAN, 0, 0, 0, 0);	}
+                                                                        { (yyval.type) = type_create(TYPE_BOOLEAN, 0, 0, 0, 0,0);	}
 #line 1414 "parser.c"
     break;
 
   case 15: /* type_decl: TOKEN_CHAR  */
 #line 131 "parser.bison"
-                                                                        { (yyval.type) = type_create(TYPE_CHAR,	 0, 0, 0, 0); }
+                                                                        { (yyval.type) = type_create(TYPE_CHAR,	 0, 0, 0, 0,0); }
 #line 1420 "parser.c"
     break;
 
   case 16: /* type_decl: TOKEN_STR  */
 #line 132 "parser.bison"
-                                                                        { (yyval.type) = type_create(TYPE_STRING,  0, 0, 0, 0);	}
+                                                                        { (yyval.type) = type_create(TYPE_STRING,  0, 0, 0, 0,0);	}
 #line 1426 "parser.c"
     break;
 
   case 17: /* type_decl: TOKEN_ARRAY "[" inside_arr "]" auto_decl  */
 #line 133 "parser.bison"
-                                                                                           { (yyval.type) = type_create( TYPE_ARRAY,(yyvsp[0].type), 0, 0, 0);  }
+                                                                                           { (yyval.type) = type_create( TYPE_ARRAY,(yyvsp[0].type), 0, (yyvsp[-2].expr), 0, 0);  }
 #line 1432 "parser.c"
     break;
 
   case 18: /* auto_decl_args: TOKEN_AUTO  */
 #line 136 "parser.bison"
-                                                { (yyval.type) = type_create(TYPE_AUTO, 0, 0, 0,0);	}
+                                                { (yyval.type) = type_create(TYPE_AUTO, 0, 0, 0,0,0);	}
 #line 1438 "parser.c"
     break;
 
@@ -1445,37 +1445,37 @@ yyreduce:
 
   case 20: /* type_decl_args: TOKEN_INT  */
 #line 140 "parser.bison"
-                                                { (yyval.type) = type_create(TYPE_INTEGER, 0, 0, 0, 0);	}
+                                                { (yyval.type) = type_create(TYPE_INTEGER, 0, 0, 0, 0,0);	}
 #line 1450 "parser.c"
     break;
 
   case 21: /* type_decl_args: TOKEN_BOOL  */
 #line 141 "parser.bison"
-                                                                { (yyval.type) = type_create(TYPE_BOOLEAN, 0, 0, 0, 0);	}
+                                                                { (yyval.type) = type_create(TYPE_BOOLEAN, 0, 0, 0, 0,0);	}
 #line 1456 "parser.c"
     break;
 
   case 22: /* type_decl_args: TOKEN_CHAR  */
 #line 142 "parser.bison"
-                                                                { (yyval.type) = type_create(TYPE_CHAR,    0, 0, 0, 0); }
+                                                                { (yyval.type) = type_create(TYPE_CHAR,    0, 0, 0, 0,0); }
 #line 1462 "parser.c"
     break;
 
   case 23: /* type_decl_args: TOKEN_STR  */
 #line 143 "parser.bison"
-                                                                { (yyval.type) = type_create(TYPE_STRING,  0, 0, 0, 0); }
+                                                                { (yyval.type) = type_create(TYPE_STRING,  0, 0, 0, 0,0); }
 #line 1468 "parser.c"
     break;
 
   case 24: /* type_decl_args: TOKEN_ARRAY "[" inside_arr "]" auto_decl_args  */
 #line 144 "parser.bison"
-                                                                                                        { (yyval.type) = type_create(TYPE_ARRAY, (yyvsp[0].type), 0, (yyvsp[-2].expr), 0);  }
+                                                                                                        { (yyval.type) = type_create(TYPE_ARRAY, (yyvsp[0].type), 0, (yyvsp[-2].expr), 0,0);  }
 #line 1474 "parser.c"
     break;
 
   case 25: /* type_decl_args: TOKEN_FUNC return_types  */
 #line 145 "parser.bison"
-                                                                { (yyval.type) = type_create(TYPE_FUNCTION, (yyvsp[0].type), 0, 0, 1); (yyval.type)->return_type = 1; }
+                                                                { (yyval.type) = type_create(TYPE_FUNCTION, (yyvsp[0].type), 0, 0, 1,0); (yyval.type)->return_type = 1; }
 #line 1480 "parser.c"
     break;
 
@@ -1631,31 +1631,31 @@ yyreduce:
 
   case 51: /* return_types: TOKEN_VOID  */
 #line 192 "parser.bison"
-                                                { (yyval.type) = type_create(TYPE_VOID,    0, 0, 0, 1); }
+                                                { (yyval.type) = type_create(TYPE_VOID,    0, 0, 0, 1,0); }
 #line 1636 "parser.c"
     break;
 
   case 52: /* return_types: TOKEN_INT  */
 #line 193 "parser.bison"
-                                                                { (yyval.type) = type_create(TYPE_INTEGER, 0, 0, 0, 1); }
+                                                                { (yyval.type) = type_create(TYPE_INTEGER, 0, 0, 0, 1,0); }
 #line 1642 "parser.c"
     break;
 
   case 53: /* return_types: TOKEN_BOOL  */
 #line 194 "parser.bison"
-                                                                { (yyval.type) = type_create(TYPE_BOOLEAN, 0, 0, 0, 1); }
+                                                                { (yyval.type) = type_create(TYPE_BOOLEAN, 0, 0, 0, 1,0); }
 #line 1648 "parser.c"
     break;
 
   case 54: /* return_types: TOKEN_CHAR  */
 #line 195 "parser.bison"
-                                                                { (yyval.type) = type_create(TYPE_CHAR, 	 0, 0, 0, 1); }
+                                                                { (yyval.type) = type_create(TYPE_CHAR, 	 0, 0, 0, 1,0); }
 #line 1654 "parser.c"
     break;
 
   case 55: /* return_types: TOKEN_STR  */
 #line 196 "parser.bison"
-                                                                { (yyval.type) = type_create(TYPE_STRING,  0, 0, 0, 1); }
+                                                                { (yyval.type) = type_create(TYPE_STRING,  0, 0, 0, 1,0); }
 #line 1660 "parser.c"
     break;
 

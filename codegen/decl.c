@@ -115,6 +115,12 @@ void decl_typecheck(struct decl *d)
             {
                 special_decl_error_handler(d, t);
             }
+
+            struct type *inside_array_type = expr_typecheck(d->type->inside_array);
+            if (inside_array_type->kind != TYPE_INTEGER)
+            {
+                special_decl_error_handler(d, inside_array_type);
+            }
         }
         else if (!type_compare(t, d->symbol->type))
         {

@@ -168,7 +168,7 @@ void expr_print(struct expr *e, int tab)
         case EXPR_ARG:
             expr_print(e->left, tab);
             if (e->right)
-                printf(", ");
+                printf(",");
             expr_print(e->right, tab);
             break;
         case EXPR_PRINT_BODY:
@@ -216,11 +216,11 @@ void expr_print(struct expr *e, int tab)
             break;
 
         case EXPR_ARRAY_LITERAL:
-            printf("{ ");
+            printf("{");
             // expr_print_array_literal(e, tab);
             expr_print(e->left, tab);
             expr_print(e->right, tab);
-            printf(" }");
+            printf("}");
             break;
         case EXPR_NAME:
 
@@ -273,16 +273,16 @@ struct type *expr_typecheck(struct expr *e)
     switch (e->kind)
     {
     case EXPR_INTEGER_LITERAL:
-        result = type_create(TYPE_INTEGER, 0, 0, 0, 0);
+        result = type_create(TYPE_INTEGER, 0, 0, 0, 0, 0);
         break;
     case EXPR_STRING_LITERAL:
-        result = type_create(TYPE_STRING, 0, 0, 0, 0);
+        result = type_create(TYPE_STRING, 0, 0, 0, 0, 0);
         break;
     case EXPR_BOOLEAN_LITERAL:
-        result = type_create(TYPE_BOOLEAN, 0, 0, 0, 0);
+        result = type_create(TYPE_BOOLEAN, 0, 0, 0, 0, 0);
         break;
     case EXPR_CHAR_LITERAL:
-        result = type_create(TYPE_CHAR, 0, 0, 0, 0);
+        result = type_create(TYPE_CHAR, 0, 0, 0, 0, 0);
         break;
     case EXPR_ARRAY_LITERAL:
         // { 1 , 2, 3 }
@@ -305,7 +305,7 @@ struct type *expr_typecheck(struct expr *e)
         {
             // error message
             special_expr_error_handler(e, lt, rt);
-            result = type_create(TYPE_INTEGER, 0, 0, 0, 0);
+            result = type_create(TYPE_INTEGER, 0, 0, 0, 0, 0);
         }
 
         break;
@@ -327,7 +327,7 @@ struct type *expr_typecheck(struct expr *e)
             // error message
             special_expr_error_handler(e, lt, rt);
         }
-        result = type_create(TYPE_INTEGER, 0, 0, 0, 0);
+        result = type_create(TYPE_INTEGER, 0, 0, 0, 0, 0);
         break;
 
     case EXPR_OR:
@@ -336,7 +336,7 @@ struct type *expr_typecheck(struct expr *e)
         {
             special_expr_error_handler(e, lt, rt);
         }
-        result = type_create(TYPE_BOOLEAN, 0, 0, 0, 0);
+        result = type_create(TYPE_BOOLEAN, 0, 0, 0, 0, 0);
         break;
 
     case EXPR_LT:
@@ -347,7 +347,7 @@ struct type *expr_typecheck(struct expr *e)
         {
             special_expr_error_handler(e, lt, rt);
         }
-        result = type_create(TYPE_BOOLEAN, 0, 0, 0, 0);
+        result = type_create(TYPE_BOOLEAN, 0, 0, 0, 0, 0);
         break;
 
     case EXPR_EQ:
@@ -364,7 +364,7 @@ struct type *expr_typecheck(struct expr *e)
             /* display an error */
             special_expr_error_handler(e, lt, rt);
         }
-        result = type_create(TYPE_BOOLEAN, 0, 0, 0, 0);
+        result = type_create(TYPE_BOOLEAN, 0, 0, 0, 0, 0);
         break;
     case EXPR_POSIN:
     case EXPR_POSDEC:
@@ -373,12 +373,12 @@ struct type *expr_typecheck(struct expr *e)
             // print error
             special_expr_error_handler(e, lt, rt);
         }
-        result = type_create(TYPE_INTEGER, 0, 0, 0, 0);
+        result = type_create(TYPE_INTEGER, 0, 0, 0, 0, 0);
         break;
     case EXPR_NEGATE:
         if (rt->kind == TYPE_INTEGER)
         {
-            result = type_create(TYPE_INTEGER, 0, 0, 0, 0);
+            result = type_create(TYPE_INTEGER, 0, 0, 0, 0, 0);
         }
         else
         {
@@ -389,7 +389,7 @@ struct type *expr_typecheck(struct expr *e)
     case EXPR_NOT:
         if (rt->kind == TYPE_BOOLEAN)
         {
-            result = type_create(TYPE_BOOLEAN, 0, 0, 0, 0);
+            result = type_create(TYPE_BOOLEAN, 0, 0, 0, 0, 0);
         }
         else
         {
@@ -425,7 +425,7 @@ struct type *expr_typecheck(struct expr *e)
             /* error: not an array */
             /* but we need to return a valid type */
             special_expr_error_handler(e, lt, rt);
-            result = type_create(TYPE_INTEGER, 0, 0, 0, 0);
+            result = type_create(TYPE_INTEGER, 0, 0, 0, 0, 0); // review
         }
         break;
 
@@ -439,7 +439,7 @@ struct type *expr_typecheck(struct expr *e)
         {
             // error message
             special_expr_error_handler(e, lt, rt);
-            result = type_create(TYPE_VOID, 0, 0, 0, 0);
+            result = type_create(TYPE_VOID, 0, 0, 0, 0, 0);
         }
 
         break;
@@ -453,7 +453,7 @@ struct type *expr_typecheck(struct expr *e)
         {
             // print error
             special_expr_error_handler(e, lt, rt);
-            result = type_create(TYPE_INTEGER, 0, 0, 0, 0);
+            result = type_create(TYPE_INTEGER, 0, 0, 0, 0, 0);
         }
 
         break;
@@ -490,6 +490,4 @@ struct type *expr_typecheck(struct expr *e)
 
 void expr_codegen(struct expr *e)
 {
-
-    
 }

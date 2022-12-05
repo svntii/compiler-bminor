@@ -18,9 +18,10 @@ struct type
 	struct param_list *params;
 	struct expr *inside_array;
 	int return_type;
+	int array_length;
 };
 
-struct type *type_create(type_t kind, struct type *subtype, struct param_list *params, struct expr *inside_array, int return_type);
+struct type *type_create(type_t kind, struct type *subtype, struct param_list *params, struct expr *inside_array, int return_type, int array_length);
 void type_print(struct type *t, int tab);
 struct type *type_copy(struct type *t);
 void type_delete(struct type *t);

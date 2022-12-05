@@ -5,13 +5,14 @@
 #include "decl.h"
 #include "special.h"
 
-struct type *type_create(type_t kind, struct type *subtype, struct param_list *params, struct expr *inside_array, int return_type)
+struct type *type_create(type_t kind, struct type *subtype, struct param_list *params, struct expr *inside_array, int return_type, int array_length)
 {
     struct type *t = special_xmalloc(sizeof(struct type));
     t->kind = kind;
     t->subtype = subtype;
     t->params = params;
     t->inside_array = inside_array;
+    t->array_length = array_length;
     return t;
 }
 
@@ -37,7 +38,8 @@ void type_print(struct type *t, int tab)
         break;
     case TYPE_ARRAY:
         printf(" array");
-        printf("[");
+        printf(" [");
+        expr_print(t->inside_array, tab);
         printf("]");
         type_print(t->subtype, tab);
         break;
@@ -73,7 +75,7 @@ struct type *type_copy(struct type *t)
 
     if (!t)
         return 0;
-    struct type *new_t = type_create(t->kind, type_copy(t->subtype), param_list_copy(t->params), t->inside_array, t->return_type);
+    struct type *new_t = type_create(t->kind, type_copy(t->subtype), param_list_copy(t->params), t->inside_array, t->return_type, t->array_length);
     return new_t;
 }
 

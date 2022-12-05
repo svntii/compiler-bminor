@@ -112,8 +112,8 @@ extern FILE *yyin;
 		;	
 
 	decl: 			name TOKEN_COLON auto_decl decl_stmnt TOKEN_SEMI /*Variable Declaration*/	{ $$ = decl_create($1, $3, $4, 0, 0);  }
-		|			name TOKEN_COLON TOKEN_FUNC return_types	TOKEN_PARL decl_args_epsilon TOKEN_PARR	TOKEN_SEMI /*function prototype */ { $$ = decl_create($1, type_create(TYPE_FUNCTION, $4, $6, 0,0), 0, 0, 0);  }
-		|			name TOKEN_COLON TOKEN_FUNC return_types	TOKEN_PARL decl_args_epsilon TOKEN_PARR TOKEN_ASSIGN body { $$ = decl_create($1, type_create(TYPE_FUNCTION, $4, $6, 0,0), 0, $9, 0); }
+		|			name TOKEN_COLON TOKEN_FUNC return_types	TOKEN_PARL decl_args_epsilon TOKEN_PARR	TOKEN_SEMI /*function prototype */ { $$ = decl_create($1, type_create(TYPE_FUNCTION, $4, $6, 0,0,0), 0, 0, 0);  }
+		|			name TOKEN_COLON TOKEN_FUNC return_types	TOKEN_PARL decl_args_epsilon TOKEN_PARR TOKEN_ASSIGN body { $$ = decl_create($1, type_create(TYPE_FUNCTION, $4, $6, 0,0,0), 0, $9, 0); }
 		;
 
 	name:	TOKEN_IDENT 				{ $$ = strdup(yytext); }	
@@ -122,27 +122,27 @@ extern FILE *yyin;
 		|								{ $$ = 0; 	}
 		;
 	
-	auto_decl: 	TOKEN_AUTO				{ $$ = type_create(TYPE_AUTO, 0, 0, 0, 0); 	}
+	auto_decl: 	TOKEN_AUTO				{ $$ = type_create(TYPE_AUTO, 0, 0, 0, 0,0); 	}
 		| 		type_decl				{ $$ = $1;	}
 		;
 	
-	type_decl:	TOKEN_INT 				{ $$ = type_create(TYPE_INTEGER, 0, 0, 0,0);	}
-		|		TOKEN_BOOL 				{ $$ = type_create(TYPE_BOOLEAN, 0, 0, 0, 0);	}
-		|		TOKEN_CHAR				{ $$ = type_create(TYPE_CHAR,	 0, 0, 0, 0); }
-		|		TOKEN_STR				{ $$ = type_create(TYPE_STRING,  0, 0, 0, 0);	}
-		|		TOKEN_ARRAY TOKEN_BRACKL inside_arr TOKEN_BRACKR auto_decl { $$ = type_create( TYPE_ARRAY,$5, 0, 0, 0);  }
+	type_decl:	TOKEN_INT 				{ $$ = type_create(TYPE_INTEGER, 0, 0, 0,0,0);	}
+		|		TOKEN_BOOL 				{ $$ = type_create(TYPE_BOOLEAN, 0, 0, 0, 0,0);	}
+		|		TOKEN_CHAR				{ $$ = type_create(TYPE_CHAR,	 0, 0, 0, 0,0); }
+		|		TOKEN_STR				{ $$ = type_create(TYPE_STRING,  0, 0, 0, 0,0);	}
+		|		TOKEN_ARRAY TOKEN_BRACKL inside_arr TOKEN_BRACKR auto_decl { $$ = type_create( TYPE_ARRAY,$5, 0, $3, 0, 0);  }
 
 	
-	auto_decl_args: TOKEN_AUTO 		{ $$ = type_create(TYPE_AUTO, 0, 0, 0,0);	}
+	auto_decl_args: TOKEN_AUTO 		{ $$ = type_create(TYPE_AUTO, 0, 0, 0,0,0);	}
 		|			type_decl_args	{ $$ = $1;							}
 		;
 	
-	type_decl_args:	TOKEN_INT 		{ $$ = type_create(TYPE_INTEGER, 0, 0, 0, 0);	}
-		|			TOKEN_BOOL		{ $$ = type_create(TYPE_BOOLEAN, 0, 0, 0, 0);	}
-		|			TOKEN_CHAR		{ $$ = type_create(TYPE_CHAR,    0, 0, 0, 0); }
-		|			TOKEN_STR		{ $$ = type_create(TYPE_STRING,  0, 0, 0, 0); }	
-		|			TOKEN_ARRAY TOKEN_BRACKL inside_arr TOKEN_BRACKR auto_decl_args	{ $$ = type_create(TYPE_ARRAY, $5, 0, $3, 0);  }
-		|			TOKEN_FUNC return_types	{ $$ = type_create(TYPE_FUNCTION, $2, 0, 0, 1); $$->return_type = 1; } 
+	type_decl_args:	TOKEN_INT 		{ $$ = type_create(TYPE_INTEGER, 0, 0, 0, 0,0);	}
+		|			TOKEN_BOOL		{ $$ = type_create(TYPE_BOOLEAN, 0, 0, 0, 0,0);	}
+		|			TOKEN_CHAR		{ $$ = type_create(TYPE_CHAR,    0, 0, 0, 0,0); }
+		|			TOKEN_STR		{ $$ = type_create(TYPE_STRING,  0, 0, 0, 0,0); }	
+		|			TOKEN_ARRAY TOKEN_BRACKL inside_arr TOKEN_BRACKR auto_decl_args	{ $$ = type_create(TYPE_ARRAY, $5, 0, $3, 0,0);  }
+		|			TOKEN_FUNC return_types	{ $$ = type_create(TYPE_FUNCTION, $2, 0, 0, 1,0); $$->return_type = 1; } 
 		;
 
 	decl_args_epsilon: decl_args  { $$ = $1; 	}
@@ -189,11 +189,11 @@ extern FILE *yyin;
 		|				{$$ = 0	;	}
 		;
 
-	return_types: 	TOKEN_VOID 		{ $$ = type_create(TYPE_VOID,    0, 0, 0, 1); }		
-		| 			TOKEN_INT		{ $$ = type_create(TYPE_INTEGER, 0, 0, 0, 1); }
-		| 			TOKEN_BOOL		{ $$ = type_create(TYPE_BOOLEAN, 0, 0, 0, 1); }
-		| 			TOKEN_CHAR		{ $$ = type_create(TYPE_CHAR, 	 0, 0, 0, 1); }
-		| 			TOKEN_STR		{ $$ = type_create(TYPE_STRING,  0, 0, 0, 1); }
+	return_types: 	TOKEN_VOID 		{ $$ = type_create(TYPE_VOID,    0, 0, 0, 1,0); }		
+		| 			TOKEN_INT		{ $$ = type_create(TYPE_INTEGER, 0, 0, 0, 1,0); }
+		| 			TOKEN_BOOL		{ $$ = type_create(TYPE_BOOLEAN, 0, 0, 0, 1,0); }
+		| 			TOKEN_CHAR		{ $$ = type_create(TYPE_CHAR, 	 0, 0, 0, 1,0); }
+		| 			TOKEN_STR		{ $$ = type_create(TYPE_STRING,  0, 0, 0, 1,0); }
 		;
 	
 	expr_epsilon:	expr_list 	{ $$ = $1;	}

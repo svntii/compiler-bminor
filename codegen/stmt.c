@@ -291,7 +291,7 @@ void stmt_typecheck(struct stmt *s, struct symbol *return_type)
         else
         {
             // if not an expression type create void
-            r = type_create(TYPE_VOID, 0, 0, 0, 1);
+            r = type_create(TYPE_VOID, 0, 0, 0, 1, 0);
         }
 
         if (return_type->type->subtype->kind == TYPE_AUTO)
