@@ -163,6 +163,7 @@ void stmt_resolve(struct stmt *s)
     {
     case STMT_BLOCK:
         // { ....  }
+        
         scope_enter();
         stmt_resolve(s->body);
         scope_exit();

@@ -4,10 +4,21 @@
 #include "stmt.h"
 #include "scope.h"
 #include "special.h"
+int LOCAL_COUNT = 0;
+
+void symbol_local_count_reset(void)
+{
+    LOCAL_COUNT = 0;
+}
 
 struct symbol *symbol_create(symbol_t kind, struct type *type, char *name, int which, int prototype)
 {
     struct symbol *s = special_xmalloc(sizeof(struct symbol));
+    if (kind == SYMBOL_LOCAL || kind == SYMBOL_PARAM)
+    {
+        LOCAL_COUNT++;
+        which = LOCAL_COUNT;
+    }
     s->kind = kind;
     s->type = type;
     s->name = name;
@@ -34,4 +45,15 @@ void symbol_print(struct symbol *s)
     }
 }
 
-const char *symbol_codegen(struct symbol *s) {}
+const char *symbol_codegen(struct symbol *s)
+{
+
+    if (s->kind == SYMBOL_GLOBAL)
+    {
+        return s->name;
+    }
+
+    char *str = malloc(BUFSIZ);
+    sprintf(str, "%d(%%rbp)", (s->which + 1) * -8);
+    return str;
+}

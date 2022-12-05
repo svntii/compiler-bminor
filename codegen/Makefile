@@ -33,10 +33,10 @@ scope.o: scope.c scope.h
 param_list.o: param_list.c param_list.h
 	gcc -c param_list.c -g -o param_list.o
 
-label.o: label.c label.o
+label.o: label.c
 	gcc -c label.c -g -o label.o
 
-scratch.o: scratch.c scratch.o
+scratch.o: scratch.c 
 	gcc -c scratch.c -g -o scratch.o
 
 scan.o: scanner.c token.h

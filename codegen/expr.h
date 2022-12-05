@@ -46,6 +46,7 @@ struct expr
 	struct symbol *symbol;
 	int literal_value;
 	const char *string_literal;
+	int reg;
 };
 
 struct expr *expr_create(expr_t kind, struct expr *left, struct expr *right);

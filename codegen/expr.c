@@ -1,4 +1,5 @@
 #include "expr.h"
+#include "scratch.h"
 #include "type.h"
 #include "symbol.h"
 #include "param_list.h"
@@ -490,4 +491,197 @@ struct type *expr_typecheck(struct expr *e)
 
 void expr_codegen(struct expr *e)
 {
+    if (!e)
+        return;
+    // Post-Order Traversal
+
+    // to get the name of the variable we need to use symbol_codegen(s);
+
+    switch (e->kind)
+    {
+    case EXPR_NAME:
+        // Leaf node: allocate register and load value.
+        e->reg = scratch_alloc();
+        printf("MOVQ %s, %s\n", symbol_codegen(e->symbol), scratch_name(e->reg));
+        break;
+    case EXPR_INTEGER_LITERAL:
+        e->reg = scratch_alloc();
+        printf("MOVQ $%d, %s\n", e->literal_value, scratch_name(e->reg));
+        break;
+    case EXPR_CHAR_LITERAL:
+        e->reg = scratch_alloc();
+        printf("MOVQ $%c, %s\n", e->literal_value, scratch_name(e->reg));
+        break;
+    case EXPR_STRING_LITERAL:
+        e->reg = scratch_alloc();
+        printf("MOVQ $%s, %s\n", e->string_literal, scratch_name(e->reg));
+        break;
+        // Arithmetic operations
+    case EXPR_ADD:
+        expr_codegen(e->left);
+        expr_codegen(e->right);
+        printf("ADDQ %s, %s\n", scratch_name(e->left->reg), scratch_name(e->right->reg));
+        e->reg = e->right->reg;
+        scratch_free(e->left->reg);
+        break;
+    case EXPR_SUB:
+        expr_codegen(e->left);
+        expr_codegen(e->right);
+        printf("SUBQ %s, %s\n", scratch_name(e->left->reg), scratch_name(e->right->reg));
+        e->reg = e->right->reg;
+        scratch_free(e->left->reg);
+        break;
+    case EXPR_MULT:
+        expr_codegen(e->left);
+        expr_codegen(e->right);
+        printf("MOVQ %s, %%rax\n", scratch_name(e->left->reg));
+        printf("IMUL %s\n", scratch_name(e->right->reg));
+        printf("MOV %%rax,%s \n", scratch_name(e->right->reg));
+        e->reg = e->right->reg;
+        scratch_free(e->left->reg);
+        break;
+    case EXPR_DIV: // Divide
+        expr_codegen(e->left);
+        expr_codegen(e->right);
+        printf("MOVQ %s, %%rax\n", scratch_name(e->left->reg));
+        printf("IDIV %s\n", scratch_name(e->right->reg));
+        printf("MOV %%rax,%s \n", scratch_name(e->right->reg));
+        e->reg = e->right->reg;
+        scratch_free(e->left->reg);
+        break;
+    case EXPR_MOD: // MOD very similar to DIV
+        expr_codegen(e->left);
+        expr_codegen(e->right);
+        printf("MOVQ %s, %%rax\n", scratch_name(e->left->reg));
+        printf("IDIV %s\n", scratch_name(e->right->reg));
+        printf("MOV %%rdx,%s \n", scratch_name(e->right->reg)); // the difference between mod and IDIV
+        e->reg = e->right->reg;
+        scratch_free(e->left->reg);
+        break;
+    case EXPR_LT:
+    case EXPR_LTE:
+    case EXPR_GT:
+    case EXPR_GTE:
+    case EXPR_EQ:
+    case EXPR_NEQ:
+        expr_codegen(e->left);
+        expr_codegen(e->right);
+        printf("CMPQ %s, %s\n", scratch_name(e->left->reg), scratch_name(e->right->reg));
+        e->reg = e->right->reg;
+        scratch_free(e->left->reg);
+        break;
+    case EXPR_AND:
+        expr_codegen(e->left);
+        expr_codegen(e->right);
+        printf("ANDQ %s, %s\n", scratch_name(e->left->reg), scratch_name(e->right->reg));
+        e->reg = e->right->reg;
+        scratch_free(e->left->reg);
+        break;
+    case EXPR_OR:
+        expr_codegen(e->left);
+        expr_codegen(e->right);
+        printf("ORQ %s, %s\n", scratch_name(e->left->reg), scratch_name(e->right->reg));
+        e->reg = e->right->reg;
+        scratch_free(e->left->reg);
+        break;
+    case EXPR_NEGATE:
+        expr_codegen(e->right);
+        printf("NEGQ %s\n", scratch_name(e->right->reg));
+        e->reg = e->right->reg;
+        break;
+    case EXPR_NOT:
+        expr_codegen(e->right);
+        printf("NOTQ %s\n", scratch_name(e->right->reg));
+        e->reg = e->right->reg;
+    case EXPR_POSIN:
+        expr_codegen(e->right);
+        printf("INCQ %s\n", scratch_name(e->right->reg));
+        e->reg = e->right->reg;
+        // scratch_free(e->left->reg);
+        break;
+    case EXPR_POSDEC:
+        expr_codegen(e->right);
+        printf("DECQ %s\n", scratch_name(e->right->reg));
+        e->reg = e->right->reg;
+        // scratch_free(e->left->reg);
+        break;
+    case EXPR_EXP:
+        expr_codegen(e->left);
+        expr_codegen(e->right);
+        printf("PUSHQ r10\n"); // callee saved
+        printf("PUSHQ r11\n"); // callee saved
+        printf("MOVQ %s, %%rdi\n", scratch_name(e->left->reg));
+        printf("MOVQ %s, %%rsi\n", scratch_name(e->right->reg));
+        printf("CALL integer_power\n");
+        printf("POPQ r10\n");
+        printf("POPQ r11\n");
+        printf("POPQ %%rdi\n");                                //, scratch_name(e->left->reg));
+        printf("POPQ %%rsi\n");                                //, scratch_name(e->right->reg));
+        printf("MOVQ %%rax, %s", scratch_name(e->right->reg)); // save the result
+        e->reg = e->right->reg;
+        scratch_free(e->left->reg);
+        break;
+    case EXPR_PRINT_BODY:
+        expr_codegen(e->right);
+        printf("PUSHQ r10\n"); // callee saved
+        printf("PUSHQ r11\n"); // callee saved
+        printf("MOVQ %s, %%rsi\n", scratch_name(e->right->reg));
+
+        switch (e->right->kind)
+        {
+        case TYPE_STRING:
+            printf("CALL print_string\n");
+            break;
+        case TYPE_INTEGER:
+            printf("CALL print_integer\n");
+            break;
+        case TYPE_CHAR:
+            printf("CALL print_character\n");
+            break;
+        case TYPE_BOOLEAN:
+            printf("CALL print_boolean\n");
+            break;
+
+        default:
+            // error
+            break;
+        }
+        printf("POPQ r10\n");
+        printf("POPQ r11\n");
+        printf("POPQ %%rdi\n");                                //, scratch_name(e->left->reg));
+        printf("POPQ %%rsi\n");                                //, scratch_name(e->right->reg));
+        printf("MOVQ %%rax, %s", scratch_name(e->right->reg)); // save the result
+        e->reg = e->right->reg;
+        break;
+    case EXPR_ASSIGNMENT:
+        expr_codegen(e->left);
+        printf("MOVQ %s, %s\n", scratch_name(e->left->reg), symbol_codegen(e->right->symbol));
+        e->reg = e->left->reg;
+        break;
+    case EXPR_ARG:
+        expr_codegen(e->left);
+        expr_codegen(e->right);
+        break;
+
+    case EXPR_FUNCTION_CALL:
+        break;
+        /*
+    case EXPR_BOOLEAN_LITERAL:
+        break;
+    case EXPR_ARRAY_LITERAL:
+        break;
+    case EXPR_GROUP:
+        break;
+    case EXPR_SUBSCRIPT:
+        break;
+    case EXPR_SUBSCRIPT_SUB:
+        break;
+    case EXPR_TERN:
+        break;
+    case EXPR_TERN_BODY:
+        break;
+         */
+    default:
+        break;
+    }
 }

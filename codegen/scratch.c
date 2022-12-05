@@ -1,11 +1,16 @@
 #include "scratch.h"
 #include <stdlib.h>
+
+int scratch[] = {0, 0, 0, 0, 0, 0, 0};
+char *scratch_register[] = {"%rbx", "%r10", "%r11", "%r12", "%r13", "%r14", "%r15"};
+
 int scratch_alloc(void)
 {
     for (int i = 0; i < 7; i++)
     {
-        if (scratch[i])
+        if (scratch[i] == 0)
         {
+            scratch[i] = 1;
             return i;
         }
     }
