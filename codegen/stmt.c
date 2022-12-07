@@ -5,6 +5,8 @@
 #include "decl.h"
 #include "scope.h"
 #include "special.h"
+#include "label.h"
+#include "scratch.h"
 extern int MAIN_RESOLVEERROR_COUNT;
 struct stmt *stmt_create(stmt_t kind, struct decl *decl, struct expr *init_expr, struct expr *expr, struct expr *next_expr, struct stmt *body, struct stmt *else_body, struct stmt *next)
 {
@@ -163,7 +165,7 @@ void stmt_resolve(struct stmt *s)
     {
     case STMT_BLOCK:
         // { ....  }
-        
+
         scope_enter();
         stmt_resolve(s->body);
         scope_exit();
@@ -311,4 +313,99 @@ void stmt_typecheck(struct stmt *s, struct symbol *return_type)
         break;
     }
     stmt_typecheck(s->next, return_type);
+}
+
+void stmt_codegen(struct stmt *s)
+{
+    if (!s)
+        return;
+
+    switch (s->kind)
+    {
+    case STMT_DECL:
+        decl_codegen(s->decl);
+        break;
+    case STMT_EXPR:
+        expr_codegen(s->expr);
+        scratch_free(s->expr->reg);
+        break;
+    case STMT_IF_ELSE:
+    {
+        int else_label = label_create();
+        int done_label = label_create();
+        expr_codegen(s->expr);
+        printf("CMP $0, %s\n", scratch_name(s->expr->reg));
+        scratch_free(s->expr->reg);
+        printf("JE %s\n", label_name(else_label));
+        stmt_codegen(s->body);
+        printf("JMP %s\n", label_name(done_label));
+        printf("%s:\n", label_name(else_label));
+        stmt_codegen(s->else_body);
+        printf("%s:\n", label_name(done_label));
+        break;
+    }
+    case STMT_IF:
+    {
+        int done_label = label_create();
+        expr_codegen(s->expr);
+        printf("CMP $0, %s\n", scratch_name(s->expr->reg));
+        scratch_free(s->expr->reg);
+        printf("JE %s\n", label_name(done_label));
+        stmt_codegen(s->body);
+        printf("JMP %s\n", label_name(done_label));
+        printf("%s:\n", label_name(done_label));
+        break;
+    }
+    case STMT_FOR:
+        int top_label = label_create();
+        int done_label = label_create();
+        if (s->init_expr)
+        {
+            expr_codegen(s->init_expr);
+            scratch_free(s->init_expr->reg);
+        }
+        printf("%s:\n", label_name(top_label));
+        if (s->expr)
+        {
+            /* code */
+            expr_codegen(s->expr);
+            printf("CMP $0, %s\n", scratch_name(s->expr->reg));
+            scratch_free(s->expr->reg);
+        }
+        else
+        {
+            printf("CMP $0, $0\n");
+        }
+
+        printf("JE %s\n", label_name(done_label));
+        stmt_codegen(s->body);
+        if (s->next_expr)
+        {
+            expr_codegen(s->next_expr);
+            scratch_free(s->next_expr->reg);
+        }
+        printf("JMP %s\n", label_name(done_label));
+        printf("%s:\n", label_name(done_label));
+        break;
+    case STMT_PRINT:
+        expr_codegen(s->expr);
+        break;
+    case STMT_RETURN:
+        /*A return statement must evaluate an expression, move it into the des-
+    ignated register for return values %rax, and then jump to the function epi-
+    logue, which will unwind the stack and return to the call point*/
+        expr_codegen(s->expr);
+        printf("MOV %s, %%rax\n", scratch_name(s->expr->reg));
+        // printf("JMP .%s_epilogue\n", function_name);
+        scratch_free(s->expr->reg);
+        break;
+    case STMT_WHILE:
+        break;
+    case STMT_BLOCK:
+        stmt_codegen(s->body);
+        break;
+    default:
+        break;
+    }
+    stmt_codegen(s->next);
 }

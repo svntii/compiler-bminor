@@ -13,3 +13,4 @@ void decl_print(struct decl *d, int tab);
 void decl_typecheck(struct decl *d);
 void decl_resolve(struct decl *d);
 void decl_typecheck(struct decl *d);
+void decl_codegen(struct decl *d);

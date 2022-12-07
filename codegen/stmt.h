@@ -39,3 +39,4 @@ void *stmt_print(struct stmt *s, int tab);
 
 void stmt_resolve(struct stmt *s);
 void stmt_typecheck(struct stmt *s, struct symbol *r);
+void stmt_codegen(struct stmt *s);

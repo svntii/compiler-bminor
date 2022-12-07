@@ -1,11 +1,11 @@
 #include "expr.h"
-#include "scratch.h"
 #include "type.h"
 #include "symbol.h"
 #include "param_list.h"
 #include "scope.h"
 #include "stmt.h"
 #include "decl.h"
+#include "scratch.h"
 #include "special.h"
 extern int MAIN_RESOLVEERROR_COUNT;
 struct expr *expr_create(expr_t kind, struct expr *left, struct expr *right)
@@ -619,7 +619,6 @@ void expr_codegen(struct expr *e)
         printf("POPQ %%rsi\n");                                //, scratch_name(e->right->reg));
         printf("MOVQ %%rax, %s", scratch_name(e->right->reg)); // save the result
         e->reg = e->right->reg;
-        scratch_free(e->left->reg);
         break;
     case EXPR_PRINT_BODY:
         expr_codegen(e->right);
@@ -648,14 +647,17 @@ void expr_codegen(struct expr *e)
         }
         printf("POPQ r10\n");
         printf("POPQ r11\n");
-        printf("POPQ %%rdi\n");                                //, scratch_name(e->left->reg));
-        printf("POPQ %%rsi\n");                                //, scratch_name(e->right->reg));
-        printf("MOVQ %%rax, %s", scratch_name(e->right->reg)); // save the result
+        printf("POPQ %%rdi\n");                                  //, scratch_name(e->left->reg));
+        printf("POPQ %%rsi\n");                                  //, scratch_name(e->right->reg));
+        printf("MOVQ %%rax, %s\n", scratch_name(e->right->reg)); // save the result
         e->reg = e->right->reg;
         break;
     case EXPR_ASSIGNMENT:
+
         expr_codegen(e->left);
+        e->reg = scratch_alloc();
         printf("MOVQ %s, %s\n", scratch_name(e->left->reg), symbol_codegen(e->right->symbol));
+        printf("MOVQ %s, %s\n", scratch_name(e->left->reg), scratch_name(e->reg));
         e->reg = e->left->reg;
         break;
     case EXPR_ARG:
@@ -664,6 +666,30 @@ void expr_codegen(struct expr *e)
         break;
 
     case EXPR_FUNCTION_CALL:
+        // save args to a scratch, then evaluate
+        expr_codegen(e->right);
+        //  %r10 scratch CALLER saves
+        //  %r11 scratch CALLER saves
+        printf("PUSHQ %%r10\n");
+        printf("PUSHQ %%r11\n");
+        printf("CALL %s\n", e->left->name);
+        printf("POPQ %%r10\n");
+        printf("POPQ %%r11\n");
+        printf("MOVQ %%rax, %s\n", scratch_name(e->right->reg));
+        e->reg = e->right->reg;
+
+        break;
+    case EXPR_SUBSCRIPT:
+        // left codegen address right codegen value
+        // a[i]
+        expr_codegen(e->right);
+        printf("LEAQ %s, %s\n", e->left->name, scratch_name(e->left->reg)); // adress of a
+        printf("MOVQ %s,%%rax\n", scratch_name(e->right->reg));             // index
+        printf("IMUL $8\n");
+        printf("ADD %s, %%rax\n", scratch_name(e->left->reg));  // index * 8
+        printf("MOV (%%rax),%s\n", scratch_name(e->left->reg)); // value
+        e->reg = e->left->reg;                                  // #TODO
+
         break;
         /*
     case EXPR_BOOLEAN_LITERAL:
@@ -671,8 +697,6 @@ void expr_codegen(struct expr *e)
     case EXPR_ARRAY_LITERAL:
         break;
     case EXPR_GROUP:
-        break;
-    case EXPR_SUBSCRIPT:
         break;
     case EXPR_SUBSCRIPT_SUB:
         break;

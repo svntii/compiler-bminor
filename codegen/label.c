@@ -1,7 +1,7 @@
 #include "label.h"
 #include <stdio.h>
 #include <stdlib.h>
-
+int LABEL = 0;
 int label_create()
 {
     LABEL++;

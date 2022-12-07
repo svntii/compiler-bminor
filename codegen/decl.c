@@ -142,3 +142,46 @@ void decl_typecheck(struct decl *d)
     }
     decl_typecheck(d->next);
 }
+
+void decl_codegen(struct decl *d)
+{
+    if (!d)
+        return;
+    if (d->symbol->kind == SYMBOL_GLOBAL)
+    {
+        // printf(".data\n");
+        switch (d->type->kind)
+        {
+        case TYPE_BOOLEAN:
+            break;
+        case TYPE_CHAR:
+            printf("%s:\t .quad %d\n", d->name, (int)d->value->literal_value);
+            break;
+        case TYPE_INTEGER:
+            printf("%s:\t .quad %d\n", d->name, d->value->literal_value);
+            break;
+        case TYPE_STRING:
+            printf("%s:\t .string %s\n", d->name, d->value->string_literal);
+            break;
+        case TYPE_ARRAY:
+            break;
+        case TYPE_FUNCTION:
+            break;
+        case TYPE_AUTO:
+            break;
+        case TYPE_VOID:
+            break;
+
+        default:
+            break;
+        }
+    }
+    else if (d->symbol->kind == SYMBOL_LOCAL)
+    {
+    }
+    else
+    {
+    }
+
+    decl_codegen(d->next);
+}
