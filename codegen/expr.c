@@ -8,6 +8,8 @@
 #include "scratch.h"
 #include "special.h"
 extern int MAIN_RESOLVEERROR_COUNT;
+extern FILE *output_file;
+
 struct expr *expr_create(expr_t kind, struct expr *left, struct expr *right)
 {
     struct expr *e = special_xmalloc(sizeof(struct expr)); // we have declared a pointer called e and allocated appropriate memory to that pointer
@@ -502,63 +504,73 @@ void expr_codegen(struct expr *e)
     case EXPR_NAME:
         // Leaf node: allocate register and load value.
         e->reg = scratch_alloc();
-        printf("MOVQ %s, %s\n", symbol_codegen(e->symbol), scratch_name(e->reg));
+        fprintf(output_file, "\tmovq %s, %s\n", symbol_codegen(e->symbol), scratch_name(e->reg));
         break;
     case EXPR_INTEGER_LITERAL:
         e->reg = scratch_alloc();
-        printf("MOVQ $%d, %s\n", e->literal_value, scratch_name(e->reg));
+        fprintf(output_file, "\tmovq $%d, %s\n", e->literal_value, scratch_name(e->reg));
         break;
     case EXPR_CHAR_LITERAL:
         e->reg = scratch_alloc();
-        printf("MOVQ $%c, %s\n", e->literal_value, scratch_name(e->reg));
+        fprintf(output_file, "\tmovq $%c, %s\n", e->literal_value, scratch_name(e->reg));
         break;
     case EXPR_STRING_LITERAL:
         e->reg = scratch_alloc();
-        printf("MOVQ $%s, %s\n", e->string_literal, scratch_name(e->reg));
+        fprintf(output_file, "\tmovq $%s, %s\n", e->string_literal, scratch_name(e->reg));
         break;
         // Arithmetic operations
+    case EXPR_BOOLEAN_LITERAL:
+        fprintf(output_file, "\tmovq $%d, %s\n", e->literal_value, scratch_name(e->reg));
+        break;
+
     case EXPR_ADD:
         expr_codegen(e->left);
         expr_codegen(e->right);
-        printf("ADDQ %s, %s\n", scratch_name(e->left->reg), scratch_name(e->right->reg));
+        fprintf(output_file, "\taddq %s, %s\n", scratch_name(e->left->reg), scratch_name(e->right->reg));
         e->reg = e->right->reg;
         scratch_free(e->left->reg);
         break;
     case EXPR_SUB:
         expr_codegen(e->left);
         expr_codegen(e->right);
-        printf("SUBQ %s, %s\n", scratch_name(e->left->reg), scratch_name(e->right->reg));
+        fprintf(output_file, "\tsubq %s, %s\n", scratch_name(e->left->reg), scratch_name(e->right->reg));
         e->reg = e->right->reg;
         scratch_free(e->left->reg);
         break;
     case EXPR_MULT:
         expr_codegen(e->left);
         expr_codegen(e->right);
-        printf("MOVQ %s, %%rax\n", scratch_name(e->left->reg));
-        printf("IMUL %s\n", scratch_name(e->right->reg));
-        printf("MOV %%rax,%s \n", scratch_name(e->right->reg));
+        fprintf(output_file, "\tmovq %s, %%rax\n", scratch_name(e->left->reg));
+        fprintf(output_file, "\timul %s\n", scratch_name(e->right->reg));
+        fprintf(output_file, "\tmovq %%rax,%s \n", scratch_name(e->right->reg));
         e->reg = e->right->reg;
         scratch_free(e->left->reg);
+        fprintf(output_file, "\n");
+
         break;
     case EXPR_DIV: // Divide
         expr_codegen(e->left);
         expr_codegen(e->right);
-        printf("MOVQ %s, %%rax\n", scratch_name(e->left->reg));
-        printf("IDIV %s\n", scratch_name(e->right->reg));
-        printf("MOV %%rax,%s \n", scratch_name(e->right->reg));
+        fprintf(output_file, "\tmovq %s, %%rax\n", scratch_name(e->left->reg));
+        fprintf(output_file, "\tidiv %s\n", scratch_name(e->right->reg));
+        fprintf(output_file, "\tmovq %%rax,%s \n", scratch_name(e->right->reg));
+        fprintf(output_file, "\n");
+
         e->reg = e->right->reg;
         scratch_free(e->left->reg);
         break;
     case EXPR_MOD: // MOD very similar to DIV
         expr_codegen(e->left);
         expr_codegen(e->right);
-        printf("MOVQ %s, %%rax\n", scratch_name(e->left->reg));
-        printf("IDIV %s\n", scratch_name(e->right->reg));
-        printf("MOV %%rdx,%s \n", scratch_name(e->right->reg)); // the difference between mod and IDIV
+        fprintf(output_file, "\tmovq %s, %%rax\n", scratch_name(e->left->reg));
+        fprintf(output_file, "\tidiv %s\n", scratch_name(e->right->reg));
+        fprintf(output_file, "\tmov %%rdx,%s \n", scratch_name(e->right->reg));
+        fprintf(output_file, "\n");
+        // the difference between mod and IDIV
         e->reg = e->right->reg;
         scratch_free(e->left->reg);
         break;
-    case EXPR_LT:
+    case EXPR_LT: // #TODO review conditionals
     case EXPR_LTE:
     case EXPR_GT:
     case EXPR_GTE:
@@ -566,98 +578,113 @@ void expr_codegen(struct expr *e)
     case EXPR_NEQ:
         expr_codegen(e->left);
         expr_codegen(e->right);
-        printf("CMPQ %s, %s\n", scratch_name(e->left->reg), scratch_name(e->right->reg));
+        fprintf(output_file, "\tcmpq %s, %s\n", scratch_name(e->left->reg), scratch_name(e->right->reg));
         e->reg = e->right->reg;
         scratch_free(e->left->reg);
+        fprintf(output_file, "\n");
+
         break;
     case EXPR_AND:
         expr_codegen(e->left);
         expr_codegen(e->right);
-        printf("ANDQ %s, %s\n", scratch_name(e->left->reg), scratch_name(e->right->reg));
+        fprintf(output_file, "\tandq %s, %s\n", scratch_name(e->left->reg), scratch_name(e->right->reg));
         e->reg = e->right->reg;
         scratch_free(e->left->reg);
+        fprintf(output_file, "\n");
+
         break;
     case EXPR_OR:
         expr_codegen(e->left);
         expr_codegen(e->right);
-        printf("ORQ %s, %s\n", scratch_name(e->left->reg), scratch_name(e->right->reg));
+        fprintf(output_file, "\torq %s, %s\n", scratch_name(e->left->reg), scratch_name(e->right->reg));
         e->reg = e->right->reg;
         scratch_free(e->left->reg);
+        fprintf(output_file, "\n");
+
         break;
     case EXPR_NEGATE:
         expr_codegen(e->right);
-        printf("NEGQ %s\n", scratch_name(e->right->reg));
+        fprintf(output_file, "\tnegq %s\n", scratch_name(e->right->reg));
         e->reg = e->right->reg;
+        fprintf(output_file, "\n");
+
         break;
     case EXPR_NOT:
         expr_codegen(e->right);
-        printf("NOTQ %s\n", scratch_name(e->right->reg));
+        fprintf(output_file, "\tnotq %s\n", scratch_name(e->right->reg));
         e->reg = e->right->reg;
     case EXPR_POSIN:
         expr_codegen(e->right);
-        printf("INCQ %s\n", scratch_name(e->right->reg));
+        fprintf(output_file, "\tincq %s\n", scratch_name(e->right->reg));
         e->reg = e->right->reg;
         // scratch_free(e->left->reg);
         break;
     case EXPR_POSDEC:
         expr_codegen(e->right);
-        printf("DECQ %s\n", scratch_name(e->right->reg));
+        fprintf(output_file, "\tdecq %s\n", scratch_name(e->right->reg));
         e->reg = e->right->reg;
         // scratch_free(e->left->reg);
         break;
     case EXPR_EXP:
         expr_codegen(e->left);
         expr_codegen(e->right);
-        printf("PUSHQ r10\n"); // callee saved
-        printf("PUSHQ r11\n"); // callee saved
-        printf("MOVQ %s, %%rdi\n", scratch_name(e->left->reg));
-        printf("MOVQ %s, %%rsi\n", scratch_name(e->right->reg));
-        printf("CALL integer_power\n");
-        printf("POPQ r10\n");
-        printf("POPQ r11\n");
-        printf("POPQ %%rdi\n");                                //, scratch_name(e->left->reg));
-        printf("POPQ %%rsi\n");                                //, scratch_name(e->right->reg));
-        printf("MOVQ %%rax, %s", scratch_name(e->right->reg)); // save the result
+        fprintf(output_file, "\tpushq r10\n"); // callee saved
+        fprintf(output_file, "\tpushq r11\n"); // callee saved
+        fprintf(output_file, "\tmovq %s, %%rdi\n", scratch_name(e->left->reg));
+        fprintf(output_file, "\tmovq %s, %%rsi\n", scratch_name(e->right->reg));
+        fprintf(output_file, "\tCALL integer_power\n");
+        fprintf(output_file, "\tpopq r10\n");
+        fprintf(output_file, "\tpopq r11\n");
+        fprintf(output_file, "\tpopq %%rdi\n");                                //, scratch_name(e->left->reg));
+        fprintf(output_file, "\tpopq %%rsi\n");                                //, scratch_name(e->right->reg));
+        fprintf(output_file, "\tmovq %%rax, %s", scratch_name(e->right->reg)); // save the result
+        fprintf(output_file, "\n");
+
         e->reg = e->right->reg;
         break;
     case EXPR_PRINT_BODY:
         expr_codegen(e->right);
-        printf("PUSHQ r10\n"); // callee saved
-        printf("PUSHQ r11\n"); // callee saved
-        printf("MOVQ %s, %%rsi\n", scratch_name(e->right->reg));
+        fprintf(output_file, "\tpushq r10\n"); // callee saved
+        fprintf(output_file, "\tpushq r11\n"); // callee saved
+        fprintf(output_file, "\tmovq %s, %%rsi\n", scratch_name(e->right->reg));
+        fprintf(output_file, "\n");
 
         switch (e->right->kind)
         {
         case TYPE_STRING:
-            printf("CALL print_string\n");
+            fprintf(output_file, "\tCALL print_string\n");
             break;
         case TYPE_INTEGER:
-            printf("CALL print_integer\n");
+            fprintf(output_file, "\tCALL print_integer\n");
             break;
         case TYPE_CHAR:
-            printf("CALL print_character\n");
+            fprintf(output_file, "\tCALL print_character\n");
             break;
         case TYPE_BOOLEAN:
-            printf("CALL print_boolean\n");
+            fprintf(output_file, "\tCALL print_boolean\n");
             break;
 
         default:
             // error
             break;
         }
-        printf("POPQ r10\n");
-        printf("POPQ r11\n");
-        printf("POPQ %%rdi\n");                                  //, scratch_name(e->left->reg));
-        printf("POPQ %%rsi\n");                                  //, scratch_name(e->right->reg));
-        printf("MOVQ %%rax, %s\n", scratch_name(e->right->reg)); // save the result
+        fprintf(output_file, "\tpopq r10\n");
+        fprintf(output_file, "\tpopq r11\n");
+        fprintf(output_file, "\tpopq %%rdi\n");                                  //, scratch_name(e->left->reg));
+        fprintf(output_file, "\tpopq %%rsi\n");                                  //, scratch_name(e->right->reg));
+        fprintf(output_file, "\tmovq %%rax, %s\n", scratch_name(e->right->reg)); // save the result
+        fprintf(output_file, "\n");
+
         e->reg = e->right->reg;
         break;
     case EXPR_ASSIGNMENT:
 
         expr_codegen(e->left);
         e->reg = scratch_alloc();
-        printf("MOVQ %s, %s\n", scratch_name(e->left->reg), symbol_codegen(e->right->symbol));
-        printf("MOVQ %s, %s\n", scratch_name(e->left->reg), scratch_name(e->reg));
+        fprintf(output_file, "\tmovq %s, %s\n", scratch_name(e->left->reg), symbol_codegen(e->right->symbol));
+        fprintf(output_file, "\tmovq %s, %s\n", scratch_name(e->left->reg), scratch_name(e->reg));
+        fprintf(output_file, "\n");
+
         e->reg = e->left->reg;
         break;
     case EXPR_ARG:
@@ -670,12 +697,14 @@ void expr_codegen(struct expr *e)
         expr_codegen(e->right);
         //  %r10 scratch CALLER saves
         //  %r11 scratch CALLER saves
-        printf("PUSHQ %%r10\n");
-        printf("PUSHQ %%r11\n");
-        printf("CALL %s\n", e->left->name);
-        printf("POPQ %%r10\n");
-        printf("POPQ %%r11\n");
-        printf("MOVQ %%rax, %s\n", scratch_name(e->right->reg));
+        fprintf(output_file, "\tpushq %%r10\n");
+        fprintf(output_file, "\tpushq %%r11\n");
+        fprintf(output_file, "\tCALL %s\n", e->left->name);
+        fprintf(output_file, "\tpopq %%r10\n");
+        fprintf(output_file, "\tpopq %%r11\n");
+        fprintf(output_file, "\tmovq %%rax, %s\n", scratch_name(e->right->reg));
+        fprintf(output_file, "\n");
+
         e->reg = e->right->reg;
 
         break;
@@ -683,17 +712,14 @@ void expr_codegen(struct expr *e)
         // left codegen address right codegen value
         // a[i]
         expr_codegen(e->right);
-        printf("LEAQ %s, %s\n", e->left->name, scratch_name(e->left->reg)); // adress of a
-        printf("MOVQ %s,%%rax\n", scratch_name(e->right->reg));             // index
-        printf("IMUL $8\n");
-        printf("ADD %s, %%rax\n", scratch_name(e->left->reg));  // index * 8
-        printf("MOV (%%rax),%s\n", scratch_name(e->left->reg)); // value
-        e->reg = e->left->reg;                                  // #TODO
-
+        fprintf(output_file, "\tleaq %s, %s\n", e->left->name, scratch_name(e->left->reg)); // adress of a
+        fprintf(output_file, "\tmovq %s,%%rax\n", scratch_name(e->right->reg));             // index
+        fprintf(output_file, "\timul $8\n");
+        fprintf(output_file, "\taddq %s, %%rax\n", scratch_name(e->left->reg)); // index * 8
+        fprintf(output_file, "\tmov (%%rax),%s\n", scratch_name(e->left->reg)); // value
+        e->reg = e->left->reg;                                                  // #TODO
         break;
         /*
-    case EXPR_BOOLEAN_LITERAL:
-        break;
     case EXPR_ARRAY_LITERAL:
         break;
     case EXPR_GROUP:

@@ -10,6 +10,7 @@ extern int yywrap();
 extern struct decl *parser_result;
 int MAIN_TYPEERROR_COUNT = 0;
 int MAIN_RESOLVEERROR_COUNT = 0;
+FILE *output_file;
 
 int main(int argc, char *argv[])
 {
@@ -23,6 +24,7 @@ int main(int argc, char *argv[])
 	int print_flag = 0;
 	int typecheck_flag = 0;
 	int resolve_flag = 0;
+	int codegen_flag = 0;
 
 	if (i == argc)
 	{
@@ -60,6 +62,10 @@ int main(int argc, char *argv[])
 			}
 			else if (strcmp(flag, "-i") == 0)
 			{
+				output_file = fopen(argv[i + 1], "w");
+				if (!output_file)
+					return usage(5);
+
 				yyin = stdin;
 				interpreter_flag = 1;
 				scan_flag = 1;
@@ -67,6 +73,7 @@ int main(int argc, char *argv[])
 				print_flag = 1;
 				resolve_flag = 1;
 				typecheck_flag = 1;
+				codegen_flag = 1;
 			}
 			else if (strcmp(flag, "-debug") == 0)
 			{
@@ -100,12 +107,31 @@ int main(int argc, char *argv[])
 				yyin = fopen(argv[i + 1], "r");
 				if (!yyin)
 					return usage(4);
+
 				i++;
 				scan_flag = 1;
 				parse_flag = 1;
 				print_flag = 1;
 				resolve_flag = 1;
 				typecheck_flag = 1;
+				break;
+			}
+			else if (strcmp(flag, "-codegen") == 0)
+			{
+				yyin = fopen(argv[i + 1], "r");
+				if (!yyin)
+					return usage(4);
+
+				output_file = fopen(argv[i + 2], "w");
+				if (!output_file)
+					return usage(5);
+				i++;
+				scan_flag = 1;
+				parse_flag = 1;
+				print_flag = 1;
+				resolve_flag = 1;
+				typecheck_flag = 1;
+				codegen_flag = 1;
 				break;
 			}
 			else
@@ -178,6 +204,12 @@ int main(int argc, char *argv[])
 
 		if (MAIN_TYPEERROR_COUNT > 0)
 			return MAIN_TYPEERROR_COUNT;
+	}
+
+	if (codegen_flag == 1)
+	{
+		printf("\n*****Codegen*******\n\n");
+		decl_codegen(parser_result);
 	}
 
 	return 0;

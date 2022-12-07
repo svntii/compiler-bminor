@@ -14,3 +14,5 @@ void decl_typecheck(struct decl *d);
 void decl_resolve(struct decl *d);
 void decl_typecheck(struct decl *d);
 void decl_codegen(struct decl *d);
+void decl_arraycodegen(struct expr *e);
+void decl_argcodegen(struct expr *e);

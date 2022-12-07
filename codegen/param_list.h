@@ -14,4 +14,3 @@ struct param_list *param_list_copy(struct param_list *param);
 int param_list_compare(struct param_list *a, struct param_list *b);
 void param_list_resolve(struct param_list *p);
 void param_list_delete(struct param_list *p);
-

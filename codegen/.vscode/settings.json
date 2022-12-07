@@ -6,6 +6,8 @@
         "special.h": "c",
         "typeinfo": "c",
         "stmt.h": "c",
-        "decl.h": "c"
+        "decl.h": "c",
+        "stdlib.h": "c",
+        "argument.h": "c"
     }
 }
