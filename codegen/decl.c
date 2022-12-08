@@ -100,8 +100,6 @@ void decl_typecheck(struct decl *d)
     struct stmt *code;      0
     struct symbol *symbol;
     struct decl *next;
-
-
     */
 
     if (!d)
@@ -142,10 +140,9 @@ void decl_typecheck(struct decl *d)
             special_decl_error_handler(d, d->symbol->type);
         }
         stmt_typecheck(d->code, d->symbol);
+        d->symbol->type = type_copy(d->type);
     }
-    else if (d->type->kind == TYPE_FUNCTION)
-    {
-    }
+
     decl_typecheck(d->next);
 }
 

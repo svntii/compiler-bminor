@@ -1,13 +1,10 @@
-.globl compute
-compute:
+.globl x
+x:
 	pushq %rbp
 	movq %rsp, %rbp
 
-	pushq %rdi
-	pushq %rsi
-	pushq %rdx
 
-	subq $16, %rsp
+	subq $-8, %rsp
 
 	pushq %rbx
 	pushq %r12
@@ -16,31 +13,23 @@ compute:
 	pushq %r15
 
 	movq -8(%rbp), %rbx
-	movq -16(%rbp), %rdi
-	movq -24(%rbp), %rsi
 
-	movq -16(%rbp), %rbx
-	movq -24(%rbp), %r10
-	addq %rbx, %r10
-	movq -32(%rbp), %rbx
-	addq %r10, %rbx
-	movq -40(%rbp), %r10
-	movq $5, %r11
-	movq %r10, %rax
-	imul %r11
-	movq %rax,%r11 
+	movq $1, %rbx
+	CMP $0, %rbx
+	JE L1
+	movq $1, %rbx
+	pushq r10
+	pushq r11
+	movq %rbx, %rsi
 
-	movq -48(%rbp), %r10
-	movq %r10, %rax
-	popq %r15
-	popq %r14
-	popq %r13
-	popq %r12
-	movq %rbp, %rsp
-	popq %rbp
-	ret
+	popq r10
+	popq r11
+	popq %rdi
+	popq %rsi
+	movq %rax, %rbx
 
-anything after is ommitted in code
+	JMP L1
+.L1:
 	popq %r15
 	popq %r14
 	popq %r13

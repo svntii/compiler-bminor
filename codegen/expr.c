@@ -643,13 +643,14 @@ void expr_codegen(struct expr *e)
         e->reg = e->right->reg;
         break;
     case EXPR_PRINT_BODY:
+        expr_codegen(e->left);
         expr_codegen(e->right);
         fprintf(output_file, "\tpushq r10\n"); // callee saved
         fprintf(output_file, "\tpushq r11\n"); // callee saved
-        fprintf(output_file, "\tmovq %s, %%rsi\n", scratch_name(e->right->reg));
+        fprintf(output_file, "\tmovq %s, %%rsi\n", scratch_name(e->left->reg));
         fprintf(output_file, "\n");
 
-        switch (e->right->kind)
+        switch (e->left->kind)
         {
         case TYPE_STRING:
             fprintf(output_file, "\tCALL print_string\n");
@@ -670,12 +671,12 @@ void expr_codegen(struct expr *e)
         }
         fprintf(output_file, "\tpopq r10\n");
         fprintf(output_file, "\tpopq r11\n");
-        fprintf(output_file, "\tpopq %%rdi\n");                                  //, scratch_name(e->left->reg));
-        fprintf(output_file, "\tpopq %%rsi\n");                                  //, scratch_name(e->right->reg));
-        fprintf(output_file, "\tmovq %%rax, %s\n", scratch_name(e->right->reg)); // save the result
+        fprintf(output_file, "\tpopq %%rdi\n");                                 //, scratch_name(e->left->reg));
+        fprintf(output_file, "\tpopq %%rsi\n");                                 //, scratch_name(e->right->reg));
+        fprintf(output_file, "\tmovq %%rax, %s\n", scratch_name(e->left->reg)); // save the result
         fprintf(output_file, "\n");
 
-        e->reg = e->right->reg;
+        e->reg = e->left->reg;
         break;
     case EXPR_ASSIGNMENT:
 

@@ -11,6 +11,6 @@ int label_create()
 const char *label_name(int label)
 {
     char *str = malloc(BUFSIZ);
-    sprintf(str, ".L%d", label);
+    sprintf(str, "L%d", label);
     return str;
 }

@@ -340,9 +340,9 @@ void stmt_codegen(struct stmt *s)
         fprintf(output_file, "\tJE %s\n", label_name(else_label));
         stmt_codegen(s->body);
         fprintf(output_file, "\tJMP %s\n", label_name(done_label));
-        fprintf(output_file, "%s:\n", label_name(else_label));
+        fprintf(output_file, ".%s:\n", label_name(else_label));
         stmt_codegen(s->else_body);
-        fprintf(output_file, "\t%s:\n", label_name(done_label));
+        fprintf(output_file, ".%s:\n", label_name(done_label));
         break;
     }
     case STMT_IF:
@@ -354,7 +354,7 @@ void stmt_codegen(struct stmt *s)
         fprintf(output_file, "\tJE %s\n", label_name(done_label));
         stmt_codegen(s->body);
         fprintf(output_file, "\tJMP %s\n", label_name(done_label));
-        fprintf(output_file, "\t%s:\n", label_name(done_label));
+        fprintf(output_file, ".%s:\n", label_name(done_label));
         break;
     }
     case STMT_FOR:
@@ -365,7 +365,7 @@ void stmt_codegen(struct stmt *s)
             expr_codegen(s->init_expr);
             scratch_free(s->init_expr->reg);
         }
-        fprintf(output_file, "\t%s:\n", label_name(top_label));
+        fprintf(output_file, "\t.%s:\n", label_name(top_label));
         if (s->expr)
         {
             /* code */
@@ -386,7 +386,7 @@ void stmt_codegen(struct stmt *s)
             scratch_free(s->next_expr->reg);
         }
         fprintf(output_file, "\tJMP %s\n", label_name(done_label));
-        fprintf(output_file, "\t%s:\n", label_name(done_label));
+        fprintf(output_file, "\t.%s:\n", label_name(done_label));
         break;
     case STMT_PRINT:
         expr_codegen(s->expr);

@@ -200,8 +200,8 @@ extern FILE *yyin;
 		|			/*epsilon*/	{ $$ = 0;	}
 		;
 
-	expr_list:		expr TOKEN_COMMA expr_list	{ $$ = expr_create(EXPR_PRINT_BODY, $1, $3); }
-		|			expr		{ $$ = $1; }
+	expr_list:		expr TOKEN_COMMA expr_list	{ $$ = expr_create(EXPR_PRINT_BODY, $3, $3); }
+		|			expr		{ $$ = expr_create(EXPR_PRINT_BODY, $1, 0); }
 		;
 
 	expr: 			ident_assign TOKEN_ASSIGN expr		{ $$ = expr_create(EXPR_ASSIGNMENT, $1, $3); }
