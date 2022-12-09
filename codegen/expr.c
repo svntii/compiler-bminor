@@ -650,7 +650,7 @@ void expr_codegen(struct expr *e)
         fprintf(output_file, "\tmovq %s, %%rsi\n", scratch_name(e->left->reg));
         fprintf(output_file, "\n");
 
-        switch (e->left->kind)
+        switch (expr_typecheck(e->left)->kind)
         {
         case TYPE_STRING:
             fprintf(output_file, "\tCALL print_string\n");
@@ -713,7 +713,7 @@ void expr_codegen(struct expr *e)
         // left codegen address right codegen value
         // a[i]
         expr_codegen(e->right);
-        fprintf(output_file, "\tleaq %s, %s\n", e->left->name, scratch_name(e->left->reg)); // adress of a
+        fprintf(output_file, "\tleaq %s, %s\n", e->left->name, scratch_name(e->left->reg)); // address of a
         fprintf(output_file, "\tmovq %s,%%rax\n", scratch_name(e->right->reg));             // index
         fprintf(output_file, "\timul $8\n");
         fprintf(output_file, "\taddq %s, %%rax\n", scratch_name(e->left->reg)); // index * 8

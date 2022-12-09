@@ -7,7 +7,7 @@
 #include "argument.h"
 #include "param_list.h"
 #include "special.h"
-
+extern int LOCAL_COUNT;
 extern int MAIN_RESOLVEERROR_COUNT;
 extern FILE *output_file;
 
@@ -21,6 +21,7 @@ struct decl *decl_create(char *name, struct type *type, struct expr *value, stru
     d->value = value;
     d->code = code;
     d->next = next;
+    d->local_count = 0;
     return d;
 }
 
@@ -86,7 +87,10 @@ void decl_resolve(struct decl *d)
         param_list_resolve(d->type->params);
         stmt_resolve(d->code);
         scope_exit();
+        d->local_count = LOCAL_COUNT * 8;
     }
+
+    // take local count and save
     // GOTO next decl
     decl_resolve(d->next);
     return;
@@ -210,7 +214,7 @@ void decl_codegen(struct decl *d)
             // param_print
             struct param_list *temp = d->symbol->type->params;
 
-            int offset = -8;
+            int offset = 0;
             while (temp)
             {
                 offset = offset + 8;
@@ -219,7 +223,7 @@ void decl_codegen(struct decl *d)
                 temp = temp->next;
             }
 
-            fprintf(output_file, "\n\tsubq $%d, %%rsp\n", offset); // allocate for local variable
+            fprintf(output_file, "\n\tsubq $%d, %%rsp\n", d->local_count); // allocate for local variable
             fprintf(output_file, "\n");
 
             //  OUTRO
@@ -230,19 +234,9 @@ void decl_codegen(struct decl *d)
             fprintf(output_file, "\tpushq %%r15\n");
             fprintf(output_file, "\n");
 
-            int inset = 8;
-            fprintf(output_file, "\tmovq -8(%%rbp), %%rbx\n");
-            while (offset > 0)
-            {
-                inset = inset + 8;
-                offset = offset - 8;
-                int b = argument_find();
-                fprintf(output_file, "\tmovq -%d(%%rbp), %s\n", inset, argument_name(b));
-            }
-            fprintf(output_file, "\n");
-
             stmt_codegen(d->code);
 
+            fprintf(output_file, "\n");
             // postamble
             fprintf(output_file, "\tpopq %%r15\n");
             fprintf(output_file, "\tpopq %%r14\n");
@@ -252,7 +246,7 @@ void decl_codegen(struct decl *d)
 
             fprintf(output_file, "\n");
             // param pop
-            fprintf(output_file, "\tmovq %%rbp, %%rsp\n");
+            fprintf(output_file, "\tmovq %%rbp, %%rsp\n"); // reset of the stack
             fprintf(output_file, "\tpopq %%rbp\n");
             fprintf(output_file, "\tret\n");
 

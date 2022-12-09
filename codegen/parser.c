@@ -1673,7 +1673,7 @@ yyreduce:
 
   case 58: /* expr_list: expr "," expr_list  */
 #line 203 "parser.bison"
-                                                                { (yyval.expr) = expr_create(EXPR_PRINT_BODY, (yyvsp[0].expr), (yyvsp[0].expr)); }
+                                                                { (yyval.expr) = expr_create(EXPR_PRINT_BODY, (yyvsp[-2].expr), (yyvsp[0].expr)); }
 #line 1678 "parser.c"
     break;
 

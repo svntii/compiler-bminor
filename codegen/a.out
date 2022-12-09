@@ -1,10 +1,10 @@
-.globl x
-x:
+.globl z
+z:
 	pushq %rbp
 	movq %rsp, %rbp
 
 
-	subq $-8, %rsp
+	subq $0, %rsp
 
 	pushq %rbx
 	pushq %r12
@@ -12,24 +12,103 @@ x:
 	pushq %r14
 	pushq %r15
 
-	movq -8(%rbp), %rbx
+	movq $1, %rbx
+	movq $2, %r10
+	movq $3, %r11
+	pushq r10
+	pushq r11
+	movq %r11, %rsi
 
-	movq $1, %rbx
-	CMP $0, %rbx
-	JE L1
-	movq $1, %rbx
+	CALL print_integer
+	popq r10
+	popq r11
+	popq %rdi
+	popq %rsi
+	movq %rax, %r11
+
+	pushq r10
+	pushq r11
+	movq %r10, %rsi
+
+	CALL print_integer
+	popq r10
+	popq r11
+	popq %rdi
+	popq %rsi
+	movq %rax, %r10
+
 	pushq r10
 	pushq r11
 	movq %rbx, %rsi
 
+	CALL print_integer
 	popq r10
 	popq r11
 	popq %rdi
 	popq %rsi
 	movq %rax, %rbx
 
-	JMP L1
-.L1:
+
+	popq %r15
+	popq %r14
+	popq %r13
+	popq %r12
+	popq %rbx
+
+	movq %rbp, %rsp
+	popq %rbp
+	ret
+.globl x
+x:
+	pushq %rbp
+	movq %rsp, %rbp
+
+
+	subq $0, %rsp
+
+	pushq %rbx
+	pushq %r12
+	pushq %r13
+	pushq %r14
+	pushq %r15
+
+	movq $a, %r12
+	movq $b, %r13
+	movq $1, %r14
+	pushq r10
+	pushq r11
+	movq %r14, %rsi
+
+	CALL print_integer
+	popq r10
+	popq r11
+	popq %rdi
+	popq %rsi
+	movq %rax, %r14
+
+	pushq r10
+	pushq r11
+	movq %r13, %rsi
+
+	CALL print_character
+	popq r10
+	popq r11
+	popq %rdi
+	popq %rsi
+	movq %rax, %r13
+
+	pushq r10
+	pushq r11
+	movq %r12, %rsi
+
+	CALL print_character
+	popq r10
+	popq r11
+	popq %rdi
+	popq %rsi
+	movq %rax, %r12
+
+
 	popq %r15
 	popq %r14
 	popq %r13
