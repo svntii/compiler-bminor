@@ -1,0 +1,4 @@
+x:integer = 1;
+z:char = 'c';
+d:string = "10";
+

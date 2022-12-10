@@ -1,0 +1,6 @@
+main:function void () = {
+	print 1;
+	s:string = "good bye world";
+	print s;
+}
+

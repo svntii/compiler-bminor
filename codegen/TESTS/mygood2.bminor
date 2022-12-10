@@ -1,0 +1,6 @@
+f:function integer (x:integer, y:integer) = {
+	d:integer = x + y;
+	print d, x, y;
+	return d;
+}
+

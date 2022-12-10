@@ -1,0 +1,11 @@
+
+z:function integer ( L:integer) = {
+    return L;
+}
+
+main:function integer () = {
+
+    return z(10);
+	
+}
+

@@ -1,0 +1,13 @@
+
+z:function integer ( G:integer) = {
+    return G;
+}
+
+main:function integer () = {
+
+    D:integer = 10;
+
+    return z(D);
+	
+}
+

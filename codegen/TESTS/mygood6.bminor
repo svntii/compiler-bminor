@@ -1,0 +1,9 @@
+main:function integer () = {
+    if(5> 10){
+        print false;
+    }
+
+    return 0;
+	
+}
+

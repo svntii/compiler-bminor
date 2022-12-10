@@ -1,0 +1,15 @@
+
+l = array [3] integer = {1,2,3};
+
+z:function integer ( L:integer) = {
+    return L;
+}
+
+main:function integer () = {
+
+
+
+   return 0;
+	
+}
+
